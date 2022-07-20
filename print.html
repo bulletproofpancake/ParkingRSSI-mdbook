@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>ParkingRSSI Documentation</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/index.html">Introduction</a></li><li class="chapter-item expanded "><a href="chapters/ch1/mainActivity.html"><strong aria-hidden="true">1.</strong> MainActivity</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/ch1/navigation.html"><strong aria-hidden="true">1.1.</strong> App Navigation</a></li><li class="chapter-item expanded "><a href="chapters/ch1/codeAnalysis.html"><strong aria-hidden="true">1.2.</strong> Code Analysis</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">ParkingRSSI Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="parking-rssi"><a class="header" href="#parking-rssi">Parking RSSI</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="main-activity"><a class="header" href="#main-activity">Main Activity</a></h1>
+<ul>
+<li>Controls the navigation of the app.</li>
+<li>Based on the <code>Tabbed Activity</code> template.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="app-navigation"><a class="header" href="#app-navigation">App Navigation</a></h2>
+<p>The UI of the app uses <a href="https://developer.android.com/guide/fragments">Fragments</a> in order to quickly be able to load different screens at any point in time. This is done in order for the app to only have one <a href="https://developer.android.com/guide/components/activities/intro-activities">Activity</a> and have all of the needed components loaded as fragments.</p>
+<blockquote>
+<p><strong>NOTE:</strong> Learn more about the differences between Activities and Fragments <a href="https://blog.avenuecode.com/android-basics-activities-fragments#:%7E:text=Activity%20is%20the%20part%20where,user%20interface%20in%20an%20Activity.">here</a>.</p>
+</blockquote>
+<h3 id="writers-notes"><a class="header" href="#writers-notes">Writer's notes</a></h3>
+<blockquote>
+<p><strong>TL;DR</strong> <code>Activities</code> gets reloaded every time a screen is changed, so in order to prevent data loss, <code>Fragments</code> are used.</p>
+</blockquote>
+<p>From what I understand, the usage of fragments instead of activities for app navigation is similar to Unity's <code>SetActive</code> and <code>Instantiate</code> systems respectively.</p>
+<h4 id="instantiation"><a class="header" href="#instantiation">Instantiation</a></h4>
+<p>In Unity, instantiating objects often is very heavy for the program because it would create new copies of a component and destroy that copy afterwards, increasing the amount of tasks the program would do. Destroying the copies also means that whenever we would need that screen again, all of the existing properties that have been changed during the program's life would be defaulted unless these properties are saved somewhere.</p>
+<p><img src="https://i.imgur.com/PFmayFV.gif" alt="Activity Instantiation Unity" /></p>
+<p>In the Hierarchy window on the upper-right side of the window, when a screen gets selected, a clone of the original copy gets &quot;instantiated&quot; or appears into the screen, hence the <em>(Clone)</em> suffix.</p>
+<p><img src="https://i.imgur.com/98u3ugY.png" alt="" /></p>
+<p>When other screens get selected, the previous screen gets removed and another screen takes its place.</p>
+<p><img src="https://i.imgur.com/RURU708.gif" alt="" /></p>
+<p>Because these copies are destroyed when they are no longer used, any changes made to them will disappear as well when we load a screen, even if it is the same screen.</p>
+<p><img src="https://i.imgur.com/dSM0Za7.gif" alt="" /></p>
+<p>As far as I can tell, an <code>Activity</code> in Android Studio is similar to the screen that have shown. Every time another screen or activity gets loaded, all of the changes made to that activity will be removed.</p>
+<h4 id="setactive"><a class="header" href="#setactive">SetActive</a></h4>
+<p>In order to prevent the loss of data upon loading another screen, the developer of the app used <code>Fragments</code> which he explained as something like putting the UI on top of the Activity itself, therefore the activity never gets reloaded and never loses its data. In Unity, this can be achieved by the <code>GameObject.SetActive()</code> method. When setting a gameObject's active state, we basically suspend the gameObject, allowing us to keep the data it stored before being disabled.</p>
+<p><img src="https://i.imgur.com/sPCX3Kk.gif" alt="Activity SetActive Unity" /></p>
+<p>As you can see, the screens are still clones but that is because we need to Instantiate them first in order to use them in Unity. This time however, each screen gets lit when they are activated.</p>
+<p><img src="https://i.imgur.com/sezZMf0.gif" alt="" /></p>
+<p>Because these screens do not get removed, they get to keep their data even when they are unused.</p>
+<p><img src="https://i.imgur.com/qJPbLt9.gif" alt="" /></p>
+<p>By using <code>Fragments</code> instead of an <code>Activity</code> to load the necessary scenes in the app, this allows each state of the screens to persist even when they are unloaded.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="code-analysis"><a class="header" href="#code-analysis">Code Analysis</a></h2>
+<pre><code class="language-kt">class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val navView: BottomNavigationView = binding.navView
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_scan_routers, R.id.navigation_notifications
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+    }
+}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>class MainActivity : AppCompatActivity()</code></td><td>Declares a class named <code>MainActivity</code> that inherits from <a href="https://developer.android.com/reference/androidx/appcompat/app/AppCompatActivity"><code>AppCompatActivity</code></a>.</td></tr>
+<tr><td><code>private lateinit var binding : ActivityMainBinding</code></td><td><a href="https://developer.android.com/topic/libraries/data-binding/expressions#binding_data">Declares a variable named <code>binding</code> of which is used to bind the code to the <code>activity_main.xml</code> layout.</a></td></tr>
+<tr><td><code>override fun onCreate(savedInstanceState:Bundle?)</code></td><td>Overrides the <code>onCreate</code> function from <a href="https://developer.android.com/reference/android/app/Activity#onCreate(android.os.Bundle)"><code>Activity</code></a> <em>(the class which <code>AppCompatActivity</code> inherits from)</em>.</td></tr>
+<tr><td><code>super.onCreate(savedInstanceState)</code></td><td>Executes the <code>onCreate</code> function as it is implemented by the classes <code>MainActivity</code> inherits from.</td></tr>
+<tr><td><code>binding = ActivityMainBinding.inflate(layoutInflated)</code></td><td><a href="https://stackoverflow.com/questions/4576330/what-does-it-mean-to-inflate-a-view-from-an-xml-file">Makes the contents of the xml file bound to <code>ActivityMainBinding</code> accessible.</a></td></tr>
+<tr><td><code>setContentView(binding.root)</code></td><td><a href="https://developer.android.com/reference/android/app/Activity#setContentView(android.view.View)">Sets the content view</a> on the <a href="https://developer.android.com/reference/android/databinding/ViewDataBinding#getroot"><code>root</code></a> of the view.</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>
