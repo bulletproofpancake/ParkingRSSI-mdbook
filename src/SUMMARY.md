@@ -5,7 +5,7 @@
 # Classes
 - [DBHelper]()
 - [KNNClassifier]()
-- [RecyclerViewAdapter]
+- [RecyclerViewAdapter]()
 - [Router]()
 # Fragments
 - [HomeFragment]()
