@@ -8,6 +8,6 @@
 - [RecyclerViewAdapter]()
 - [Router]()
 # Fragments
-- [HomeFragment]()
 - [DataFragment]()
+- [HomeFragment]()
 - [ScanRouterFragment]()
