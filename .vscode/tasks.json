@@ -1,0 +1,23 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Host mdbook",
+            "type": "shell",
+            "command": "mdbook serve --open",
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "Run Github Actions",
+            "type": "shell",
+            "command": "wsl /home/jolo/actions-runner/run.sh",
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        }
+    ]
+}
