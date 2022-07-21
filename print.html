@@ -139,7 +139,6 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="main-activity"><a class="header" href="#main-activity">Main Activity</a></h1>
 <ul>
 <li>Controls the navigation of the app.</li>
-<li>Based on the <code>Tabbed Activity</code> template.</li>
 </ul>
 <h2 id="code-analysis"><a class="header" href="#code-analysis">Code Analysis</a></h2>
 <h3 id="mainactivitykt"><a class="header" href="#mainactivitykt">MainActivity.kt</a></h3>
@@ -182,34 +181,112 @@
 <tr><td><code>navView.setupWithNavController(navController)</code></td><td><a href="https://developer.android.com/reference/androidx/navigation/ui/NavigationUI#setupWithNavController(com.google.android.material.navigation.NavigationBarView,androidx.navigation.NavController)">Sets up the navigation view according to the <code>navController</code>.</a></td></tr>
 </tbody></table>
 </div>
-<h2 id="app-navigation"><a class="header" href="#app-navigation">App Navigation</a></h2>
-<p>The UI of the app uses <a href="https://developer.android.com/guide/fragments">Fragments</a> in order to quickly be able to load different screens at any point in time. This is done in order for the app to only have one <a href="https://developer.android.com/guide/components/activities/intro-activities">Activity</a> and have all of the needed components loaded as fragments.</p>
-<blockquote>
-<p><strong>NOTE:</strong> Learn more about the differences between Activities and Fragments <a href="https://blog.avenuecode.com/android-basics-activities-fragments#:%7E:text=Activity%20is%20the%20part%20where,user%20interface%20in%20an%20Activity.">here</a>.</p>
-</blockquote>
-<h3 id="writers-notes"><a class="header" href="#writers-notes">Writer's notes</a></h3>
-<blockquote>
-<p><strong>TL;DR</strong> <code>Activities</code> gets reloaded every time a screen is changed, so in order to prevent data loss, <code>Fragments</code> are used.</p>
-</blockquote>
-<p>From what I understand, the usage of fragments instead of activities for app navigation is similar to Unity's <code>SetActive</code> and <code>Instantiate</code> systems respectively.</p>
-<h4 id="instantiation"><a class="header" href="#instantiation">Instantiation</a></h4>
-<p>In Unity, instantiating objects often is very heavy for the program because it would create new copies of a component and destroy that copy afterwards, increasing the amount of tasks the program would do. Destroying the copies also means that whenever we would need that screen again, all of the existing properties that have been changed during the program's life would be defaulted unless these properties are saved somewhere.</p>
-<p><img src="https://i.imgur.com/PFmayFV.gif" alt="Activity Instantiation Unity" /></p>
-<p>In the Hierarchy window on the upper-right side of the window, when a screen gets selected, a clone of the original copy gets &quot;instantiated&quot; or appears into the screen, hence the <em>(Clone)</em> suffix.</p>
-<p><img src="https://i.imgur.com/98u3ugY.png" alt="" /></p>
-<p>When other screens get selected, the previous screen gets removed and another screen takes its place.</p>
-<p><img src="https://i.imgur.com/RURU708.gif" alt="" /></p>
-<p>Because these copies are destroyed when they are no longer used, any changes made to them will disappear as well when we load a screen, even if it is the same screen.</p>
-<p><img src="https://i.imgur.com/dSM0Za7.gif" alt="" /></p>
-<p>As far as I can tell, an <code>Activity</code> in Android Studio is similar to the screen that have shown. Every time another screen or activity gets loaded, all of the changes made to that activity will be removed.</p>
-<h4 id="setactive"><a class="header" href="#setactive">SetActive</a></h4>
-<p>In order to prevent the loss of data upon loading another screen, the developer of the app used <code>Fragments</code> which he explained as something like putting the UI on top of the Activity itself, therefore the activity never gets reloaded and never loses its data. In Unity, this can be achieved by the <code>GameObject.SetActive()</code> method. When setting a gameObject's active state, we basically suspend the gameObject, allowing us to keep the data it stored before being disabled.</p>
-<p><img src="https://i.imgur.com/sPCX3Kk.gif" alt="Activity SetActive Unity" /></p>
-<p>As you can see, the screens are still clones but that is because we need to Instantiate them first in order to use them in Unity. This time however, each screen gets lit when they are activated.</p>
-<p><img src="https://i.imgur.com/sezZMf0.gif" alt="" /></p>
-<p>Because these screens do not get removed, they get to keep their data even when they are unused.</p>
-<p><img src="https://i.imgur.com/qJPbLt9.gif" alt="" /></p>
-<p>By using <code>Fragments</code> instead of an <code>Activity</code> to load the necessary scenes in the app, this allows each state of the screens to persist even when they are unloaded.</p>
+<p>In order for this code to make sense, we must also see how it looks in the context of the app, so we would also need to understand the <code>activity_main.xml</code> and <code>mobile_navigation.xml</code> files.</p>
+<h3 id="understanding-the-layout"><a class="header" href="#understanding-the-layout">Understanding the layout</a></h3>
+<h4 id="activity_main"><a class="header" href="#activity_main">activity_main</a></h4>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:id=&quot;@+id/container&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id=&quot;@+id/nav_view&quot;
+        android:layout_width=&quot;0dp&quot;
+        android:layout_height=&quot;56dp&quot;
+        android:layout_marginStart=&quot;0dp&quot;
+        android:layout_marginEnd=&quot;0dp&quot;
+        android:background=&quot;?android:attr/windowBackground&quot;
+        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:menu=&quot;@menu/bottom_nav_menu&quot; /&gt;
+
+    &lt;fragment
+        android:id=&quot;@+id/nav_host_fragment_activity_main&quot;
+        android:name=&quot;androidx.navigation.fragment.NavHostFragment&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;match_parent&quot;
+        android:layout_marginBottom=&quot;56dp&quot;
+        app:defaultNavHost=&quot;true&quot;
+        app:layout_constraintBottom_toTopOf=&quot;@+id/nav_view&quot;
+        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
+        app:layout_constraintRight_toRightOf=&quot;parent&quot;
+        app:layout_constraintTop_toTopOf=&quot;parent&quot;
+        app:navGraph=&quot;@navigation/mobile_navigation&quot; /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+</code></pre>
+<p>Output:
+<img src="https://i.imgur.com/ulc91yD.png" alt="" /></p>
+<p>Once we open up <code>activity_main.xml</code> we can see the app, and more importantly, its layout. If we look at the layout, we can see that at the bottom portion of our screen, we have a bar that is named <code>nav_view</code> which hosts the different buttons we need to navigate our app and the rest of the screen is taken up by the <code>nav_host_fragment_activity_main</code>, which would display the different screens of the app.</p>
+<p>In our <code>MainActivity.kt</code> file, we assign these properties to variables that we can access in code. The <code>nav_view</code> property is set to the <code>navView</code> variable, and the <code>nav_host_fragment_activity_main</code> is set to the <code>navController</code> variable.</p>
+<pre><code class="language-kt">        val navView: BottomNavigationView = binding.navView
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+</code></pre>
+<p>To control the fragments shown on the screen, we need to create an <code>appBarConfiguration</code> which determines the elements for the <code>navView</code>, and for this we would need the <code>mobile_navigation.xml</code>.</p>
+<h4 id="mobile_navigation"><a class="header" href="#mobile_navigation">mobile_navigation</a></h4>
+<p>Source:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;navigation xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:id=&quot;@+id/mobile_navigation&quot;
+    app:startDestination=&quot;@+id/navigation_home&quot;&gt;
+
+    &lt;fragment
+        android:id=&quot;@+id/navigation_home&quot;
+        android:name=&quot;com.silentrald.parkingrssi.ui.HomeFragment&quot;
+        android:label=&quot;@string/title_home&quot;
+        tools:layout=&quot;@layout/fragment_home&quot; /&gt;
+
+    &lt;fragment
+        android:id=&quot;@+id/navigation_scan_routers&quot;
+        android:name=&quot;com.silentrald.parkingrssi.ui.ScanRouterFragment&quot;
+        android:label=&quot;@string/scan_routers&quot;
+        tools:layout=&quot;@layout/fragment_scan_router&quot; /&gt;
+
+    &lt;fragment
+        android:id=&quot;@+id/navigation_notifications&quot;
+        android:name=&quot;com.silentrald.parkingrssi.ui.DataFragment&quot;
+        android:label=&quot;@string/data&quot;
+        tools:layout=&quot;@layout/fragment_data&quot; /&gt;
+&lt;/navigation&gt;
+</code></pre>
+<p>Output:
+<img src="https://i.imgur.com/QJqS5iv.png" alt="" /></p>
+<p>If we open up <code>mobile_navigation.xml</code>, we can see the different screens of our app, and when we look at the code side of things we can see that the ids of each fragment correspond to the parameters which have been set in the <code>appBarConfiguration</code>.</p>
+<pre><code class="language-xml">    &lt;fragment
+        android:id=&quot;@+id/navigation_home&quot;
+        android:name=&quot;com.silentrald.parkingrssi.ui.HomeFragment&quot;
+        android:label=&quot;@string/title_home&quot;
+        tools:layout=&quot;@layout/fragment_home&quot; /&gt;
+</code></pre>
+<pre><code class="language-xml">    &lt;fragment
+        android:id=&quot;@+id/navigation_scan_routers&quot;
+        android:name=&quot;com.silentrald.parkingrssi.ui.ScanRouterFragment&quot;
+        android:label=&quot;@string/scan_routers&quot;
+        tools:layout=&quot;@layout/fragment_scan_router&quot; /&gt;
+</code></pre>
+<pre><code class="language-xml">    &lt;fragment
+        android:id=&quot;@+id/navigation_notifications&quot;
+        android:name=&quot;com.silentrald.parkingrssi.ui.DataFragment&quot;
+        android:label=&quot;@string/data&quot;
+        tools:layout=&quot;@layout/fragment_data&quot; /&gt;
+</code></pre>
+<pre><code class="language-kt">        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_scan_routers, R.id.navigation_notifications
+            )
+</code></pre>
+<p>Once the <code>appBarConfiguration</code> has been made, we would now apply it to the <code>navController</code> so that when we select an option from the <code>nav_view</code> portion of our screen, it would reflect on the <code>nav_host_fragment_activity_main</code> portion as well.</p>
+<pre><code class="language-kt">        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+</code></pre>
 
                     </main>
 
