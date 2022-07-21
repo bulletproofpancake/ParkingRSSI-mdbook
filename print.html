@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/index.html">Introduction</a></li><li class="chapter-item expanded "><a href="chapters/ch1/mainActivity.html"><strong aria-hidden="true">1.</strong> MainActivity</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/ch1/navigation.html"><strong aria-hidden="true">1.1.</strong> App Navigation</a></li><li class="chapter-item expanded "><a href="chapters/ch1/codeAnalysis.html"><strong aria-hidden="true">1.2.</strong> Code Analysis</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/index.html">Introduction</a></li><li class="chapter-item expanded "><a href="chapters/ch1/mainActivity.html"><strong aria-hidden="true">1.</strong> MainActivity</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -141,35 +141,7 @@
 <li>Controls the navigation of the app.</li>
 <li>Based on the <code>Tabbed Activity</code> template.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="app-navigation"><a class="header" href="#app-navigation">App Navigation</a></h2>
-<p>The UI of the app uses <a href="https://developer.android.com/guide/fragments">Fragments</a> in order to quickly be able to load different screens at any point in time. This is done in order for the app to only have one <a href="https://developer.android.com/guide/components/activities/intro-activities">Activity</a> and have all of the needed components loaded as fragments.</p>
-<blockquote>
-<p><strong>NOTE:</strong> Learn more about the differences between Activities and Fragments <a href="https://blog.avenuecode.com/android-basics-activities-fragments#:%7E:text=Activity%20is%20the%20part%20where,user%20interface%20in%20an%20Activity.">here</a>.</p>
-</blockquote>
-<h3 id="writers-notes"><a class="header" href="#writers-notes">Writer's notes</a></h3>
-<blockquote>
-<p><strong>TL;DR</strong> <code>Activities</code> gets reloaded every time a screen is changed, so in order to prevent data loss, <code>Fragments</code> are used.</p>
-</blockquote>
-<p>From what I understand, the usage of fragments instead of activities for app navigation is similar to Unity's <code>SetActive</code> and <code>Instantiate</code> systems respectively.</p>
-<h4 id="instantiation"><a class="header" href="#instantiation">Instantiation</a></h4>
-<p>In Unity, instantiating objects often is very heavy for the program because it would create new copies of a component and destroy that copy afterwards, increasing the amount of tasks the program would do. Destroying the copies also means that whenever we would need that screen again, all of the existing properties that have been changed during the program's life would be defaulted unless these properties are saved somewhere.</p>
-<p><img src="https://i.imgur.com/PFmayFV.gif" alt="Activity Instantiation Unity" /></p>
-<p>In the Hierarchy window on the upper-right side of the window, when a screen gets selected, a clone of the original copy gets &quot;instantiated&quot; or appears into the screen, hence the <em>(Clone)</em> suffix.</p>
-<p><img src="https://i.imgur.com/98u3ugY.png" alt="" /></p>
-<p>When other screens get selected, the previous screen gets removed and another screen takes its place.</p>
-<p><img src="https://i.imgur.com/RURU708.gif" alt="" /></p>
-<p>Because these copies are destroyed when they are no longer used, any changes made to them will disappear as well when we load a screen, even if it is the same screen.</p>
-<p><img src="https://i.imgur.com/dSM0Za7.gif" alt="" /></p>
-<p>As far as I can tell, an <code>Activity</code> in Android Studio is similar to the screen that have shown. Every time another screen or activity gets loaded, all of the changes made to that activity will be removed.</p>
-<h4 id="setactive"><a class="header" href="#setactive">SetActive</a></h4>
-<p>In order to prevent the loss of data upon loading another screen, the developer of the app used <code>Fragments</code> which he explained as something like putting the UI on top of the Activity itself, therefore the activity never gets reloaded and never loses its data. In Unity, this can be achieved by the <code>GameObject.SetActive()</code> method. When setting a gameObject's active state, we basically suspend the gameObject, allowing us to keep the data it stored before being disabled.</p>
-<p><img src="https://i.imgur.com/sPCX3Kk.gif" alt="Activity SetActive Unity" /></p>
-<p>As you can see, the screens are still clones but that is because we need to Instantiate them first in order to use them in Unity. This time however, each screen gets lit when they are activated.</p>
-<p><img src="https://i.imgur.com/sezZMf0.gif" alt="" /></p>
-<p>Because these screens do not get removed, they get to keep their data even when they are unused.</p>
-<p><img src="https://i.imgur.com/qJPbLt9.gif" alt="" /></p>
-<p>By using <code>Fragments</code> instead of an <code>Activity</code> to load the necessary scenes in the app, this allows each state of the screens to persist even when they are unloaded.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="code-analysis"><a class="header" href="#code-analysis">Code Analysis</a></h2>
+<h2 id="code-analysis"><a class="header" href="#code-analysis">Code Analysis</a></h2>
 <pre><code class="language-kt">class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -204,6 +176,35 @@
 <tr><td><code>setContentView(binding.root)</code></td><td><a href="https://developer.android.com/reference/android/app/Activity#setContentView(android.view.View)">Sets the content view</a> on the <a href="https://developer.android.com/reference/android/databinding/ViewDataBinding#getroot"><code>root</code></a> of the view.</td></tr>
 </tbody></table>
 </div>
+<h2 id="app-navigation"><a class="header" href="#app-navigation">App Navigation</a></h2>
+<p>The UI of the app uses <a href="https://developer.android.com/guide/fragments">Fragments</a> in order to quickly be able to load different screens at any point in time. This is done in order for the app to only have one <a href="https://developer.android.com/guide/components/activities/intro-activities">Activity</a> and have all of the needed components loaded as fragments.</p>
+<blockquote>
+<p><strong>NOTE:</strong> Learn more about the differences between Activities and Fragments <a href="https://blog.avenuecode.com/android-basics-activities-fragments#:%7E:text=Activity%20is%20the%20part%20where,user%20interface%20in%20an%20Activity.">here</a>.</p>
+</blockquote>
+<h3 id="writers-notes"><a class="header" href="#writers-notes">Writer's notes</a></h3>
+<blockquote>
+<p><strong>TL;DR</strong> <code>Activities</code> gets reloaded every time a screen is changed, so in order to prevent data loss, <code>Fragments</code> are used.</p>
+</blockquote>
+<p>From what I understand, the usage of fragments instead of activities for app navigation is similar to Unity's <code>SetActive</code> and <code>Instantiate</code> systems respectively.</p>
+<h4 id="instantiation"><a class="header" href="#instantiation">Instantiation</a></h4>
+<p>In Unity, instantiating objects often is very heavy for the program because it would create new copies of a component and destroy that copy afterwards, increasing the amount of tasks the program would do. Destroying the copies also means that whenever we would need that screen again, all of the existing properties that have been changed during the program's life would be defaulted unless these properties are saved somewhere.</p>
+<p><img src="https://i.imgur.com/PFmayFV.gif" alt="Activity Instantiation Unity" /></p>
+<p>In the Hierarchy window on the upper-right side of the window, when a screen gets selected, a clone of the original copy gets &quot;instantiated&quot; or appears into the screen, hence the <em>(Clone)</em> suffix.</p>
+<p><img src="https://i.imgur.com/98u3ugY.png" alt="" /></p>
+<p>When other screens get selected, the previous screen gets removed and another screen takes its place.</p>
+<p><img src="https://i.imgur.com/RURU708.gif" alt="" /></p>
+<p>Because these copies are destroyed when they are no longer used, any changes made to them will disappear as well when we load a screen, even if it is the same screen.</p>
+<p><img src="https://i.imgur.com/dSM0Za7.gif" alt="" /></p>
+<p>As far as I can tell, an <code>Activity</code> in Android Studio is similar to the screen that have shown. Every time another screen or activity gets loaded, all of the changes made to that activity will be removed.</p>
+<h4 id="setactive"><a class="header" href="#setactive">SetActive</a></h4>
+<p>In order to prevent the loss of data upon loading another screen, the developer of the app used <code>Fragments</code> which he explained as something like putting the UI on top of the Activity itself, therefore the activity never gets reloaded and never loses its data. In Unity, this can be achieved by the <code>GameObject.SetActive()</code> method. When setting a gameObject's active state, we basically suspend the gameObject, allowing us to keep the data it stored before being disabled.</p>
+<p><img src="https://i.imgur.com/sPCX3Kk.gif" alt="Activity SetActive Unity" /></p>
+<p>As you can see, the screens are still clones but that is because we need to Instantiate them first in order to use them in Unity. This time however, each screen gets lit when they are activated.</p>
+<p><img src="https://i.imgur.com/sezZMf0.gif" alt="" /></p>
+<p>Because these screens do not get removed, they get to keep their data even when they are unused.</p>
+<p><img src="https://i.imgur.com/qJPbLt9.gif" alt="" /></p>
+<p>By using <code>Fragments</code> instead of an <code>Activity</code> to load the necessary scenes in the app, this allows each state of the screens to persist even when they are unloaded.</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
