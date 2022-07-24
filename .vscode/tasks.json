@@ -6,7 +6,7 @@
         {
             "label": "Host mdbook",
             "type": "shell",
-            "command": "mdbook serve --open",
+            "command": "mdbook serve",
             "runOptions": {
                 "runOn": "folderOpen"
             }
