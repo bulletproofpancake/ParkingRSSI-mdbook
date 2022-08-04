@@ -3,8 +3,8 @@
 # Activity
 - [MainActivity](./chapters/ch1/mainActivity.md)
 # Classes
-- [DBHelper]()
-- [KNNClassifier]()
+- [DBHelper](./chapters/db/dbHelper.md)
+- [KNNClassifier](./chapters/knn/knnClassifier.md)
 - [RecyclerViewAdapter]()
 - [Router]()
 # Fragments
