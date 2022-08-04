@@ -139,12 +139,22 @@
 <li>Contains the logic implementing the <a href="https://bit.ly/2OcMqHv">K-Nearest Neighbor Algorithm</a>.</li>
 </ul>
 <h1 id="code-analysis"><a class="header" href="#code-analysis">Code Analysis</a></h1>
+<h2 id="declaration-and-global-variables"><a class="header" href="#declaration-and-global-variables">Declaration and Global Variables</a></h2>
 <pre><code class="language-kt">class KNNClassifier(var k: Int = 3) { //k is the literal property for KNN
     var inputSize: Int = 6 //depende kung ilang yung number of routers
     val matrix = arrayListOf&lt;ArrayList&lt;Float&gt;&gt;() //values ng RSSI, 2D matrix siya
     val labels = arrayListOf&lt;Int&gt;()
-
-    fun addPoint(point: ArrayList&lt;Float&gt;, label: Int) { //training part
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>class KNNClassifier(var k: Int = 3)</code></td><td>Declares a class of <code>KNNClassifier</code> with the initial value of <code>k</code> set to <code>3</code>. <code>k</code> is the number of points that are to be evaluated before a given point is classified. <img src="https://miro.medium.com/max/753/0*jqxx3-dJqFjXD6FA" alt="" /></td></tr>
+<tr><td><code>var inputSize: Int = 6</code></td><td>The number of routers to include in the algorithm. Initially set to <code>6</code>.</td></tr>
+<tr><td><code>val matrix = arrayListOf&lt;ArrayList&lt;Float&gt;&gt;()</code></td><td>Declares a list of the values of the RSSI for each router.</td></tr>
+<tr><td><code>val labels = arrayListOf&lt;Int&gt;()</code></td><td>Declares a list of labels for the matrix.</td></tr>
+</tbody></table>
+</div>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h2 id="addpoint"><a class="header" href="#addpoint">addPoint</a></h2>
+<pre><code class="language-kt">    fun addPoint(point: ArrayList&lt;Float&gt;, label: Int) { //training part
         if (point.size != inputSize) {
             return
         }
@@ -152,10 +162,34 @@
         matrix.add(point)
         labels.add(label)
     }
-
-    // Euclidean Distance
-    //E(v1-v2)^2
-    private fun calculateDistance(ps1: ArrayList&lt;Float&gt;, ps2: ArrayList&lt;Float&gt;): Float { //evaluation part
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>fun addPoint(point:ArrayList&lt;Float&gt;, label: Int)</code></td><td>Declares a method that adds a point and label to <code>matrix</code> and <code>labels</code>.</td></tr>
+<tr><td><code>if(point.size != inputSize) { return }</code></td><td>Exits the method if the number of points given is not the same as the <code>inputSize</code>.</td></tr>
+<tr><td><code>matrix.add(point)</code></td><td>Adds the point to <code>matrix</code>.</td></tr>
+<tr><td><code>labels.add(label)</code></td><td>Adds the label to <code>labels</code>.</td></tr>
+</tbody></table>
+</div>
+<h3 id="visualization"><a class="header" href="#visualization">Visualization</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
+<tr><td><code>point</code></td><td>[ 0f, 1f, 2f, 3f, 4f ]</td></tr>
+<tr><td><code>label</code></td><td>5</td></tr>
+</tbody></table>
+</div>
+<p>Given the values of <code>point</code> and <code>label</code>, if we were to call the <code>addPoint</code> method and <code>matrix</code> and <code>labels</code> does not have any data on them, their values would be the following:</p>
+<div class="table-wrapper"><table><thead><tr><th>variable</th><th>value</th></tr></thead><tbody>
+<tr><td><code>matrix</code></td><td>[ 0f, 1f, 2f, 3f, 4f ]</td></tr>
+<tr><td><code>labels</code></td><td>5</td></tr>
+</tbody></table>
+</div>
+<p>If we were to call the function with the same value of <code>point</code> and <code>label</code> again, the values for <code>matrix</code> and <code>labels</code> would now be:</p>
+<div class="table-wrapper"><table><thead><tr><th>variable</th><th>value</th></tr></thead><tbody>
+<tr><td><code>matrix</code></td><td>[ 0f, 1f, 2f, 3f, 4f ], [ 0f, 1f, 2f, 3f, 4f ]</td></tr>
+<tr><td><code>labels</code></td><td>5, 5</td></tr>
+</tbody></table>
+</div>
+<h2 id="calculatedistance"><a class="header" href="#calculatedistance">calculateDistance</a></h2>
+<pre><code class="language-kt">    private fun calculateDistance(ps1: ArrayList&lt;Float&gt;, ps2: ArrayList&lt;Float&gt;): Float { //evaluation part
         if (ps1.size != ps2.size) return -1f //kuhanin lahat ng distances dito ng bagong point.
 
         var distance = 0f
@@ -164,71 +198,78 @@
         }
         return distance
     }
-
-    fun predict(point: ArrayList&lt;Float&gt;): Int {
-        val distances = arrayListOf&lt;Pair&lt;Float, Int&gt;&gt;()
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>private fun calculateDistance(ps1: ArrayList&lt;Float&gt;, ps2: ArrayList&lt;Float&gt;) : Float</code></td><td>Declares a method that calculates the distances between the list of Floats <code>ps1</code> and <code>ps2</code>, then returns a <code>Float</code> value.</td></tr>
+<tr><td><code>if (ps1.size != ps2.size) return -1f</code></td><td>Returns <code>-1f</code> if the amount of points given are not the same. This means that the set of points are invalid.</td></tr>
+<tr><td><code>var distance = 0f</code></td><td>Declares a variable <code>distance</code> with the value of <code>0f</code>.</td></tr>
+<tr><td><code>for (i in 0 until ps1.size)</code></td><td>Creates a loop that ends until the size of the first list of points is reached.</td></tr>
+<tr><td><code>distance += (ps1[i] - ps2[i]).pow(2)</code></td><td>Adds the distance to the squared difference of each point in <code>ps1</code> and <code>ps2</code>.</td></tr>
+<tr><td><code>return distance</code></td><td>Returns the value of <code>distance</code>.</td></tr>
+</tbody></table>
+</div>
+<h3 id="visualization-1"><a class="header" href="#visualization-1">Visualization</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
+<tr><td><code>ps1</code></td><td>9f, 8f, 7f, 6f, 5f</td></tr>
+<tr><td><code>ps2</code></td><td>0f, 1f, 2f, 3f, 4f</td></tr>
+</tbody></table>
+</div>
+<p>Given the values of <code>ps1</code> and <code>ps2</code>, the distance that should be returned by the function is calculated like so:</p>
+<div class="table-wrapper"><table><thead><tr><th>Index</th><th>Points</th><th>Value</th><th>Distance</th></tr></thead><tbody>
+<tr><td>0</td><td>(9f-0f)^2</td><td>81f</td><td>81f</td></tr>
+<tr><td>1</td><td>(8f-1f)^2</td><td>49f</td><td>130f</td></tr>
+<tr><td>2</td><td>(7f-2f)^2</td><td>25f</td><td>155f</td></tr>
+<tr><td>3</td><td>(6f-3f)^2</td><td>9f</td><td>164f</td></tr>
+<tr><td>4</td><td>(5f-4f)^2</td><td>1f</td><td>165f</td></tr>
+</tbody></table>
+</div>
+<p>With this, the value of the distance that will be returned would be <code>165f</code>.</p>
+<h2 id="predict"><a class="header" href="#predict">predict</a></h2>
+<h3 id="declaration"><a class="header" href="#declaration">Declaration</a></h3>
+<pre><code class="language-kt">    fun predict(point: ArrayList&lt;Float&gt;): Int {
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>fun predict(point: ArrayList&lt;Float&gt;): Int</code></td><td>Declares a method that returns an integer as a prediction from a list of floats.</td></tr>
+</tbody></table>
+</div>
+<h3 id="gathering-the-distances"><a class="header" href="#gathering-the-distances">Gathering the distances</a></h3>
+<pre><code class="language-kt">        val distances = arrayListOf&lt;Pair&lt;Float, Int&gt;&gt;()
         var distance = 0f
         for (i in 0 until matrix.size) {
             distance = calculateDistance(point, matrix[i])
             distances.add(Pair(distance, labels[i]))
         }
-        Log.i(&quot;KNN&quot;, distances.toString())
-
-        distances.sortWith(compareBy { it.first })
-        val hashmap = hashMapOf&lt;Int, Int&gt;()
-        val min = k.coerceAtMost(matrix.size)
-        for (i in 0 until min) {
-            hashmap[i] = hashmap.getOrDefault(i, 0) + 1
-        }
-        Log.i(&quot;KNN&quot;, hashmap.toString())
-
-        var max = -1 // tie breaking, randomized
-        val outputs = arrayListOf&lt;Int&gt;()
-        for ((key, value) in hashmap) {
-            if (value &gt; max) {
-                max = value
-                outputs.clear()
-                outputs.add(key)
-            } else if (value == max) {
-                outputs.add(key)
-            }
-        }
-        Log.i(&quot;KNN&quot;, outputs.toString())
-
-        val output = if (outputs.size &gt; 1) {
-            distances[0].second
-        } else {
-            outputs[0]
-        }
-
-        return output
-    }
-
-    fun loadMatrix(context: Context) { //q
-        val db = DBHelper(context, null)
-        val data = db.getData()
-        db.close()
-
-        inputSize = data.input
-
-        matrix.clear()
-        matrix.addAll(data.matrix)
-
-        labels.clear()
-        labels.addAll(data.labels)
-
-        Log.i(&quot;KNN&quot;, matrix.toString())
-        Log.i(&quot;KNN&quot;, labels.toString())
-    } //querry sa database
-
-    fun saveMatrix(context: Context) {
-        val db = DBHelper(context, null)
-        db.setData(matrix, labels, inputSize)
-        db.close()
-    } //querry sa database
-}
 </code></pre>
-
+<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>val distances = arrayListOf&lt;Pair&lt;Float,Int&gt;&gt;()</code></td><td>Declares a list of <code>Float,Int</code> pairs that would store the distances.</td></tr>
+<tr><td><code>var distance = 0f</code></td><td>Declares a variable <code>distance</code> with the value of <code>0f</code>.</td></tr>
+<tr><td><code>for (i in 0 until matrix.size)</code></td><td>Creates a loop that ends until the size of the <code>matrix</code> is reached.</td></tr>
+<tr><td><code>distance = calculateDistance(point, matrix[i])</code></td><td>Calculates the distance between the <code>point</code> and the <code>matrix</code>. Keep in mind that the values of <code>point</code> comes from the user while the values of <code>matrix</code> comes from the model.</td></tr>
+<tr><td><code>distances.add(Pair(distance,labels[i]))</code></td><td>Adds the calculated distance and pairs it to a label from <code>labels</code>.</td></tr>
+</tbody></table>
+</div>
+<h4 id="visualization-2"><a class="header" href="#visualization-2">Visualization</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
+<tr><td><code>point</code></td><td>9f, 8f, 7f, 6f, 5f</td></tr>
+<tr><td><code>matrix</code></td><td>0f, 1f, 2f, 3f, 4f</td></tr>
+<tr><td><code>labels</code></td><td>5, 7, 3, 4, 1</td></tr>
+</tbody></table>
+</div>
+<p>For the sake of simplicity, the values of <code>point</code> and <code>matrix</code> are the same as the examples of <code>ps1</code> and <code>ps2</code> as given during the visualization of the <a href="#calculatedistance"><code>calculateDistance</code></a> from earlier.
+When these distances are calculated, they are each given a label which gets stored under <code>distances</code> and can be visualized like so:</p>
+<div class="table-wrapper"><table><thead><tr><th>Index</th><th>Distance (<code>Float</code>)</th><th>Labels (<code>Int</code>)</th></tr></thead><tbody>
+<tr><td>0</td><td>81f</td><td>5</td></tr>
+<tr><td>1</td><td>130f</td><td>7</td></tr>
+<tr><td>2</td><td>155f</td><td>3</td></tr>
+<tr><td>3</td><td>164f</td><td>4</td></tr>
+<tr><td>4</td><td>165f</td><td>1</td></tr>
+</tbody></table>
+</div>
+<p>Therefore, another way of visualizing the variable <code>distances</code> would be the following:</p>
+<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
+<tr><td><code>distances</code></td><td>[ 81f, 5 ], [ 130f, 7 ], [ 155f, 3 ], [ 164f, 4 ], [ 165f, 1 ]</td></tr>
+</tbody></table>
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
