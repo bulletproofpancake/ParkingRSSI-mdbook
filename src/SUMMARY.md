@@ -3,7 +3,7 @@
 # Activity
 - [MainActivity](./chapters/ch1/mainActivity.md)
 # Classes
-- [DBHelper](./chapters/db/dbHelper.md)
+- [DBHelper]()
 - [KNNClassifier](./chapters/knn/knnClassifier.md)
 - [RecyclerViewAdapter]()
 - [Router]()
