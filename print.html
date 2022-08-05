@@ -424,6 +424,48 @@ When these distances are calculated, they are each given a label which gets stor
 <tr><td><code>distances</code></td><td>[ 81f, 5 ], [ 130f, 7 ], [ 155f, 3 ], [ 164f, 4 ], [ 165f, 1 ]</td></tr>
 </tbody></table>
 </div>
+<h3 id="sorting-the-distances"><a class="header" href="#sorting-the-distances">Sorting the distances</a></h3>
+<pre><code class="language-kt">        distances.sortWith(compareBy { it.first })
+        val hashmap = hashMapOf&lt;Int, Int&gt;()
+        val min = k.coerceAtMost(matrix.size)
+        for (i in 0 until min) {
+            hashmap[i] = hashmap.getOrDefault(i, 0) + 1
+        }
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>distances.sortWith(compareBy{it.first})</code></td><td>Sorts <code>distances</code> according to the <code>distance</code>.</td></tr>
+<tr><td><code>val hashmap = hasMapOf&lt;Int, Int&gt;()</code></td><td>Creates a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/">hashmap</a> with <code>Int</code> as a key and value.</td></tr>
+<tr><td><code>val min = k.coerceAtMost(matrix.size)</code></td><td>Ensures that the value of <code>k</code> does not exceed the size of <code>matrix</code> and stores it in the variable <code>min</code>.</td></tr>
+<tr><td><code>for (i in 0 until min)</code></td><td>Creates a loop that ends until the size of <code>min</code> is reached.</td></tr>
+<tr><td><code>hashmap[i] = hashmap.getOrDefault(i, 0) + 1</code></td><td>Stores either the current index plus 1 to the hashmap or 1 if there is no value paired with that index.</td></tr>
+</tbody></table>
+</div>
+<h4 id="visualization-3"><a class="header" href="#visualization-3">Visualization</a></h4>
+<p>By running <code>distances.sortWith(compareBy{it.first})</code>, we arrange the values in an ascending order according to the distance like so:</p>
+<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
+<tr><td><code>distances</code></td><td>[ 81f, 5 ], [ 130f, 7 ], [ 155f, 3 ], [ 164f, 4 ], [ 165f, 1 ]</td></tr>
+</tbody></table>
+</div>
+<blockquote>
+<p><strong>NOTE:</strong> For the sake of continuity, the initial values of <code>distances</code> given in this example is already arranged in an ascending order so the function would not do anything for this example.</p>
+</blockquote>
+<p>After sorting the distances, we get our minimum value which is <code>k</code>. By default, the constructor for the class sets it to <code>3</code>, 
+but by using <code>coerceAtMost(matrix.size)</code> ensures that the value of <code>k</code> would never be greater than <code>matrix.size</code>. 
+Then, we store the pairs until the <code>min</code> value into the hashmap like so:</p>
+<blockquote>
+<p><strong>NOTE:</strong> As of the time of writing, I am unsure whether the values being written to the hashmap is correct due to my unfamiliarity with the language.
+Please feel free to correct.</p>
+</blockquote>
+<div class="table-wrapper"><table><thead><tr><th>index</th><th>hashmap</th><th>distances</th></tr></thead><tbody>
+<tr><td>0</td><td>[ 0, 1 ]</td><td>[81f, 5 ]</td></tr>
+<tr><td>1</td><td>[ 1, 2 ]</td><td>[130f, 7]</td></tr>
+<tr><td>2</td><td>[ 2, 3 ]</td><td>[155f, 3]</td></tr>
+<tr><td>3</td><td></td><td>[164f, 4]</td></tr>
+<tr><td>4</td><td></td><td>[165f, 1]</td></tr>
+</tbody></table>
+</div>
+<p>In the example above, <code>min = 3</code> that is why there are no more values stored on the 4th and 5th entry despite the number of entries in <code>distances</code> we have.</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
