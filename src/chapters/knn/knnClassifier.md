@@ -128,3 +128,44 @@ Therefore, another way of visualizing the variable `distances` would be the foll
 | Variables   | Value                                                          |
 | ----------- | -------------------------------------------------------------- |
 | `distances` | [ 81f, 5 ], [ 130f, 7 ], [ 155f, 3 ], [ 164f, 4 ], [ 165f, 1 ] |
+
+### Sorting the distances
+
+```kt
+{{#include ../../scripts/KNNClassifier.kt:42:47}}
+```
+
+| Snippet                                       | Description                                                                                                                    |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `distances.sortWith(compareBy{it.first})`     | Sorts `distances` according to the `distance`.                                                                                 |
+| `val hashmap = hasMapOf<Int, Int>()`          | Creates a [hashmap](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/) with `Int` as a key and value. |
+| `val min = k.coerceAtMost(matrix.size)`       | Ensures that the value of `k` does not exceed the size of `matrix` and stores it in the variable `min`.                        |
+| `for (i in 0 until min)`                      | Creates a loop that ends until the size of `min` is reached.                                                                   |
+| `hashmap[i] = hashmap.getOrDefault(i, 0) + 1` | Stores either the current index plus 1 to the hashmap or 1 if there is no value paired with that index.                        |
+
+#### Visualization
+
+By running `distances.sortWith(compareBy{it.first})`, we arrange the values in an ascending order according to the distance like so:
+
+| Variables   | Value                                                          |
+| ----------- | -------------------------------------------------------------- |
+| `distances` | [ 81f, 5 ], [ 130f, 7 ], [ 155f, 3 ], [ 164f, 4 ], [ 165f, 1 ] |
+
+> **NOTE:** For the sake of continuity, the initial values of `distances` given in this example is already arranged in an ascending order so the function would not do anything for this example.
+
+After sorting the distances, we get our minimum value which is `k`. By default, the constructor for the class sets it to `3`, 
+but by using `coerceAtMost(matrix.size)` ensures that the value of `k` would never be greater than `matrix.size`. 
+Then, we store the pairs until the `min` value into the hashmap like so:
+
+> **NOTE:** As of the time of writing, I am unsure whether the values being written to the hashmap is correct due to my unfamiliarity with the language.
+> Please feel free to correct.
+
+| index | hashmap  | distances |
+| ----- | -------- | --------- |
+| 0     | [ 0, 1 ] | [81f, 5 ] |
+| 1     | [ 1, 2 ] | [130f, 7] |
+| 2     | [ 2, 3 ] | [155f, 3] |
+| 3     |          | [164f, 4] |
+| 4     |          | [165f, 1] |
+
+In the example above, `min = 3` that is why there are no more values stored on the 4th and 5th entry despite the number of entries in `distances` we have.
