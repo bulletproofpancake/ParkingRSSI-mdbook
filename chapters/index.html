@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - ParkingRSSI Documentation</title>
+        <title>Overview - ParkingRSSI Documentation</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -25,6 +25,8 @@
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -75,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../chapters/index.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Activity</li><li class="chapter-item expanded "><a href="../chapters/ch1/mainActivity.html"><strong aria-hidden="true">1.</strong> MainActivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Classes</li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> DBHelper</div></li><li class="chapter-item expanded "><a href="../chapters/knn/knnClassifier.html"><strong aria-hidden="true">3.</strong> KNNClassifier</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> RecyclerViewAdapter</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Router</div></li><li class="chapter-item expanded affix "><li class="part-title">Fragments</li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> HomeFragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> ScanRouterFragment</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../chapters/index.html" class="active">Overview</a></li><li class="chapter-item expanded affix "><li class="part-title">Activity</li><li class="chapter-item expanded "><a href="../chapters/ch1/mainActivity.html"><strong aria-hidden="true">1.</strong> MainActivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Classes</li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> DBHelper</div></li><li class="chapter-item expanded "><a href="../chapters/knn/knnClassifier.html"><strong aria-hidden="true">3.</strong> KNNClassifier</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> RecyclerViewAdapter</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Router</div></li><li class="chapter-item expanded affix "><li class="part-title">Fragments</li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> HomeFragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> ScanRouterFragment</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,8 +136,124 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="parking-rssi"><a class="header" href="#parking-rssi">Parking RSSI</a></h1>
-<p>A smart parking system that uses RSSI to detect available parking slots.</p>
+                        <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+<p>This Smart Parking System uses the K-Nearest Neighbors (KNN) algorithm in order to calculate the amount of available parking spaces
+using Received Signal Strength Indicator (RSSI) values.</p>
+<h2 id="how-it-works"><a class="header" href="#how-it-works">How it works</a></h2>
+<h3 id="plotting-the-points"><a class="header" href="#plotting-the-points">Plotting the points</a></h3>
+<p>In this program, the K-Nearest Neighbors (KNN) algorithm is implemented by collecting the Received Signal Strength Indicator (RSSI) values
+of a parking lot with a set amount of cars. This can be visualized in a table like so:</p>
+<div class="table-wrapper"><table><thead><tr><th>Number of Cars</th><th>RSSI Values</th></tr></thead><tbody>
+<tr><td>0</td><td>-30.0, -27.0</td></tr>
+<tr><td>1</td><td>-22.0, -27.0</td></tr>
+<tr><td>1</td><td>-26.0, -24.0</td></tr>
+<tr><td>1</td><td>-29.0, -25.0</td></tr>
+<tr><td>1</td><td>-32.0, -23.0</td></tr>
+</tbody></table>
+</div>
+<p>And this is how it can be seen in a graph:</p>
+<p><img src="https://i.imgur.com/nZFeIgk.png" alt="" /></p>
+<p>When the app is used to check how many parking spaces are still available, it compares the current RSSI values to the existing data.</p>
+<p>Let us say for example that we used the app and got the following data:</p>
+<div class="table-wrapper"><table><thead><tr><th>Number of Cars</th><th>RSSI Values</th></tr></thead><tbody>
+<tr><td>?</td><td>-30.0, -22.0</td></tr>
+</tbody></table>
+</div>
+<p>And in a graph, it appears like this in accordance with the existing data:</p>
+<p><img src="https://i.imgur.com/OpzUjGu.png" alt="" /></p>
+<h3 id="the-k-value"><a class="header" href="#the-k-value">The k-value</a></h3>
+<p>Now that we have our point, this is where the value of <code>k</code> comes into place. <code>k</code> is the number of neighboring points we compare to in order to
+classify our point. Remember that each category is the amount of cars for that set of RSSI values.</p>
+<blockquote>
+<p>By default, the value of <code>k</code> in the program is 3. This means that the algorithm only compares the current point to 3 neighboring points.
+Increasing the value of <code>k</code> is better for accuracy, at the cost of speed.
+In this example, the classification of the point has changed depending on the value of the <code>k</code>:
+<img src="https://helloacm.com/wp-content/uploads/2016/03/2012-10-26-knn-concept.png" alt="" /></p>
+</blockquote>
+<h3 id="getting-the-nearest-points"><a class="header" href="#getting-the-nearest-points">Getting the nearest points</a></h3>
+<p>Now that we have our k value, it is time to get our nearest neighbors.
+In order to get the distance from the current point to the neighboring points, the program uses the Euclidean Distance formula:</p>
+<p>\[ d(p,q) = \sqrt {\sum_{i=1}^n (q_i - p_i)^2}  \]</p>
+<p>where:</p>
+<ul>
+<li>\(p, q\) = two points in Euclidean n-space</li>
+<li>\(q_i, p_i\) = Euclidean vectors, starting from the origin of the space (initial point)</li>
+<li>\(n\) = n-space</li>
+</ul>
+<blockquote>
+<p><strong>NOTE:</strong> If this looks complex, it is similar to calculating the length of the hypothenuse in a triangle (Pythagorean Theorem).
+\[hypothenuse = \sqrt{{leg_1}^2 + {leg_2}^2}\]
+I recommend studying more Vector maths in order to get a better understanding of Euclidean Distance.</p>
+</blockquote>
+<p>In our program, calculating the distances can be visualized as such in accordance with the existing data:</p>
+<ul>
+<li>\(p\) = coordinates of the current point</li>
+<li>\(q\) = coordinates of the point of a neighbor. I will be using the amount of cars as the label for clarity.</li>
+<li>\(d\) = distance between our points</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>p</th><th>q (0)</th><th>Equation</th><th>d</th></tr></thead><tbody>
+<tr><td>-30.0</td><td>-30.0</td><td>\({(-30.0 + 30.0)^2}\)</td><td>0</td></tr>
+<tr><td>-22.0</td><td>-27.0</td><td>\({(-27.0 + 22.0)^2}\)</td><td>-5</td></tr>
+</tbody></table>
+</div>
+<p>\[d(p,q)_0 = -5\]</p>
+<div class="table-wrapper"><table><thead><tr><th>p</th><th>q \(1_0\)</th><th>Equation</th><th>d</th></tr></thead><tbody>
+<tr><td>-30.0</td><td>-22.0</td><td>\({(-22.0 + 30.0)^2}\)</td><td>8</td></tr>
+<tr><td>-22.0</td><td>-27.0</td><td>\({(-27.0 + 22.0)^2}\)</td><td>-5</td></tr>
+</tbody></table>
+</div>
+<p>\[d(p,q)_1 = 3\]</p>
+<div class="table-wrapper"><table><thead><tr><th>p</th><th>q \(1_1\)</th><th>Equation</th><th>d</th></tr></thead><tbody>
+<tr><td>-30.0</td><td>-26.0</td><td>\({(-26.0 + 30.0)^2}\)</td><td>4</td></tr>
+<tr><td>-22.0</td><td>-24.0</td><td>\({(-24.0 + 22.0)^2}\)</td><td>-2</td></tr>
+</tbody></table>
+</div>
+<p>\[d(p,q)_2 = 2\]</p>
+<div class="table-wrapper"><table><thead><tr><th>p</th><th>q \(1_2\)</th><th>Equation</th><th>d</th></tr></thead><tbody>
+<tr><td>-30.0</td><td>-29.0</td><td>\({(-29.0 + 30.0)^2}\)</td><td>1</td></tr>
+<tr><td>-22.0</td><td>-25.0</td><td>\({(-25.0 + 22.0)^2}\)</td><td>-3</td></tr>
+</tbody></table>
+</div>
+<p>\[d(p,q)_3 = -2\]</p>
+<div class="table-wrapper"><table><thead><tr><th>p</th><th>q \(1_3\)</th><th>Equation</th><th>d</th></tr></thead><tbody>
+<tr><td>-30.0</td><td>-32.0</td><td>\({(-32.0 + 30.0)^2}\)</td><td>-2</td></tr>
+<tr><td>-22.0</td><td>-23.0</td><td>\({(-23.0 + 22.0)^2}\)</td><td>-1</td></tr>
+</tbody></table>
+</div>
+<p>\[d(p,q)_4 = -3\]</p>
+<p>After we calculate the distances for each point, we can visualize them like so:</p>
+<div class="table-wrapper"><table><thead><tr><th>Amount of Cars</th><th>\(d(p,q)_i\)</th><th>Distance</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>-5</td></tr>
+<tr><td>1</td><td>1</td><td>3</td></tr>
+<tr><td>1</td><td>2</td><td>2</td></tr>
+<tr><td>1</td><td>3</td><td>-2</td></tr>
+<tr><td>1</td><td>4</td><td>-3</td></tr>
+</tbody></table>
+</div>
+<p>At this point, we only have the distances to other points, but we do not know yet the nearest neighbors.
+In order to get the nearest neighbors, all we need to do is to sort the distances like so:</p>
+<div class="table-wrapper"><table><thead><tr><th>Amount of Cars</th><th>\(d(p,q)_i\)</th><th>Distance</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>-5</td></tr>
+<tr><td>1</td><td>4</td><td>-3</td></tr>
+<tr><td>1</td><td>3</td><td>-2</td></tr>
+<tr><td>1</td><td>2</td><td>2</td></tr>
+<tr><td>1</td><td>1</td><td>3</td></tr>
+</tbody></table>
+</div>
+<p>Now that the distances have been sorted, the nearest neighbors can now be gathered in accordance with the <code>k</code> value.
+Since the default of <code>k</code> is 3, the nearest points would be the following:</p>
+<div class="table-wrapper"><table><thead><tr><th>Amount of Cars</th><th>\(d(p,q)_i\)</th><th>Distance</th><th>RSSI Values</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>-5</td><td>-30.0, -27.0</td></tr>
+<tr><td>1</td><td>4</td><td>-3</td><td>-32.0, -23.0</td></tr>
+<tr><td>1</td><td>3</td><td>-2</td><td>-29.0, -25.0</td></tr>
+</tbody></table>
+</div>
+<p>In a graph, it can be visualized like so:
+<img src="https://i.imgur.com/b7MSijK.png" alt="" /></p>
+<p>Because there is only 1 point that has zero cars, and 2 points that have one car,
+according to the KNN algorithm, the RSSI values of the current point (-30, -22) would state that
+there is 1 parking slot occupied.</p>
+<p><img src="https://i.imgur.com/O8n6Szo.png" alt="" /></p>
 
                     </main>
 
