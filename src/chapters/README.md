@@ -62,6 +62,9 @@ In our program, calculating the distances can be visualized as such in accordanc
 - \\(q\\) = coordinates of the point of a neighbor. I will be using the amount of cars as the label for clarity.
 - \\(d\\) = distance between our points
 
+> Do take note that adding more routers would only mean adding more rows to the table,
+> however it would be more difficult to visualize in a 2D graph like the ones presented in this document.
+
 | p     | q (0) | Equation                      | d   |
 | ----- | ----- | ----------------------------- | --- |
 | -30.0 | -30.0 | \\(\sqrt{(-30.0 + 30.0)^2}\\) | 0   |
