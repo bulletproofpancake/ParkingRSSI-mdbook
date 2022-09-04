@@ -62,70 +62,70 @@ In our program, calculating the distances can be visualized as such in accordanc
 - \\(q\\) = coordinates of the point of a neighbor. I will be using the amount of cars as the label for clarity.
 - \\(d\\) = distance between our points
 
-| p     | q (0) | Equation                 | d   |
-| ----- | ----- | ------------------------ | --- |
-| -30.0 | -30.0 | \\({(-30.0 + 30.0)^2}\\) | 0   |
-| -22.0 | -27.0 | \\({(-27.0 + 22.0)^2}\\) | -5  |
+| p     | q (0) | Equation                      | d   |
+| ----- | ----- | ----------------------------- | --- |
+| -30.0 | -30.0 | \\(\sqrt{(-30.0 + 30.0)^2}\\) | 0   |
+| -22.0 | -27.0 | \\(\sqrt{(-27.0 + 22.0)^2}\\) | 5   |
 
-\\[d(p,q)_0 = -5\\]
+\\[\sum d(p_0,q_0) = 0 + 5 = 5\\]
 
-| p     | q \\(1_0\\) | Equation                 | d   |
-| ----- | ----------- | ------------------------ | --- |
-| -30.0 | -22.0       | \\({(-22.0 + 30.0)^2}\\) | 8   |
-| -22.0 | -27.0       | \\({(-27.0 + 22.0)^2}\\) | -5  |
+| p     | q (\\(1_0\\)) | Equation                      | d   |
+| ----- | ------------- | ----------------------------- | --- |
+| -30.0 | -22.0         | \\(\sqrt{(-22.0 + 30.0)^2}\\) | 8   |
+| -22.0 | -27.0         | \\(\sqrt{(-27.0 + 22.0)^2}\\) | 5   |
 
-\\[d(p,q)_1 = 3\\]
+\\[\sum d(p_0,q_0) = 8 + 5 = 13\\]
 
-| p     | q \\(1_1\\) | Equation                 | d   |
-| ----- | ----------- | ------------------------ | --- |
-| -30.0 | -26.0       | \\({(-26.0 + 30.0)^2}\\) | 4   |
-| -22.0 | -24.0       | \\({(-24.0 + 22.0)^2}\\) | -2  |
+| p     | q (\\(1_1\\)) | Equation                      | d   |
+| ----- | ------------- | ----------------------------- | --- |
+| -30.0 | -26.0         | \\(\sqrt{(-26.0 + 30.0)^2}\\) | 4   |
+| -22.0 | -24.0         | \\(\sqrt{(-24.0 + 22.0)^2}\\) | 2   |
 
-\\[d(p,q)_2 = 2\\]
+\\[\sum d(p_1,q_1) = 4 + 2 = 6\\]
 
-| p     | q \\(1_2\\) | Equation                 | d   |
-| ----- | ----------- | ------------------------ | --- |
-| -30.0 | -29.0       | \\({(-29.0 + 30.0)^2}\\) | 1   |
-| -22.0 | -25.0       | \\({(-25.0 + 22.0)^2}\\) | -3  |
+| p     | q (\\(1_2\\)) | Equation                      | d   |
+| ----- | ------------- | ----------------------------- | --- |
+| -30.0 | -29.0         | \\(\sqrt{(-29.0 + 30.0)^2}\\) | 1   |
+| -22.0 | -25.0         | \\(\sqrt{(-25.0 + 22.0)^2}\\) | 3   |
 
-\\[d(p,q)_3 = -2\\]
+\\[\sum d(p_2,q_2) = 1 + 3 = 4\\]
 
-| p     | q \\(1_3\\) | Equation                 | d   |
-| ----- | ----------- | ------------------------ | --- |
-| -30.0 | -32.0       | \\({(-32.0 + 30.0)^2}\\) | -2  |
-| -22.0 | -23.0       | \\({(-23.0 + 22.0)^2}\\) | -1  |
+| p     | q (\\(1_3\\)) | Equation                      | d   |
+| ----- | ------------- | ----------------------------- | --- |
+| -30.0 | -32.0         | \\(\sqrt{(-32.0 + 30.0)^2}\\) | 2   |
+| -22.0 | -23.0         | \\(\sqrt{(-23.0 + 22.0)^2}\\) | 1   |
 
-\\[d(p,q)_4 = -3\\]
+\\[\sum d(p_3,q_3) = 2 + 1 = 3\\]
 
 After we calculate the distances for each point, we can visualize them like so:
 
-| Amount of Cars | \\(d(p,q)_i\\) | Distance |
-| -------------- | -------------- | -------- |
-| 0              | 0              | -5       |
-| 1              | 1              | 3        |
-| 1              | 2              | 2        |
-| 1              | 3              | -2       |
-| 1              | 4              | -3       |
+| Amount of Cars | Index | Distance |
+| -------------- | ----- | -------- |
+| 0              | 0     | 5        |
+| 1              | 1     | 13       |
+| 1              | 2     | 6        |
+| 1              | 3     | 4        |
+| 1              | 4     | 3        |
 
 At this point, we only have the distances to other points, but we do not know yet the nearest neighbors.
 In order to get the nearest neighbors, all we need to do is to sort the distances like so:
 
-| Amount of Cars | \\(d(p,q)_i\\) | Distance |
-| -------------- | -------------- | -------- |
-| 0              | 0              | -5       |
-| 1              | 4              | -3       |
-| 1              | 3              | -2       |
-| 1              | 2              | 2        |
-| 1              | 1              | 3        |
+| Amount of Cars | Index | Distance |
+| -------------- | ----- | -------- |
+| 1              | 4     | 3        |
+| 1              | 3     | 4        |
+| 0              | 0     | 5        |
+| 1              | 2     | 6        |
+| 1              | 1     | 13       |
 
 Now that the distances have been sorted, the nearest neighbors can now be gathered in accordance with the `k` value.
 Since the default of `k` is 3, the nearest points would be the following:
 
-| Amount of Cars | \\(d(p,q)_i\\) | Distance | RSSI Values  |
-| -------------- | -------------- | -------- | ------------ |
-| 0              | 0              | -5       | -30.0, -27.0 |
-| 1              | 4              | -3       | -32.0, -23.0 |
-| 1              | 3              | -2       | -29.0, -25.0 |
+| Amount of Cars | Index | Distance | RSSI Values  |
+| -------------- | ----- | -------- | ------------ |
+| 1              | 4     | 3        | -32.0, -23.0 |
+| 1              | 3     | 4        | -29.0, -25.0 |
+| 0              | 0     | 5        | -30.0, -27.0 |
 
 In a graph, it can be visualized like so:
 ![](https://i.imgur.com/b7MSijK.png)
@@ -135,3 +135,5 @@ according to the KNN algorithm, the RSSI values of the current point (-30, -22) 
 there is 1 parking slot occupied.
 
 ![](https://i.imgur.com/O8n6Szo.png)
+
+This means that in a parking lot of 10 slots, there is 1 occupied slot and 9 available slots.
