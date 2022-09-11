@@ -10,14 +10,6 @@
             "runOptions": {
                 "runOn": "folderOpen"
             }
-        },
-        {
-            "label": "Run Github Actions",
-            "type": "shell",
-            "command": "wsl /home/jolo/actions-runner/run.sh",
-            "runOptions": {
-                "runOn": "folderOpen"
-            }
         }
     ]
 }
