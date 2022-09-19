@@ -1,4 +1,4 @@
-# Overview
+# Application Overview
 This Smart Parking System uses the K-Nearest Neighbors (KNN) algorithm in order to calculate the amount of available parking spaces
 using Received Signal Strength Indicator (RSSI) values.
 

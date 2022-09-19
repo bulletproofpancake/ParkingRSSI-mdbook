@@ -1,5 +1,7 @@
 # Summary
-[Overview](./chapters/README.md)
+[Application Overview](./chapters/README.md)
+[Project Structure](./chapters/projectStructure.md)
+<!--
 # Activity
 - [MainActivity](./chapters/ch1/mainActivity.md)
 # Classes
@@ -11,3 +13,4 @@
 - [DataFragment]()
 - [HomeFragment]()
 - [ScanRouterFragment]()
+-->
