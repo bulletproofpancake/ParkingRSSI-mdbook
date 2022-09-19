@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/index.html">Overview</a></li><li class="chapter-item expanded affix "><li class="part-title">Activity</li><li class="chapter-item expanded "><a href="chapters/ch1/mainActivity.html"><strong aria-hidden="true">1.</strong> MainActivity</a></li><li class="chapter-item expanded affix "><li class="part-title">Classes</li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> DBHelper</div></li><li class="chapter-item expanded "><a href="chapters/knn/knnClassifier.html"><strong aria-hidden="true">3.</strong> KNNClassifier</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> RecyclerViewAdapter</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> Router</div></li><li class="chapter-item expanded affix "><li class="part-title">Fragments</li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> DataFragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> HomeFragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> ScanRouterFragment</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/index.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -137,7 +137,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+                        <h1 id="application-overview"><a class="header" href="#application-overview">Application Overview</a></h1>
 <p>This Smart Parking System uses the K-Nearest Neighbors (KNN) algorithm in order to calculate the amount of available parking spaces
 using Received Signal Strength Indicator (RSSI) values.</p>
 <h2 id="how-it-works"><a class="header" href="#how-it-works">How it works</a></h2>
@@ -260,335 +260,56 @@ according to the KNN algorithm, the RSSI values of the current point (-30, -22) 
 there is 1 parking slot occupied.</p>
 <p><img src="https://i.imgur.com/O8n6Szo.png" alt="" /></p>
 <p>This means that in a parking lot of 10 slots, there is 1 occupied slot and 9 available slots.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="main-activity"><a class="header" href="#main-activity">Main Activity</a></h1>
-<ul>
-<li>Controls the navigation of the app.</li>
-</ul>
-<h2 id="code-analysis"><a class="header" href="#code-analysis">Code Analysis</a></h2>
-<h3 id="mainactivitykt"><a class="header" href="#mainactivitykt">MainActivity.kt</a></h3>
-<pre><code class="language-kt">class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_scan_routers, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-    }
-}
-</code></pre>
-<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>class MainActivity : AppCompatActivity()</code></td><td>Declares a class named <code>MainActivity</code> that inherits from <a href="https://developer.android.com/reference/androidx/appcompat/app/AppCompatActivity"><code>AppCompatActivity</code></a>.</td></tr>
-<tr><td><code>private lateinit var binding : ActivityMainBinding</code></td><td>Declares a variable named <code>binding</code> of which is used to <a href="https://developer.android.com/topic/libraries/data-binding/expressions#binding_data">bind the code to the <code>activity_main.xml</code> layout</a>.</td></tr>
-<tr><td><code>override fun onCreate(savedInstanceState:Bundle?)</code></td><td><a href="https://kotlinlang.org/docs/inheritance.html">Overrides</a> the <code>onCreate</code> function from <a href="https://developer.android.com/reference/android/app/Activity#onCreate(android.os.Bundle)"><code>Activity</code></a> <em>(the class which <code>AppCompatActivity</code> inherits from)</em>.</td></tr>
-<tr><td><code>super.onCreate(savedInstanceState)</code></td><td>Executes the <code>onCreate</code> function as it is implemented by the classes <code>MainActivity</code> inherits from.</td></tr>
-<tr><td><code>binding = ActivityMainBinding.inflate(layoutInflated)</code></td><td><a href="https://stackoverflow.com/questions/4576330/what-does-it-mean-to-inflate-a-view-from-an-xml-file">Makes the contents of the xml file bound to <code>ActivityMainBinding</code> accessible.</a></td></tr>
-<tr><td><code>setContentView(binding.root)</code></td><td><a href="https://developer.android.com/reference/android/app/Activity#setContentView(android.view.View)">Sets the content view</a> on the <a href="https://developer.android.com/reference/android/databinding/ViewDataBinding#getroot"><code>root</code></a> of the view.</td></tr>
-<tr><td><code>val navView: BottomNavigationView = binding.navView</code></td><td>Declares a variable named <code>navView</code> which is of type <a href="https://developer.android.com/reference/com/google/android/material/bottomnavigation/BottomNavigationView"><code>BottomNavigationView</code></a> from the <code>navView</code> property of <code>binding</code></td></tr>
-<tr><td><code>val navController = findNavController(R.id.nav_host_fragment_activity_main)</code></td><td>Declares a variable named <code>navController</code> and sets it to the <code>navHostFragment</code> from <code>activity_main.xml</code>.</td></tr>
-<tr><td><code>val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_scan_routers, R.id.navigation_notifications)</code></td><td><a href="https://developer.android.com/reference/androidx/navigation/ui/AppBarConfiguration">Creates a configuration for the application bar.</a></td></tr>
-<tr><td><code>setupActionBarWithNavController(navController, appBarConfiguration)</code></td><td><a href="https://developer.android.com/reference/androidx/navigation/ui/NavigationUI#setupActionBarWithNavController(androidx.appcompat.app.AppCompatActivity,androidx.navigation.NavController,androidx.navigation.ui.AppBarConfiguration)">Sets up the action bar to the <code>navController</code>.</a></td></tr>
-<tr><td><code>navView.setupWithNavController(navController)</code></td><td><a href="https://developer.android.com/reference/androidx/navigation/ui/NavigationUI#setupWithNavController(com.google.android.material.navigation.NavigationBarView,androidx.navigation.NavController)">Sets up the navigation view according to the <code>navController</code>.</a></td></tr>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h1>
+<p>The project consists of two major components, the source code and the layout files.
+Source code files end in <code>.kt</code> while layout files end in <code>.xml</code>.
+Source code files are responsible for the logic of the app
+while layout files are responsible for the interface.</p>
+<h2 id="source-code-directories"><a class="header" href="#source-code-directories">Source Code Directories</a></h2>
+<p>When the project is opened in Android Studio, there is a file explorer located in the left portion of the screen by default named <code>Project</code>.
+Ensure that <code>Android</code> is selected on the tab on the top as it is a simple layout to navigate.
+Under <code>app</code>, expand the <code>java</code> folder, and <code>com.silentrald.parkingrssi</code>.
+All the files inside this folder contains the source code for the project.</p>
+<p><img src="https://i.imgur.com/gmHlPxZ.gif" alt="" /></p>
+<h3 id="descriptions"><a class="header" href="#descriptions">Descriptions</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Folder</th><th>File</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>interfaces</strong></td><td></td><td>Contains <a href="https://kotlinlang.org/docs/interfaces.html">interfaces</a> which will be used by the other classes.</td></tr>
+<tr><td></td><td>CellClickListener</td><td></td></tr>
+<tr><td><strong>models</strong></td><td></td><td>Contains the <a href="https://kotlinlang.org/docs/classes.html">classes</a> needed by the program to create and train the model for the neural network.</td></tr>
+<tr><td></td><td>DBHelper</td><td>Contains methods in order to create an <a href="https://www.geeksforgeeks.org/android-sqlite-database-in-kotlin/"><code>SQLite Database</code></a> for recording information about the routers and sessions.</td></tr>
+<tr><td></td><td>Prefs</td><td>Contains information to save the session and capacity to the device.</td></tr>
+<tr><td></td><td>RowData</td><td>Contains the number of cars occupied for a set of RSSI values.</td></tr>
+<tr><td></td><td>Session</td><td>Contains the setup of how the model is trained.</td></tr>
+<tr><td><strong>views</strong></td><td></td><td>Contains the classes to interact with the different screens of the application.</td></tr>
+<tr><td></td><td>DataFormDialog</td><td></td></tr>
+<tr><td></td><td>DataFragment</td><td></td></tr>
+<tr><td></td><td>HomeFragment</td><td></td></tr>
+<tr><td></td><td>RecyclerViewAdapter</td><td></td></tr>
+<tr><td></td><td>ScanRouterFragment</td><td></td></tr>
+<tr><td></td><td>SessionFragment</td><td></td></tr>
+<tr><td><strong>-</strong></td><td></td><td>The classes found on the root of <code>com.silentrald.parkingrssi</code></td></tr>
+<tr><td></td><td>KNNClassifier</td><td>Contains the logic implementing the <a href="https://bit.ly/2OcMqHv">K-Nearest Neighbor Algorithm</a>.</td></tr>
+<tr><td></td><td>MainActivity</td><td>Controls the navigation of the program.</td></tr>
+<tr><td></td><td>Router</td><td>Contains methods in order for the program to view and record routers.</td></tr>
 </tbody></table>
 </div>
-<p>In order for this code to make sense, we must also see how it looks in the context of the app, so we would also need to understand the <code>activity_main.xml</code> and <code>mobile_navigation.xml</code> files.</p>
-<h3 id="understanding-the-layout"><a class="header" href="#understanding-the-layout">Understanding the layout</a></h3>
-<h4 id="activity_main"><a class="header" href="#activity_main">activity_main</a></h4>
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;androidx.constraintlayout.widget.ConstraintLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-    android:id=&quot;@+id/container&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:layout_height=&quot;match_parent&quot;&gt;
-
-    &lt;com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id=&quot;@+id/nav_view&quot;
-        android:layout_width=&quot;0dp&quot;
-        android:layout_height=&quot;56dp&quot;
-        android:layout_marginStart=&quot;0dp&quot;
-        android:layout_marginEnd=&quot;0dp&quot;
-        android:background=&quot;?android:attr/windowBackground&quot;
-        app:layout_constraintBottom_toBottomOf=&quot;parent&quot;
-        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
-        app:layout_constraintRight_toRightOf=&quot;parent&quot;
-        app:menu=&quot;@menu/bottom_nav_menu&quot; /&gt;
-
-    &lt;fragment
-        android:id=&quot;@+id/nav_host_fragment_activity_main&quot;
-        android:name=&quot;androidx.navigation.fragment.NavHostFragment&quot;
-        android:layout_width=&quot;match_parent&quot;
-        android:layout_height=&quot;match_parent&quot;
-        android:layout_marginBottom=&quot;56dp&quot;
-        app:defaultNavHost=&quot;true&quot;
-        app:layout_constraintBottom_toTopOf=&quot;@+id/nav_view&quot;
-        app:layout_constraintLeft_toLeftOf=&quot;parent&quot;
-        app:layout_constraintRight_toRightOf=&quot;parent&quot;
-        app:layout_constraintTop_toTopOf=&quot;parent&quot;
-        app:navGraph=&quot;@navigation/mobile_navigation&quot; /&gt;
-
-&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
-</code></pre>
-<p>Output:
-<img src="https://i.imgur.com/ulc91yD.png" alt="" /></p>
-<p>Once we open up <code>activity_main.xml</code> we can see the app, and more importantly, its layout. If we look at the layout, we can see that at the bottom portion of our screen, we have a bar that is named <code>nav_view</code> which hosts the different buttons we need to navigate our app and the rest of the screen is taken up by the <code>nav_host_fragment_activity_main</code>, which would display the different screens of the app.</p>
-<p>In our <code>MainActivity.kt</code> file, we assign these properties to variables that we can access in code. The <code>nav_view</code> property is set to the <code>navView</code> variable, and the <code>nav_host_fragment_activity_main</code> is set to the <code>navController</code> variable.</p>
-<pre><code class="language-kt">        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-</code></pre>
-<p>To control the fragments shown on the screen, we need to create an <code>appBarConfiguration</code> which determines the elements for the <code>navView</code>, and for this we would need the <code>mobile_navigation.xml</code>.</p>
-<h4 id="mobile_navigation"><a class="header" href="#mobile_navigation">mobile_navigation</a></h4>
-<p>Source:</p>
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;navigation xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
-    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
-    android:id=&quot;@+id/mobile_navigation&quot;
-    app:startDestination=&quot;@+id/navigation_home&quot;&gt;
-
-    &lt;fragment
-        android:id=&quot;@+id/navigation_home&quot;
-        android:name=&quot;com.silentrald.parkingrssi.ui.HomeFragment&quot;
-        android:label=&quot;@string/title_home&quot;
-        tools:layout=&quot;@layout/fragment_home&quot; /&gt;
-
-    &lt;fragment
-        android:id=&quot;@+id/navigation_scan_routers&quot;
-        android:name=&quot;com.silentrald.parkingrssi.ui.ScanRouterFragment&quot;
-        android:label=&quot;@string/scan_routers&quot;
-        tools:layout=&quot;@layout/fragment_scan_router&quot; /&gt;
-
-    &lt;fragment
-        android:id=&quot;@+id/navigation_notifications&quot;
-        android:name=&quot;com.silentrald.parkingrssi.ui.DataFragment&quot;
-        android:label=&quot;@string/data&quot;
-        tools:layout=&quot;@layout/fragment_data&quot; /&gt;
-&lt;/navigation&gt;
-</code></pre>
-<p>Output:
-<img src="https://i.imgur.com/QJqS5iv.png" alt="" /></p>
-<p>If we open up <code>mobile_navigation.xml</code>, we can see the different screens of our app, and when we look at the code side of things we can see that the ids of each fragment correspond to the parameters which have been set in the <code>appBarConfiguration</code>.</p>
-<pre><code class="language-xml">    &lt;fragment
-        android:id=&quot;@+id/navigation_home&quot;
-        android:name=&quot;com.silentrald.parkingrssi.ui.HomeFragment&quot;
-        android:label=&quot;@string/title_home&quot;
-        tools:layout=&quot;@layout/fragment_home&quot; /&gt;
-</code></pre>
-<pre><code class="language-xml">    &lt;fragment
-        android:id=&quot;@+id/navigation_scan_routers&quot;
-        android:name=&quot;com.silentrald.parkingrssi.ui.ScanRouterFragment&quot;
-        android:label=&quot;@string/scan_routers&quot;
-        tools:layout=&quot;@layout/fragment_scan_router&quot; /&gt;
-</code></pre>
-<pre><code class="language-xml">    &lt;fragment
-        android:id=&quot;@+id/navigation_notifications&quot;
-        android:name=&quot;com.silentrald.parkingrssi.ui.DataFragment&quot;
-        android:label=&quot;@string/data&quot;
-        tools:layout=&quot;@layout/fragment_data&quot; /&gt;
-</code></pre>
-<pre><code class="language-kt">        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_scan_routers, R.id.navigation_notifications
-            )
-</code></pre>
-<p>Once the <code>appBarConfiguration</code> has been made, we would now apply it to the <code>navController</code> so that when we select an option from the <code>nav_view</code> portion of our screen, it would reflect on the <code>nav_host_fragment_activity_main</code> portion as well.</p>
-<pre><code class="language-kt">        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="knn-classifier"><a class="header" href="#knn-classifier">KNN Classifier</a></h1>
-<ul>
-<li>Contains the logic implementing the <a href="https://bit.ly/2OcMqHv">K-Nearest Neighbor Algorithm</a>.</li>
-</ul>
-<h1 id="code-analysis-1"><a class="header" href="#code-analysis-1">Code Analysis</a></h1>
-<h2 id="declaration-and-global-variables"><a class="header" href="#declaration-and-global-variables">Declaration and Global Variables</a></h2>
-<pre><code class="language-kt">class KNNClassifier(var k: Int = 3) { //k is the literal property for KNN
-    var inputSize: Int = 6 //depende kung ilang yung number of routers
-    val matrix = arrayListOf&lt;ArrayList&lt;Float&gt;&gt;() //values ng RSSI, 2D matrix siya
-    val labels = arrayListOf&lt;Int&gt;()
-</code></pre>
-<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>class KNNClassifier(var k: Int = 3)</code></td><td>Declares a class of <code>KNNClassifier</code> with the initial value of <code>k</code> set to <code>3</code>. <code>k</code> is the number of points that are to be evaluated before a given point is classified. <img src="https://miro.medium.com/max/753/0*jqxx3-dJqFjXD6FA" alt="" /></td></tr>
-<tr><td><code>var inputSize: Int = 6</code></td><td>The number of routers to include in the algorithm. Initially set to <code>6</code>.</td></tr>
-<tr><td><code>val matrix = arrayListOf&lt;ArrayList&lt;Float&gt;&gt;()</code></td><td>Declares a list of the values of the RSSI for each router.</td></tr>
-<tr><td><code>val labels = arrayListOf&lt;Int&gt;()</code></td><td>Declares a list of labels for the matrix.</td></tr>
+<h2 id="layout-directories"><a class="header" href="#layout-directories">Layout Directories</a></h2>
+<p>The layout directories contain the files that create the user interface of the application.
+It also contains the ids of each component which would be used by the scripts in the <code>views</code> directory.
+The layouts are stored in <code>app &gt; res &gt; layout</code>.</p>
+<p><img src="https://i.imgur.com/0NBqEqH.png" alt="" /></p>
+<h3 id="descriptions-1"><a class="header" href="#descriptions-1">Descriptions</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>File</th><th>Description</th></tr></thead><tbody>
+<tr><td>activity_main.xml</td><td>Contains a navigation bar and where the fragment gets displayed.</td></tr>
+<tr><td>fragment_data.xml</td><td>Contains a list of recordings of the RSSI values and buttons to import and export csv files.</td></tr>
+<tr><td>fragment_home.xml</td><td>Contains the interface needed to train the model and predict the amount of vehicles in the parking slot.</td></tr>
+<tr><td>fragment_scan_router.xml</td><td>Contains a menu to select the routers to be recorded.</td></tr>
+<tr><td>fragment_session.xml</td><td>Contains a list of sessions to be loaded.</td></tr>
+<tr><td>layout_data_form.xml</td><td></td></tr>
+<tr><td>layout_data_row.xml</td><td></td></tr>
+<tr><td>layout_data_value_input.xml</td><td></td></tr>
 </tbody></table>
 </div>
-<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
-<h2 id="addpoint"><a class="header" href="#addpoint">addPoint</a></h2>
-<pre><code class="language-kt">    fun addPoint(point: ArrayList&lt;Float&gt;, label: Int) { //training part
-        if (point.size != inputSize) {
-            return
-        }
-
-        matrix.add(point)
-        labels.add(label)
-    }
-</code></pre>
-<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>fun addPoint(point:ArrayList&lt;Float&gt;, label: Int)</code></td><td>Declares a method that adds a point and label to <code>matrix</code> and <code>labels</code>.</td></tr>
-<tr><td><code>if(point.size != inputSize) { return }</code></td><td>Exits the method if the number of points given is not the same as the <code>inputSize</code>.</td></tr>
-<tr><td><code>matrix.add(point)</code></td><td>Adds the point to <code>matrix</code>.</td></tr>
-<tr><td><code>labels.add(label)</code></td><td>Adds the label to <code>labels</code>.</td></tr>
-</tbody></table>
-</div>
-<h3 id="visualization"><a class="header" href="#visualization">Visualization</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
-<tr><td><code>point</code></td><td>[ 0f, 1f, 2f, 3f, 4f ]</td></tr>
-<tr><td><code>label</code></td><td>5</td></tr>
-</tbody></table>
-</div>
-<p>Given the values of <code>point</code> and <code>label</code>, if we were to call the <code>addPoint</code> method and <code>matrix</code> and <code>labels</code> does not have any data on them, their values would be the following:</p>
-<div class="table-wrapper"><table><thead><tr><th>variable</th><th>value</th></tr></thead><tbody>
-<tr><td><code>matrix</code></td><td>[ 0f, 1f, 2f, 3f, 4f ]</td></tr>
-<tr><td><code>labels</code></td><td>5</td></tr>
-</tbody></table>
-</div>
-<p>If we were to call the function with the same value of <code>point</code> and <code>label</code> again, the values for <code>matrix</code> and <code>labels</code> would now be:</p>
-<div class="table-wrapper"><table><thead><tr><th>variable</th><th>value</th></tr></thead><tbody>
-<tr><td><code>matrix</code></td><td>[ 0f, 1f, 2f, 3f, 4f ], [ 0f, 1f, 2f, 3f, 4f ]</td></tr>
-<tr><td><code>labels</code></td><td>5, 5</td></tr>
-</tbody></table>
-</div>
-<h2 id="calculatedistance"><a class="header" href="#calculatedistance">calculateDistance</a></h2>
-<pre><code class="language-kt">    private fun calculateDistance(ps1: ArrayList&lt;Float&gt;, ps2: ArrayList&lt;Float&gt;): Float { //evaluation part
-        if (ps1.size != ps2.size) return -1f //kuhanin lahat ng distances dito ng bagong point.
-
-        var distance = 0f
-        for (i in 0 until ps1.size) {
-            distance += (ps1[i] - ps2[i]).pow(2)
-        }
-        return distance
-    }
-</code></pre>
-<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>private fun calculateDistance(ps1: ArrayList&lt;Float&gt;, ps2: ArrayList&lt;Float&gt;) : Float</code></td><td>Declares a method that calculates the distances between the list of Floats <code>ps1</code> and <code>ps2</code>, then returns a <code>Float</code> value.</td></tr>
-<tr><td><code>if (ps1.size != ps2.size) return -1f</code></td><td>Returns <code>-1f</code> if the amount of points given are not the same. This means that the set of points are invalid.</td></tr>
-<tr><td><code>var distance = 0f</code></td><td>Declares a variable <code>distance</code> with the value of <code>0f</code>.</td></tr>
-<tr><td><code>for (i in 0 until ps1.size)</code></td><td>Creates a loop that ends until the size of the first list of points is reached.</td></tr>
-<tr><td><code>distance += (ps1[i] - ps2[i]).pow(2)</code></td><td>Adds the distance to the squared difference of each point in <code>ps1</code> and <code>ps2</code>.</td></tr>
-<tr><td><code>return distance</code></td><td>Returns the value of <code>distance</code>.</td></tr>
-</tbody></table>
-</div>
-<h3 id="visualization-1"><a class="header" href="#visualization-1">Visualization</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
-<tr><td><code>ps1</code></td><td>9f, 8f, 7f, 6f, 5f</td></tr>
-<tr><td><code>ps2</code></td><td>0f, 1f, 2f, 3f, 4f</td></tr>
-</tbody></table>
-</div>
-<p>Given the values of <code>ps1</code> and <code>ps2</code>, the distance that should be returned by the function is calculated like so:</p>
-<div class="table-wrapper"><table><thead><tr><th>Index</th><th>Points</th><th>Value</th><th>Distance</th></tr></thead><tbody>
-<tr><td>0</td><td>(9f-0f)^2</td><td>81f</td><td>81f</td></tr>
-<tr><td>1</td><td>(8f-1f)^2</td><td>49f</td><td>130f</td></tr>
-<tr><td>2</td><td>(7f-2f)^2</td><td>25f</td><td>155f</td></tr>
-<tr><td>3</td><td>(6f-3f)^2</td><td>9f</td><td>164f</td></tr>
-<tr><td>4</td><td>(5f-4f)^2</td><td>1f</td><td>165f</td></tr>
-</tbody></table>
-</div>
-<p>With this, the value of the distance that will be returned would be <code>165f</code>.</p>
-<h2 id="predict"><a class="header" href="#predict">predict</a></h2>
-<h3 id="declaration"><a class="header" href="#declaration">Declaration</a></h3>
-<pre><code class="language-kt">    fun predict(point: ArrayList&lt;Float&gt;): Int {
-</code></pre>
-<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>fun predict(point: ArrayList&lt;Float&gt;): Int</code></td><td>Declares a method that returns an integer as a prediction from a list of floats.</td></tr>
-</tbody></table>
-</div>
-<h3 id="gathering-the-distances"><a class="header" href="#gathering-the-distances">Gathering the distances</a></h3>
-<pre><code class="language-kt">        val distances = arrayListOf&lt;Pair&lt;Float, Int&gt;&gt;()
-        var distance = 0f
-        for (i in 0 until matrix.size) {
-            distance = calculateDistance(point, matrix[i])
-            distances.add(Pair(distance, labels[i]))
-        }
-</code></pre>
-<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>val distances = arrayListOf&lt;Pair&lt;Float,Int&gt;&gt;()</code></td><td>Declares a list of <code>Float,Int</code> pairs that would store the distances.</td></tr>
-<tr><td><code>var distance = 0f</code></td><td>Declares a variable <code>distance</code> with the value of <code>0f</code>.</td></tr>
-<tr><td><code>for (i in 0 until matrix.size)</code></td><td>Creates a loop that ends until the size of the <code>matrix</code> is reached.</td></tr>
-<tr><td><code>distance = calculateDistance(point, matrix[i])</code></td><td>Calculates the distance between the <code>point</code> and the <code>matrix</code>. Keep in mind that the values of <code>point</code> comes from the user while the values of <code>matrix</code> comes from the model.</td></tr>
-<tr><td><code>distances.add(Pair(distance,labels[i]))</code></td><td>Adds the calculated distance and pairs it to a label from <code>labels</code>.</td></tr>
-</tbody></table>
-</div>
-<h4 id="visualization-2"><a class="header" href="#visualization-2">Visualization</a></h4>
-<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
-<tr><td><code>point</code></td><td>9f, 8f, 7f, 6f, 5f</td></tr>
-<tr><td><code>matrix</code></td><td>0f, 1f, 2f, 3f, 4f</td></tr>
-<tr><td><code>labels</code></td><td>5, 7, 3, 4, 1</td></tr>
-</tbody></table>
-</div>
-<p>For the sake of simplicity, the values of <code>point</code> and <code>matrix</code> are the same as the examples of <code>ps1</code> and <code>ps2</code> as given during the visualization of the <a href="chapters/knn/knnClassifier.html#calculatedistance"><code>calculateDistance</code></a> from earlier.
-When these distances are calculated, they are each given a label which gets stored under <code>distances</code> and can be visualized like so:</p>
-<div class="table-wrapper"><table><thead><tr><th>Index</th><th>Distance (<code>Float</code>)</th><th>Labels (<code>Int</code>)</th></tr></thead><tbody>
-<tr><td>0</td><td>81f</td><td>5</td></tr>
-<tr><td>1</td><td>130f</td><td>7</td></tr>
-<tr><td>2</td><td>155f</td><td>3</td></tr>
-<tr><td>3</td><td>164f</td><td>4</td></tr>
-<tr><td>4</td><td>165f</td><td>1</td></tr>
-</tbody></table>
-</div>
-<p>Therefore, another way of visualizing the variable <code>distances</code> would be the following:</p>
-<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
-<tr><td><code>distances</code></td><td>[ 81f, 5 ], [ 130f, 7 ], [ 155f, 3 ], [ 164f, 4 ], [ 165f, 1 ]</td></tr>
-</tbody></table>
-</div>
-<h3 id="sorting-the-distances"><a class="header" href="#sorting-the-distances">Sorting the distances</a></h3>
-<pre><code class="language-kt">        distances.sortWith(compareBy { it.first })
-        val hashmap = hashMapOf&lt;Int, Int&gt;()
-        val min = k.coerceAtMost(matrix.size)
-        for (i in 0 until min) {
-            hashmap[i] = hashmap.getOrDefault(i, 0) + 1
-        }
-</code></pre>
-<div class="table-wrapper"><table><thead><tr><th>Snippet</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>distances.sortWith(compareBy{it.first})</code></td><td>Sorts <code>distances</code> according to the <code>distance</code>.</td></tr>
-<tr><td><code>val hashmap = hasMapOf&lt;Int, Int&gt;()</code></td><td>Creates a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/">hashmap</a> with <code>Int</code> as a key and value.</td></tr>
-<tr><td><code>val min = k.coerceAtMost(matrix.size)</code></td><td>Ensures that the value of <code>k</code> does not exceed the size of <code>matrix</code> and stores it in the variable <code>min</code>.</td></tr>
-<tr><td><code>for (i in 0 until min)</code></td><td>Creates a loop that ends until the size of <code>min</code> is reached.</td></tr>
-<tr><td><code>hashmap[i] = hashmap.getOrDefault(i, 0) + 1</code></td><td>Stores either the current index plus 1 to the hashmap or 1 if there is no value paired with that index.</td></tr>
-</tbody></table>
-</div>
-<h4 id="visualization-3"><a class="header" href="#visualization-3">Visualization</a></h4>
-<p>By running <code>distances.sortWith(compareBy{it.first})</code>, we arrange the values in an ascending order according to the distance like so:</p>
-<div class="table-wrapper"><table><thead><tr><th>Variables</th><th>Value</th></tr></thead><tbody>
-<tr><td><code>distances</code></td><td>[ 81f, 5 ], [ 130f, 7 ], [ 155f, 3 ], [ 164f, 4 ], [ 165f, 1 ]</td></tr>
-</tbody></table>
-</div>
-<blockquote>
-<p><strong>NOTE:</strong> For the sake of continuity, the initial values of <code>distances</code> given in this example is already arranged in an ascending order so the function would not do anything for this example.</p>
-</blockquote>
-<p>After sorting the distances, we get our minimum value which is <code>k</code>. By default, the constructor for the class sets it to <code>3</code>, 
-but by using <code>coerceAtMost(matrix.size)</code> ensures that the value of <code>k</code> would never be greater than <code>matrix.size</code>. 
-Then, we store the pairs until the <code>min</code> value into the hashmap like so:</p>
-<blockquote>
-<p><strong>NOTE:</strong> As of the time of writing, I am unsure whether the values being written to the hashmap is correct due to my unfamiliarity with the language.
-Please feel free to correct.</p>
-</blockquote>
-<div class="table-wrapper"><table><thead><tr><th>index</th><th>hashmap</th><th>distances</th></tr></thead><tbody>
-<tr><td>0</td><td>[ 0, 1 ]</td><td>[81f, 5 ]</td></tr>
-<tr><td>1</td><td>[ 1, 2 ]</td><td>[130f, 7]</td></tr>
-<tr><td>2</td><td>[ 2, 3 ]</td><td>[155f, 3]</td></tr>
-<tr><td>3</td><td></td><td>[164f, 4]</td></tr>
-<tr><td>4</td><td></td><td>[165f, 1]</td></tr>
-</tbody></table>
-</div>
-<p>In the example above, <code>min = 3</code> that is why there are no more values stored on the 4th and 5th entry despite the number of entries in <code>distances</code> we have.</p>
-
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -603,6 +324,22 @@ Please feel free to correct.</p>
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
