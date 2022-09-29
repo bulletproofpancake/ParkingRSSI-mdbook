@@ -178,16 +178,16 @@ private fun calculateDistance(ps1: ArrayList<Float>, ps2: ArrayList<Float>): Flo
 
 #### Parameters
 
-| Parameters | Declaration           | Description                                           |
-| ---------- | --------------------- | ----------------------------------------------------- |
-| ps1        | ps1: ArrayList<Float> | The current RSSI values being detected by the device. |
-| ps2        | ps2: ArrayList<Float> | The RSSI values from the `matrix`.                    |
+| Parameters | Declaration             | Description                                           |
+| ---------- | ----------------------- | ----------------------------------------------------- |
+| ps1        | `ps1: ArrayList<Float>` | The current RSSI values being detected by the device. |
+| ps2        | `ps2: ArrayList<Float>` | The RSSI values from the `matrix`.                    |
 
 #### Returns
 
-| Returns  | Type  | Description                                                         |
-| -------- | ----- | ------------------------------------------------------------------- |
-| distance | Float | The aggregated distance between the two collections of RSSI values. |
+| Returns  | Type    | Description                                                         |
+| -------- | ------- | ------------------------------------------------------------------- |
+| distance | `Float` | The aggregated distance between the two collections of RSSI values. |
 
 #### Implementation
 
@@ -212,3 +212,60 @@ return distance
 ### predict
 
 ### loadMatrix
+
+The `loadMatrix` method loads the matrix from an existing database.
+
+#### Snippet
+
+```kt
+fun loadMatrix(data: ArrayList<RowData>) {
+    inputSize = data.size
+
+    labels.clear()
+    matrix.clear()
+    for (row in data) {
+      labels.add(row.label)
+      matrix.add(row.values)
+    }
+
+    k = sqrt(matrix.size.toDouble()).toInt()
+  }
+```
+
+#### Parameters
+
+| Parameter | Declaration                | Description                                                         |
+| --------- | -------------------------- | ------------------------------------------------------------------- |
+| data      | `data: ArrayList<RowData>` | A list of [RowData](row-data.md) which the matrix gets loaded from. |
+
+#### Implementation
+
+The start of the method overwrites the `inputSize` with the size of the `data` and clears the existing values of `labels` and `matrix`.
+
+```kt
+inputSize = data.size
+
+labels.clear()
+matrix.clear()
+```
+
+After clearing the existing values in the database, the values from `data` gets added into the `labels` and `matrix` lists.
+
+```kt
+// The same as:
+// for (i in 0 until data.size){
+//     var row = data[i]
+//     labels.add(row.label)
+//     matrix.add(row.values)
+// }
+for (row in data){
+    labels.add(row.label)
+    matrix.add(row.values)
+}
+```
+
+Once the `labels` and `matrix` has been loaded from the `data`, the `k` value gets updated as well.
+
+```kt
+k = sqrt(matrix.size.toDouble()).toInt()
+```
