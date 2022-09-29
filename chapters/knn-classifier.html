@@ -286,13 +286,13 @@ section in the Application Overview.</p>
 </code></pre>
 <h4 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h4>
 <div class="table-wrapper"><table><thead><tr><th>Parameters</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
-<tr><td>ps1</td><td>ps1: ArrayList<Float></td><td>The current RSSI values being detected by the device.</td></tr>
-<tr><td>ps2</td><td>ps2: ArrayList<Float></td><td>The RSSI values from the <code>matrix</code>.</td></tr>
+<tr><td>ps1</td><td><code>ps1: ArrayList&lt;Float&gt;</code></td><td>The current RSSI values being detected by the device.</td></tr>
+<tr><td>ps2</td><td><code>ps2: ArrayList&lt;Float&gt;</code></td><td>The RSSI values from the <code>matrix</code>.</td></tr>
 </tbody></table>
 </div>
 <h4 id="returns"><a class="header" href="#returns">Returns</a></h4>
 <div class="table-wrapper"><table><thead><tr><th>Returns</th><th>Type</th><th>Description</th></tr></thead><tbody>
-<tr><td>distance</td><td>Float</td><td>The aggregated distance between the two collections of RSSI values.</td></tr>
+<tr><td>distance</td><td><code>Float</code></td><td>The aggregated distance between the two collections of RSSI values.</td></tr>
 </tbody></table>
 </div>
 <h4 id="implementation-1"><a class="header" href="#implementation-1">Implementation</a></h4>
@@ -315,6 +315,48 @@ return distance
 </code></pre>
 <h3 id="predict"><a class="header" href="#predict">predict</a></h3>
 <h3 id="loadmatrix"><a class="header" href="#loadmatrix">loadMatrix</a></h3>
+<p>The <code>loadMatrix</code> method loads the matrix from an existing database.</p>
+<h4 id="snippet-2"><a class="header" href="#snippet-2">Snippet</a></h4>
+<pre><code class="language-kt">fun loadMatrix(data: ArrayList&lt;RowData&gt;) {
+    inputSize = data.size
+
+    labels.clear()
+    matrix.clear()
+    for (row in data) {
+      labels.add(row.label)
+      matrix.add(row.values)
+    }
+
+    k = sqrt(matrix.size.toDouble()).toInt()
+  }
+</code></pre>
+<h4 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>data</td><td><code>data: ArrayList&lt;RowData&gt;</code></td><td>A list of <a href="row-data.html">RowData</a> which the matrix gets loaded from.</td></tr>
+</tbody></table>
+</div>
+<h4 id="implementation-2"><a class="header" href="#implementation-2">Implementation</a></h4>
+<p>The start of the method overwrites the <code>inputSize</code> with the size of the <code>data</code> and clears the existing values of <code>labels</code> and <code>matrix</code>.</p>
+<pre><code class="language-kt">inputSize = data.size
+
+labels.clear()
+matrix.clear()
+</code></pre>
+<p>After clearing the existing values in the database, the values from <code>data</code> gets added into the <code>labels</code> and <code>matrix</code> lists.</p>
+<pre><code class="language-kt">// The same as:
+// for (i in 0 until data.size){
+//     var row = data[i]
+//     labels.add(row.label)
+//     matrix.add(row.values)
+// }
+for (row in data){
+    labels.add(row.label)
+    matrix.add(row.values)
+}
+</code></pre>
+<p>Once the <code>labels</code> and <code>matrix</code> has been loaded from the <code>data</code>, the <code>k</code> value gets updated as well.</p>
+<pre><code class="language-kt">k = sqrt(matrix.size.toDouble()).toInt()
+</code></pre>
 
                     </main>
 
