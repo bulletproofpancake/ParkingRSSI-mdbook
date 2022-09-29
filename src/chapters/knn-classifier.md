@@ -209,7 +209,88 @@ for (i in 0 until ps1.size){
 // Once the loop is finished, the distance would be returned.
 return distance
 ```
+
 ### predict
+
+#### Snippet
+
+```kt
+fun predict(point: ArrayList<Float>): Int {
+    val distances = arrayListOf<Pair<Float, Int>>()
+    for (i in 0 until matrix.size) {
+      distances.add(Pair(calculateDistance(point, matrix[i]), labels[i]))
+    }
+
+    distances.sortWith(compareBy { it.first })
+    Log.i("KNN", distances.toString())
+
+    val hashmap = hashMapOf<Int, Int>()
+
+    var end = k.coerceAtMost(matrix.size)
+    for (i in 0 until end) {
+      val classification = distances[i].second
+      hashmap[classification] = hashmap.getOrDefault(classification, 0) + 1
+    }
+
+    // Get Max (Plurality)
+    var max = -1
+    val outputs = arrayListOf<Int>()
+    for ((key, value) in hashmap) {
+      if (value > max) {
+        max = value
+        outputs.clear()
+        outputs.add(key)
+      } else if (value == max) {
+        outputs.add(key)
+      }
+    }
+
+    if (outputs.size == 1) {
+      return outputs[0]
+    }
+
+    // Tie-breaking
+    while (end > 0) {
+      end--
+      val classification = distances[end].second
+      hashmap[classification]?.dec()
+
+      max = -1
+      outputs.clear()
+      for ((key, value) in hashmap) {
+        if (value > max) {
+          max = value
+          outputs.clear()
+          outputs.add(key)
+        } else if (value == max) {
+          outputs.add(key)
+        }
+      }
+
+      if (outputs.size == 1) {
+        return outputs[0]
+      }
+    }
+
+    // Just return the first one
+    return distances[0].second
+  }
+```
+
+#### Parameters
+
+| Parameters | Declaration        | Description                                           |
+| ---------- | ------------------ | ----------------------------------------------------- |
+| point      | `ArrayList<Float>` | The current RSSI values being detected by the device. |
+
+#### Returns
+
+| Returns             | Type  | Description                                         |
+| ------------------- | ----- | --------------------------------------------------- |
+| outputs[0]          | `Int` | The largest `label` recorded in the database.       |
+| distances[0].second | `Int` | The `label` of the nearest neighbor to the `point`. |
+
+#### Implementation
 
 ### loadMatrix
 
