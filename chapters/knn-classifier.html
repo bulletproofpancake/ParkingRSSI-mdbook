@@ -154,7 +154,7 @@ using the algorithm.</p>
 <h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
 <h3 id="addpoint"><a class="header" href="#addpoint">addPoint</a></h3>
 <p>The <code>addPoint</code> method adds a point to the dataset. This point contains the RSSI values and the amount of cars for that set.</p>
-<h3 id="snippet"><a class="header" href="#snippet">Snippet</a></h3>
+<h4 id="snippet"><a class="header" href="#snippet">Snippet</a></h4>
 <pre><code class="language-kt">fun addPoint(point: ArrayList&lt;Float&gt;, label: Int) {
     if (point.size != inputSize) {
       return
@@ -166,13 +166,13 @@ using the algorithm.</p>
     k = sqrt(matrix.size.toDouble()).toInt()
   }
 </code></pre>
-<h3 id="parameters"><a class="header" href="#parameters">Parameters</a></h3>
+<h4 id="parameters"><a class="header" href="#parameters">Parameters</a></h4>
 <div class="table-wrapper"><table><thead><tr><th>Parameters</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
 <tr><td>point</td><td><code>point: ArrayList&lt;Float&gt;</code></td><td>The RSSI values received from the routers.</td></tr>
 <tr><td>label</td><td><code>label: Int</code></td><td>The amount of cars in the parking lot when the point is recorded.</td></tr>
 </tbody></table>
 </div>
-<h3 id="implementation"><a class="header" href="#implementation">Implementation</a></h3>
+<h4 id="implementation"><a class="header" href="#implementation">Implementation</a></h4>
 <p>At the start of the method, the size of the point is compared to the <code>inputSize</code>.
 Each router sends a single RSSI value which is contained as a list in the <code>point</code> variable.
 This check then is to ensure that all routers have sent an RSSI value before it is added to the database.</p>
@@ -260,6 +260,59 @@ For example, the data collected from five routers can be presented in a table li
 </tbody></table>
 </div>
 <h3 id="calculatedistance"><a class="header" href="#calculatedistance">calculateDistance</a></h3>
+<p>The <code>calculateDistance</code> method aggregates the distance between two collections of RSSI values.
+In the app, one collection is from the current RSSI values received by the device
+and another is from the existing RSSI values added to the <code>matrix</code>.
+This is because the <code>calculateDistance</code> method is used when the app is <a href="#predict">predicting</a>.</p>
+<p>It helps to think of each collection of RSSI values as a coordinate, however as the number of routers increase
+so too does the dimensions in which these coordinates exist, which is why the Euclidean Distance formula is used to
+calculate the distance between each point.</p>
+<blockquote>
+<p><strong>NOTE:</strong>
+For a further in-depth breakdown of the usage of the Euclidean Distance formula,
+please refer to the <a href="applicationOverview.html#getting-the-nearest-points">Getting the nearest points</a>
+section in the Application Overview.</p>
+</blockquote>
+<h4 id="snippet-1"><a class="header" href="#snippet-1">Snippet</a></h4>
+<pre><code class="language-kt">private fun calculateDistance(ps1: ArrayList&lt;Float&gt;, ps2: ArrayList&lt;Float&gt;): Float {
+    if (ps1.size != ps2.size) return -1f
+
+    var distance = 0f
+    for (i in 0 until ps1.size) {
+      distance += (ps1[i] - ps2[i]).pow(2) // (x1 - x2) ^ 2
+    }
+    return distance
+  }
+</code></pre>
+<h4 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Parameters</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>ps1</td><td>ps1: ArrayList<Float></td><td>The current RSSI values being detected by the device.</td></tr>
+<tr><td>ps2</td><td>ps2: ArrayList<Float></td><td>The RSSI values from the <code>matrix</code>.</td></tr>
+</tbody></table>
+</div>
+<h4 id="returns"><a class="header" href="#returns">Returns</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Returns</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>distance</td><td>Float</td><td>The aggregated distance between the two collections of RSSI values.</td></tr>
+</tbody></table>
+</div>
+<h4 id="implementation-1"><a class="header" href="#implementation-1">Implementation</a></h4>
+<pre><code class="language-kt">// Compare the sizes of the parameters to check if it is valid.
+// Returning a negative distance would mean that the parameters are invalid.
+if(ps1.size != ps2.size) return -1f
+
+// The next line creates a variable distance.
+// This is where the aggregated distances will be stored and returned.
+var distance = 0f
+
+// The next line states that until the index reaches the size of ps1,
+// the Euclidean Distance of the two points would be added to distance.
+for (i in 0 until ps1.size){
+    distance += (ps1[i] - ps2[i]).pow(2)
+}
+
+// Once the loop is finished, the distance would be returned.
+return distance
+</code></pre>
 <h3 id="predict"><a class="header" href="#predict">predict</a></h3>
 <h3 id="loadmatrix"><a class="header" href="#loadmatrix">loadMatrix</a></h3>
 
