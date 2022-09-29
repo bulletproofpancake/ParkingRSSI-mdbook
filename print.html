@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/index.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripts</li><li class="chapter-item expanded "><a href="chapters/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Main Activity</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Router</div></li><li class="chapter-item expanded affix "><li class="part-title">Interfaces</li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Cell Click Listener</div></li><li class="chapter-item expanded affix "><li class="part-title">Models</li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> DBHelper</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Prefs</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> RowData</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Session</div></li><li class="chapter-item expanded affix "><li class="part-title">Views</li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> Data Form Dialog</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> Data Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> Home Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> Recycler View Adapter</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> Scan Router Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">14.</strong> Session Fragment</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -309,7 +309,10 @@ The layouts are stored in <code>app &gt; res &gt; layout</code>.</p>
 <tr><td>layout_data_row.xml</td><td></td></tr>
 <tr><td>layout_data_value_input.xml</td><td></td></tr>
 </tbody></table>
-</div>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="knn-classifier"><a class="header" href="#knn-classifier">KNN Classifier</a></h1>
+<p>The <code>KNN Classifier</code> class contains the logic implementing the <a href="https://bit.ly/2OcMqHv">K-Nearest Neighbor Algorithm</a>.
+It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; KNNClassifier.kt</code>.</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -324,22 +327,6 @@ The layouts are stored in <code>app &gt; res &gt; layout</code>.</p>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>

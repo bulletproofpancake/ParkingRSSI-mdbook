@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Project Structure - ParkingRSSI Documentation</title>
+        <title>KNN Classifier - ParkingRSSI Documentation</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../chapters/projectStructure.html" class="active">Project Structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripts</li><li class="chapter-item expanded "><a href="../chapters/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Main Activity</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Router</div></li><li class="chapter-item expanded affix "><li class="part-title">Interfaces</li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Cell Click Listener</div></li><li class="chapter-item expanded affix "><li class="part-title">Models</li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> DBHelper</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Prefs</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> RowData</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Session</div></li><li class="chapter-item expanded affix "><li class="part-title">Views</li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> Data Form Dialog</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> Data Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> Home Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> Recycler View Adapter</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> Scan Router Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">14.</strong> Session Fragment</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripts</li><li class="chapter-item expanded "><a href="../chapters/knn-classifier.html" class="active"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Main Activity</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Router</div></li><li class="chapter-item expanded affix "><li class="part-title">Interfaces</li><li class="chapter-item expanded "><div><strong aria-hidden="true">4.</strong> Cell Click Listener</div></li><li class="chapter-item expanded affix "><li class="part-title">Models</li><li class="chapter-item expanded "><div><strong aria-hidden="true">5.</strong> DBHelper</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">6.</strong> Prefs</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">7.</strong> RowData</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">8.</strong> Session</div></li><li class="chapter-item expanded affix "><li class="part-title">Views</li><li class="chapter-item expanded "><div><strong aria-hidden="true">9.</strong> Data Form Dialog</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">10.</strong> Data Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">11.</strong> Home Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> Recycler View Adapter</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> Scan Router Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">14.</strong> Session Fragment</div></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,65 +136,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="project-structure"><a class="header" href="#project-structure">Project Structure</a></h1>
-<p>The project consists of two major components, the source code and the layout files.
-Source code files end in <code>.kt</code> while layout files end in <code>.xml</code>.
-Source code files are responsible for the logic of the app
-while layout files are responsible for the interface.</p>
-<h2 id="source-code-directories"><a class="header" href="#source-code-directories">Source Code Directories</a></h2>
-<p>When the project is opened in Android Studio, there is a file explorer located in the left portion of the screen by default named <code>Project</code>.
-Ensure that <code>Android</code> is selected on the tab on the top as it is a simple layout to navigate.
-Under <code>app</code>, expand the <code>java</code> folder, and <code>com.silentrald.parkingrssi</code>.
-All the files inside this folder contains the source code for the project.</p>
-<p><img src="https://i.imgur.com/gmHlPxZ.gif" alt="" /></p>
-<h3 id="descriptions"><a class="header" href="#descriptions">Descriptions</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>Folder</th><th>File</th><th>Description</th></tr></thead><tbody>
-<tr><td><strong>interfaces</strong></td><td></td><td>Contains <a href="https://kotlinlang.org/docs/interfaces.html">interfaces</a> which will be used by the other classes.</td></tr>
-<tr><td></td><td>CellClickListener</td><td></td></tr>
-<tr><td><strong>models</strong></td><td></td><td>Contains the <a href="https://kotlinlang.org/docs/classes.html">classes</a> needed by the program to create and train the model for the neural network.</td></tr>
-<tr><td></td><td>DBHelper</td><td>Contains methods in order to create an <a href="https://www.geeksforgeeks.org/android-sqlite-database-in-kotlin/"><code>SQLite Database</code></a> for recording information about the routers and sessions.</td></tr>
-<tr><td></td><td>Prefs</td><td>Contains information to save the session and capacity to the device.</td></tr>
-<tr><td></td><td>RowData</td><td>Contains the number of cars occupied for a set of RSSI values.</td></tr>
-<tr><td></td><td>Session</td><td>Contains the setup of how the model is trained.</td></tr>
-<tr><td><strong>views</strong></td><td></td><td>Contains the classes to interact with the different screens of the application.</td></tr>
-<tr><td></td><td>DataFormDialog</td><td></td></tr>
-<tr><td></td><td>DataFragment</td><td></td></tr>
-<tr><td></td><td>HomeFragment</td><td></td></tr>
-<tr><td></td><td>RecyclerViewAdapter</td><td></td></tr>
-<tr><td></td><td>ScanRouterFragment</td><td></td></tr>
-<tr><td></td><td>SessionFragment</td><td></td></tr>
-<tr><td><strong>-</strong></td><td></td><td>The classes found on the root of <code>com.silentrald.parkingrssi</code></td></tr>
-<tr><td></td><td>KNNClassifier</td><td>Contains the logic implementing the <a href="https://bit.ly/2OcMqHv">K-Nearest Neighbor Algorithm</a>.</td></tr>
-<tr><td></td><td>MainActivity</td><td>Controls the navigation of the program.</td></tr>
-<tr><td></td><td>Router</td><td>Contains methods in order for the program to view and record routers.</td></tr>
-</tbody></table>
-</div>
-<h2 id="layout-directories"><a class="header" href="#layout-directories">Layout Directories</a></h2>
-<p>The layout directories contain the files that create the user interface of the application.
-It also contains the ids of each component which would be used by the scripts in the <code>views</code> directory.
-The layouts are stored in <code>app &gt; res &gt; layout</code>.</p>
-<p><img src="https://i.imgur.com/0NBqEqH.png" alt="" /></p>
-<h3 id="descriptions-1"><a class="header" href="#descriptions-1">Descriptions</a></h3>
-<div class="table-wrapper"><table><thead><tr><th>File</th><th>Description</th></tr></thead><tbody>
-<tr><td>activity_main.xml</td><td>Contains a navigation bar and where the fragment gets displayed.</td></tr>
-<tr><td>fragment_data.xml</td><td>Contains a list of recordings of the RSSI values and buttons to import and export csv files.</td></tr>
-<tr><td>fragment_home.xml</td><td>Contains the interface needed to train the model and predict the amount of vehicles in the parking slot.</td></tr>
-<tr><td>fragment_scan_router.xml</td><td>Contains a menu to select the routers to be recorded.</td></tr>
-<tr><td>fragment_session.xml</td><td>Contains a list of sessions to be loaded.</td></tr>
-<tr><td>layout_data_form.xml</td><td></td></tr>
-<tr><td>layout_data_row.xml</td><td></td></tr>
-<tr><td>layout_data_value_input.xml</td><td></td></tr>
-</tbody></table>
-</div>
+                        <h1 id="knn-classifier"><a class="header" href="#knn-classifier">KNN Classifier</a></h1>
+<p>The <code>KNN Classifier</code> class contains the logic implementing the <a href="https://bit.ly/2OcMqHv">K-Nearest Neighbor Algorithm</a>.
+It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; KNNClassifier.kt</code>.</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../chapters/applicationOverview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../chapters/projectStructure.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a rel="next" href="../chapters/knn-classifier.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -202,11 +153,8 @@ The layouts are stored in <code>app &gt; res &gt; layout</code>.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../chapters/applicationOverview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../chapters/projectStructure.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a rel="next" href="../chapters/knn-classifier.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
