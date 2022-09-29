@@ -314,9 +314,83 @@ for (i in 0 until ps1.size){
 return distance
 </code></pre>
 <h3 id="predict"><a class="header" href="#predict">predict</a></h3>
+<h4 id="snippet-2"><a class="header" href="#snippet-2">Snippet</a></h4>
+<pre><code class="language-kt">fun predict(point: ArrayList&lt;Float&gt;): Int {
+    val distances = arrayListOf&lt;Pair&lt;Float, Int&gt;&gt;()
+    for (i in 0 until matrix.size) {
+      distances.add(Pair(calculateDistance(point, matrix[i]), labels[i]))
+    }
+
+    distances.sortWith(compareBy { it.first })
+    Log.i(&quot;KNN&quot;, distances.toString())
+
+    val hashmap = hashMapOf&lt;Int, Int&gt;()
+
+    var end = k.coerceAtMost(matrix.size)
+    for (i in 0 until end) {
+      val classification = distances[i].second
+      hashmap[classification] = hashmap.getOrDefault(classification, 0) + 1
+    }
+
+    // Get Max (Plurality)
+    var max = -1
+    val outputs = arrayListOf&lt;Int&gt;()
+    for ((key, value) in hashmap) {
+      if (value &gt; max) {
+        max = value
+        outputs.clear()
+        outputs.add(key)
+      } else if (value == max) {
+        outputs.add(key)
+      }
+    }
+
+    if (outputs.size == 1) {
+      return outputs[0]
+    }
+
+    // Tie-breaking
+    while (end &gt; 0) {
+      end--
+      val classification = distances[end].second
+      hashmap[classification]?.dec()
+
+      max = -1
+      outputs.clear()
+      for ((key, value) in hashmap) {
+        if (value &gt; max) {
+          max = value
+          outputs.clear()
+          outputs.add(key)
+        } else if (value == max) {
+          outputs.add(key)
+        }
+      }
+
+      if (outputs.size == 1) {
+        return outputs[0]
+      }
+    }
+
+    // Just return the first one
+    return distances[0].second
+  }
+</code></pre>
+<h4 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Parameters</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>point</td><td><code>ArrayList&lt;Float&gt;</code></td><td>The current RSSI values being detected by the device.</td></tr>
+</tbody></table>
+</div>
+<h4 id="returns-1"><a class="header" href="#returns-1">Returns</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Returns</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>outputs[0]</td><td><code>Int</code></td><td>The largest <code>label</code> recorded in the database.</td></tr>
+<tr><td>distances[0].second</td><td><code>Int</code></td><td>The <code>label</code> of the nearest neighbor to the <code>point</code>.</td></tr>
+</tbody></table>
+</div>
+<h4 id="implementation-2"><a class="header" href="#implementation-2">Implementation</a></h4>
 <h3 id="loadmatrix"><a class="header" href="#loadmatrix">loadMatrix</a></h3>
 <p>The <code>loadMatrix</code> method loads the matrix from an existing database.</p>
-<h4 id="snippet-2"><a class="header" href="#snippet-2">Snippet</a></h4>
+<h4 id="snippet-3"><a class="header" href="#snippet-3">Snippet</a></h4>
 <pre><code class="language-kt">fun loadMatrix(data: ArrayList&lt;RowData&gt;) {
     inputSize = data.size
 
@@ -330,12 +404,12 @@ return distance
     k = sqrt(matrix.size.toDouble()).toInt()
   }
 </code></pre>
-<h4 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h4>
+<h4 id="parameters-3"><a class="header" href="#parameters-3">Parameters</a></h4>
 <div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
 <tr><td>data</td><td><code>data: ArrayList&lt;RowData&gt;</code></td><td>A list of <a href="row-data.html">RowData</a> which the matrix gets loaded from.</td></tr>
 </tbody></table>
 </div>
-<h4 id="implementation-2"><a class="header" href="#implementation-2">Implementation</a></h4>
+<h4 id="implementation-3"><a class="header" href="#implementation-3">Implementation</a></h4>
 <p>The start of the method overwrites the <code>inputSize</code> with the size of the <code>data</code> and clears the existing values of <code>labels</code> and <code>matrix</code>.</p>
 <pre><code class="language-kt">inputSize = data.size
 
