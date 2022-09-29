@@ -23,7 +23,7 @@ using the algorithm.
 
 The `addPoint` method adds a point to the dataset. This point contains the RSSI values and the amount of cars for that set.
 
-### Snippet 
+#### Snippet 
 
 ```kt
 fun addPoint(point: ArrayList<Float>, label: Int) {
@@ -38,14 +38,14 @@ fun addPoint(point: ArrayList<Float>, label: Int) {
   }
 ```
 
-### Parameters
+#### Parameters
 
 | Parameters | Declaration               | Description                                                       |
 | ---------- | ------------------------- | ----------------------------------------------------------------- |
 | point      | `point: ArrayList<Float>` | The RSSI values received from the routers.                        |
 | label      | `label: Int`              | The amount of cars in the parking lot when the point is recorded. |
 
-### Implementation
+#### Implementation
 
 At the start of the method, the size of the point is compared to the `inputSize`.
 Each router sends a single RSSI value which is contained as a list in the `point` variable.
@@ -148,6 +148,67 @@ Or in a table like so:
 
 ### calculateDistance
 
+The `calculateDistance` method aggregates the distance between two collections of RSSI values.
+In the app, one collection is from the current RSSI values received by the device
+and another is from the existing RSSI values added to the `matrix`.
+This is because the `calculateDistance` method is used when the app is [predicting](#predict).
+
+It helps to think of each collection of RSSI values as a coordinate, however as the number of routers increase
+so too does the dimensions in which these coordinates exist, which is why the Euclidean Distance formula is used to
+calculate the distance between each point.
+
+> **NOTE:**
+> For a further in-depth breakdown of the usage of the Euclidean Distance formula,
+> please refer to the [Getting the nearest points](applicationOverview.md#getting-the-nearest-points)
+> section in the Application Overview.
+
+#### Snippet
+
+```kt
+private fun calculateDistance(ps1: ArrayList<Float>, ps2: ArrayList<Float>): Float {
+    if (ps1.size != ps2.size) return -1f
+
+    var distance = 0f
+    for (i in 0 until ps1.size) {
+      distance += (ps1[i] - ps2[i]).pow(2) // (x1 - x2) ^ 2
+    }
+    return distance
+  }
+```
+
+#### Parameters
+
+| Parameters | Declaration           | Description                                           |
+| ---------- | --------------------- | ----------------------------------------------------- |
+| ps1        | ps1: ArrayList<Float> | The current RSSI values being detected by the device. |
+| ps2        | ps2: ArrayList<Float> | The RSSI values from the `matrix`.                    |
+
+#### Returns
+
+| Returns  | Type  | Description                                                         |
+| -------- | ----- | ------------------------------------------------------------------- |
+| distance | Float | The aggregated distance between the two collections of RSSI values. |
+
+#### Implementation
+
+```kt
+// Compare the sizes of the parameters to check if it is valid.
+// Returning a negative distance would mean that the parameters are invalid.
+if(ps1.size != ps2.size) return -1f
+
+// The next line creates a variable distance.
+// This is where the aggregated distances will be stored and returned.
+var distance = 0f
+
+// The next line states that until the index reaches the size of ps1,
+// the Euclidean Distance of the two points would be added to distance.
+for (i in 0 until ps1.size){
+    distance += (ps1[i] - ps2[i]).pow(2)
+}
+
+// Once the loop is finished, the distance would be returned.
+return distance
+```
 ### predict
 
 ### loadMatrix
