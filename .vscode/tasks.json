@@ -10,6 +10,14 @@
             "runOptions": {
                 "runOn": "folderOpen"
             }
+        },
+        {
+            "label": "Actions Runner",
+            "type": "shell",
+            "command": "~/runners/github/parkingrssi-mdbook/run.cmd",
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
         }
     ]
 }
