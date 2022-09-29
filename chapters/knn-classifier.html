@@ -138,7 +138,130 @@
                     <main>
                         <h1 id="knn-classifier"><a class="header" href="#knn-classifier">KNN Classifier</a></h1>
 <p>The <code>KNN Classifier</code> class contains the logic implementing the <a href="https://bit.ly/2OcMqHv">K-Nearest Neighbor Algorithm</a>.
-It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; KNNClassifier.kt</code>.</p>
+It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; KNNClassifier.kt</code>.
+This page is for explaining the source code of how the algorithm is implemented.
+For a more high level overview, please refer to the <a href="applicationOverview.html">Application Overview</a>.</p>
+<h2 id="fields"><a class="header" href="#fields">Fields</a></h2>
+<p>The <code>KNN Classifier</code> class has multiple fields which are needed in order to calculate the number of available parking spaces
+using the algorithm.</p>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>k</td><td><code>var k: Int = 3</code></td><td>The number of neighbors to be evaluated by the algorithm. The value is set to 3 by default.</td></tr>
+<tr><td>inputSize</td><td><code>var inputSize: Int = 6</code></td><td>The number of routers to get RSSI values from.</td></tr>
+<tr><td>matrix</td><td><code>val matrix = arrayListOf&lt;ArrayList&lt;Float&gt;&gt;()</code></td><td>A collection of RSSI values gathered from the routers.</td></tr>
+<tr><td>labels</td><td><code>val labels = arrayListOf&lt;Int&gt;()</code></td><td>A collection of the amount of cars for a set of RSSI values.</td></tr>
+</tbody></table>
+</div>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h3 id="addpoint"><a class="header" href="#addpoint">addPoint</a></h3>
+<p>The <code>addPoint</code> method adds a point to the dataset. This point contains the RSSI values and the amount of cars for that set.</p>
+<h3 id="snippet"><a class="header" href="#snippet">Snippet</a></h3>
+<pre><code class="language-kt">fun addPoint(point: ArrayList&lt;Float&gt;, label: Int) {
+    if (point.size != inputSize) {
+      return
+    }
+
+    matrix.add(point)
+    labels.add(label)
+
+    k = sqrt(matrix.size.toDouble()).toInt()
+  }
+</code></pre>
+<h3 id="parameters"><a class="header" href="#parameters">Parameters</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Parameters</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>point</td><td><code>point: ArrayList&lt;Float&gt;</code></td><td>The RSSI values received from the routers.</td></tr>
+<tr><td>label</td><td><code>label: Int</code></td><td>The amount of cars in the parking lot when the point is recorded.</td></tr>
+</tbody></table>
+</div>
+<h3 id="implementation"><a class="header" href="#implementation">Implementation</a></h3>
+<p>At the start of the method, the size of the point is compared to the <code>inputSize</code>.
+Each router sends a single RSSI value which is contained as a list in the <code>point</code> variable.
+This check then is to ensure that all routers have sent an RSSI value before it is added to the database.</p>
+<pre><code class="language-kt">// For example:
+// point = {-27.0,-36.0,-20.0,-27.0,-31.0}
+
+// Given that there are 5 entries in point:
+// point.size = 5
+
+// inputSize is based on the amount of routers selected.
+// Given that each router sends a single RSSI value:
+// inputSize = 5
+
+// Because the point.size and inputSize is the same
+// the method would not return and continue to the next step
+
+if (point.size != inputSize){
+    return
+}
+</code></pre>
+<p>If the <code>point</code> entered is valid, it gets added to the <code>matrix</code> and the <code>label</code> gets added to the <code>labels</code>.
+In essence, this &quot;pairs&quot; the <code>label</code> with the <code>point</code> entered as they share the same index as they get added to their lists at the same time.</p>
+<pre><code class="language-kt">// For example:
+// point = {-27.0,-36.0,-20.0,-27.0,-31.0}
+// label = 0
+// matrix = {}
+// labels = {}
+
+// The reason matrix is empty is because there are no points added to it yet.
+// labels is empty for the same reason.
+
+matrix.add(point)
+
+// matrix = {{-27.0,-36.0,-20.0,-27.0,-31.0}}
+
+// After adding the point, the matrix now contains the list of RSSI values from the point.
+// This is why in the declaration of the matrix, it is an arrayListof&lt;ArrayList&lt;Float&gt;&gt;()
+// The matrix is a list for a list of float variables.
+
+labels.add(label)
+
+// labels = {0}
+
+// After adding the label, the labels list now contain the value of the label.
+</code></pre>
+<p>Once the <code>point</code> and <code>label</code> has been added to the database, the value of <code>k</code> is adjusted.</p>
+<pre><code class="language-kt">// For example, another point has been added to the matrix:
+// matrix = {{-27.0,-36.0,-20.0,-27.0,-31.0}, -26.0,-37.0,-20.0,-28.0,-30.0}
+// matrix.size = 2
+// matrix.size.toDouble = 2.0
+// sqrt(matrix.size.toDouble()) = 1.41421356237309511.0
+// sqrt(matrix.size.toDouble()).toInt() = 1
+
+k = sqrt(matrix.size.toDouble()).toInt()
+
+// By doing this, the points gets compared to more neighbors as it increases.
+</code></pre>
+<p>As mentioned before, this &quot;pairs&quot; the <code>point</code> and <code>label</code> together.
+For example, the data collected from five routers can be presented in a table like so:</p>
+<div class="table-wrapper"><table><thead><tr><th>label</th><th>66852627208993-xiaomi-repeater-v3_miapdb21</th><th>66852627204643-xiaomi-repeater-v3_miapca23</th><th>66852627209260-xiaomi-repeater-v3_miapdc2c</th><th>66852627198541-xiaomi-repeater-v3_miapb24d</th><th>66852627208795-xiaomi-repeater-v3_miapda5b</th></tr></thead><tbody>
+<tr><td>0</td><td>-27.0</td><td>-36.0</td><td>-20.0</td><td>-27.0</td><td>-31.0</td></tr>
+<tr><td>1</td><td>-26.0</td><td>-37.0</td><td>-20.0</td><td>-28.0</td><td>-30.0</td></tr>
+<tr><td>2</td><td>-25.0</td><td>-43.0</td><td>-18.0</td><td>-29.0</td><td>-31.0</td></tr>
+<tr><td>3</td><td>-26.0</td><td>-39.0</td><td>-21.0</td><td>-27.0</td><td>-32.0</td></tr>
+<tr><td>4</td><td>-26.0</td><td>-39.0</td><td>-24.0</td><td>-25.0</td><td>-31.0</td></tr>
+<tr><td>5</td><td>-25.0</td><td>-41.0</td><td>-25.0</td><td>-23.0</td><td>-31.0</td></tr>
+</tbody></table>
+</div>
+<p>However, in the code these data are stored in two different lists, the <code>matrix</code> and <code>labels</code>, and they can be represented like so:</p>
+<pre><code class="language-json">[
+  {
+    &quot;labels&quot;: &quot;{0,1,2,3,4,5}&quot;,
+    &quot;matrix&quot;: &quot;{-27.0,-36.0,-20.0,-27.0,-31.0},{-26.0,-37.0,-20.0,-28.0,-30.0},{-25.0,-43.0,-18.0,-29.0,-31.0},{-26.0,-39.0,-21.0,-27.0,-32.0},{-26.0,-39.0,-24.0,-25.0,-31.0},{-25.0,-41.0,-25.0,-23.0,-31.0}&quot;
+  }
+]
+</code></pre>
+<p>Or in a table like so:</p>
+<div class="table-wrapper"><table><thead><tr><th>labels</th><th>matrix</th></tr></thead><tbody>
+<tr><td>0</td><td>{-27.0,-36.0,-20.0,-27.0,-31.0}</td></tr>
+<tr><td>1</td><td>{-26.0,-37.0,-20.0,-28.0,-30.0}</td></tr>
+<tr><td>2</td><td>{-25.0,-43.0,-18.0,-29.0,-31.0}</td></tr>
+<tr><td>3</td><td>{-26.0,-39.0,-21.0,-27.0,-32.0}</td></tr>
+<tr><td>4</td><td>{-26.0,-39.0,-24.0,-25.0,-31.0}</td></tr>
+<tr><td>5</td><td>{-25.0,-41.0,-25.0,-23.0,-31.0}</td></tr>
+</tbody></table>
+</div>
+<h3 id="calculatedistance"><a class="header" href="#calculatedistance">calculateDistance</a></h3>
+<h3 id="predict"><a class="header" href="#predict">predict</a></h3>
+<h3 id="loadmatrix"><a class="header" href="#loadmatrix">loadMatrix</a></h3>
 
                     </main>
 
