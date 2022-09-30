@@ -85,7 +85,7 @@ In essence, this "pairs" the `label` with the `point` entered as they share the 
 
 matrix.add(point)
 
-// matrix = {{-27.0,-36.0,-20.0,-27.0,-31.0}}
+// matrix = [{-27.0,-36.0,-20.0,-27.0,-31.0}]
 
 // After adding the point, the matrix now contains the list of RSSI values from the point.
 // This is why in the declaration of the matrix, it is an arrayListof<ArrayList<Float>>()
@@ -102,7 +102,7 @@ Once the `point` and `label` has been added to the database, the value of `k` is
 
 ```kt
 // For example, another point has been added to the matrix:
-// matrix = {{-27.0,-36.0,-20.0,-27.0,-31.0}, -26.0,-37.0,-20.0,-28.0,-30.0}
+// matrix = [{-27.0,-36.0,-20.0,-27.0,-31.0}, -26.0,-37.0,-20.0,-28.0,-30.0}]
 // matrix.size = 2
 // matrix.size.toDouble = 2.0
 // sqrt(matrix.size.toDouble()) = 1.41421356237309511.0
@@ -212,6 +212,9 @@ return distance
 
 ### predict
 
+The `predict` method is where the actual implementation of the K-Nearest Neighbor algorithm as it predicts
+the amount of cars taken with the `point` given to it.
+
 #### Snippet
 
 ```kt
@@ -291,6 +294,60 @@ fun predict(point: ArrayList<Float>): Int {
 | distances[0].second | `Int` | The `label` of the nearest neighbor to the `point`. |
 
 #### Implementation
+
+At the start of the `predict` method, a List of a [`Pair`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/)
+of types `Float` and `Int` are created and stored in the variable `distances`.
+The `Float` is responsible for containing the distance from the `point` to the existing points added in the database,
+while the `Int` contains the amount of cars expected for the point according to the database.
+
+```kt
+val distances = arrayListOf<Pair<Float, Int>>()
+
+for (i in 0 until matrix.size){
+  distances.add(Pair(calculateDistance(point,matrix[i]), labels[i]))
+}
+```
+
+For example, the given data is the following:
+
+```
+label = {2,3,4}
+matrix = [
+  {-25.0,-43.0,-18.0,-29.0,-31.0},
+  {-26.0,-39.0,-21.0,-27.0,-32.0},
+  {-26.0,-39.0,-24.0,-25.0,-31.0}
+  ]
+point = {-26.0,-35.0,-21.0,-26.0,-27.0}
+```
+When graphed into a table, it would look like the following:
+
+| i   | labels[i] | matrix[i]                     | point                         |
+| --- | --------- | ----------------------------- | ----------------------------- |
+| 0   | 2         | -25.0,-43.0,-18.0,-29.0,-31.0 | -26.0,-35.0,-21.0,-26.0,-27.0 |
+| 1   | 3         | -26.0,-39.0,-21.0,-27.0,-32.0 | -26.0,-35.0,-21.0,-26.0,-27.0 |
+| 2   | 4         | -26.0,-39.0,-24.0,-25.0,-31.0 | -26.0,-35.0,-21.0,-26.0,-27.0 |
+
+When the distances are calculated and paired, we get the following result:
+
+| i   | Pair(calculateDistance,labels[i]) |
+| --- | --------------------------------- |
+| 0   | (98.0, 2)                         |
+| 1   | (41.0, 3)                         |
+| 2   | (41.0, 4)                         |
+
+After calculating the `distances`, it is sorted according to the calculated distance which is the `first` item in the pair.
+
+```kt
+distances.sortWith(compareBy {it.first})
+```
+
+Once sorted, the `distances` is now the following:
+
+| i   | Pair(calculateDistance,labels[i]) |
+| --- | --------------------------------- |
+| 0   | (41.0, 3)                         |
+| 1   | (41.0, 4)                         |
+| 2   | (98.0, 2)                         |
 
 ### loadMatrix
 
