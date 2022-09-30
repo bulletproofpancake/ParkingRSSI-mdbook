@@ -206,7 +206,7 @@ In essence, this &quot;pairs&quot; the <code>label</code> with the <code>point</
 
 matrix.add(point)
 
-// matrix = {{-27.0,-36.0,-20.0,-27.0,-31.0}}
+// matrix = [{-27.0,-36.0,-20.0,-27.0,-31.0}]
 
 // After adding the point, the matrix now contains the list of RSSI values from the point.
 // This is why in the declaration of the matrix, it is an arrayListof&lt;ArrayList&lt;Float&gt;&gt;()
@@ -220,7 +220,7 @@ labels.add(label)
 </code></pre>
 <p>Once the <code>point</code> and <code>label</code> has been added to the database, the value of <code>k</code> is adjusted.</p>
 <pre><code class="language-kt">// For example, another point has been added to the matrix:
-// matrix = {{-27.0,-36.0,-20.0,-27.0,-31.0}, -26.0,-37.0,-20.0,-28.0,-30.0}
+// matrix = [{-27.0,-36.0,-20.0,-27.0,-31.0}, -26.0,-37.0,-20.0,-28.0,-30.0}]
 // matrix.size = 2
 // matrix.size.toDouble = 2.0
 // sqrt(matrix.size.toDouble()) = 1.41421356237309511.0
@@ -314,6 +314,8 @@ for (i in 0 until ps1.size){
 return distance
 </code></pre>
 <h3 id="predict"><a class="header" href="#predict">predict</a></h3>
+<p>The <code>predict</code> method is where the actual implementation of the K-Nearest Neighbor algorithm as it predicts
+the amount of cars taken with the <code>point</code> given to it.</p>
 <h4 id="snippet-2"><a class="header" href="#snippet-2">Snippet</a></h4>
 <pre><code class="language-kt">fun predict(point: ArrayList&lt;Float&gt;): Int {
     val distances = arrayListOf&lt;Pair&lt;Float, Int&gt;&gt;()
@@ -388,6 +390,49 @@ return distance
 </tbody></table>
 </div>
 <h4 id="implementation-2"><a class="header" href="#implementation-2">Implementation</a></h4>
+<p>At the start of the <code>predict</code> method, a List of a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/"><code>Pair</code></a>
+of types <code>Float</code> and <code>Int</code> are created and stored in the variable <code>distances</code>.
+The <code>Float</code> is responsible for containing the distance from the <code>point</code> to the existing points added in the database,
+while the <code>Int</code> contains the amount of cars expected for the point according to the database.</p>
+<pre><code class="language-kt">val distances = arrayListOf&lt;Pair&lt;Float, Int&gt;&gt;()
+
+for (i in 0 until matrix.size){
+  distances.add(Pair(calculateDistance(point,matrix[i]), labels[i]))
+}
+</code></pre>
+<p>For example, the given data is the following:</p>
+<pre><code>label = {2,3,4}
+matrix = [
+  {-25.0,-43.0,-18.0,-29.0,-31.0},
+  {-26.0,-39.0,-21.0,-27.0,-32.0},
+  {-26.0,-39.0,-24.0,-25.0,-31.0}
+  ]
+point = {-26.0,-35.0,-21.0,-26.0,-27.0}
+</code></pre>
+<p>When graphed into a table, it would look like the following:</p>
+<div class="table-wrapper"><table><thead><tr><th>i</th><th>labels[i]</th><th>matrix[i]</th><th>point</th></tr></thead><tbody>
+<tr><td>0</td><td>2</td><td>-25.0,-43.0,-18.0,-29.0,-31.0</td><td>-26.0,-35.0,-21.0,-26.0,-27.0</td></tr>
+<tr><td>1</td><td>3</td><td>-26.0,-39.0,-21.0,-27.0,-32.0</td><td>-26.0,-35.0,-21.0,-26.0,-27.0</td></tr>
+<tr><td>2</td><td>4</td><td>-26.0,-39.0,-24.0,-25.0,-31.0</td><td>-26.0,-35.0,-21.0,-26.0,-27.0</td></tr>
+</tbody></table>
+</div>
+<p>When the distances are calculated and paired, we get the following result:</p>
+<div class="table-wrapper"><table><thead><tr><th>i</th><th>Pair(calculateDistance,labels[i])</th></tr></thead><tbody>
+<tr><td>0</td><td>(98.0, 2)</td></tr>
+<tr><td>1</td><td>(41.0, 3)</td></tr>
+<tr><td>2</td><td>(41.0, 4)</td></tr>
+</tbody></table>
+</div>
+<p>After calculating the <code>distances</code>, it is sorted according to the calculated distance which is the <code>first</code> item in the pair.</p>
+<pre><code class="language-kt">distances.sortWith(compareBy {it.first})
+</code></pre>
+<p>Once sorted, the <code>distances</code> is now the following:</p>
+<div class="table-wrapper"><table><thead><tr><th>i</th><th>Pair(calculateDistance,labels[i])</th></tr></thead><tbody>
+<tr><td>0</td><td>(41.0, 3)</td></tr>
+<tr><td>1</td><td>(41.0, 4)</td></tr>
+<tr><td>2</td><td>(98.0, 2)</td></tr>
+</tbody></table>
+</div>
 <h3 id="loadmatrix"><a class="header" href="#loadmatrix">loadMatrix</a></h3>
 <p>The <code>loadMatrix</code> method loads the matrix from an existing database.</p>
 <h4 id="snippet-3"><a class="header" href="#snippet-3">Snippet</a></h4>
