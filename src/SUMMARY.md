@@ -4,8 +4,9 @@
 
 # Scripts
 - [KNN Classifier](./chapters/knn-classifier.md)
-<!-- - [Main Activity]()
-- [Router]()
+<!-- - [Main Activity](./chapters/main-activity.md) -->
+- [Router](./chapters/router.md)
+<!-- 
 
 # Interfaces
 - [Cell Click Listener]()
@@ -22,4 +23,5 @@
 - [Home Fragment]()
 - [Recycler View Adapter]()
 - [Scan Router Fragment]()
-- [Session Fragment]() -->
+- [Session Fragment]()
+-->
