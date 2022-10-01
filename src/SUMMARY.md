@@ -4,7 +4,7 @@
 
 # Scripts
 - [KNN Classifier](./chapters/knn-classifier.md)
-<!-- - [Main Activity](./chapters/main-activity.md) -->
+- [Main Activity](./chapters/main-activity.md)
 - [Router](./chapters/router.md)
 <!-- 
 
