@@ -349,6 +349,157 @@ Once sorted, the `distances` is now the following:
 | 1   | (41.0, 4)                         |
 | 2   | (98.0, 2)                         |
 
+After sorting the `distances`, a [`hashmap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/)
+is created in order to store the amount of neighbors for each classification (the number of cars or label).
+
+For example:
+
+> **NOTE:** Additional data has been added in order to provide a more clear example.
+
+| i   | distances | label |
+| --- | --------- | ----- |
+| 0   | 35.0      | 3     |
+| 1   | 41.0      | 3     |
+| 2   | 41.0      | 4     |
+| 3   | 98.0      | 2     |
+
+When the data is stored into the hashmap, it can be seen like so:
+
+```kt
+val hashmap = hashMapOf<Int, Int>()
+// hashmap = {}
+
+var end = k.coerceAtMost(matrix.size)
+// matrix.size = 4
+// since k = sqrt(matrix.size.toDouble()).toInt()
+// k = 2 for this example
+// therefore, end = 2
+
+for (i in 0 until end){
+  val classification = distances[i].second
+  // In the pair, distance[0] = (35.0, 3)
+  // By getting the second value in the pair
+  // classification = 3
+
+  hashmap[classification] = hashmap.getOrDefault(classification, 0)+1
+  // hashmaps are similar to pairs, but they function differently.
+  // hashmaps are key, value pairs
+  // wherein the first element is the key and the second element is the value.
+  // keys can be used as an index and they can store a value isolated from the items in the hashmap
+
+  // in the line above, hashmap[classification] sets a value that gets paired to the classification
+  // which in the case of the current i (0) is 3
+  // So when it is visualized
+  // hashmap = {3=null}
+  // when hashmap.getOrDefault(classification, 0)+1 gets called
+  // the value paired(null) to the classification(3) either gets set to
+  // a number or set to the default value of 0 then incremented by 1
+  // since the current value is null, it is set to 0 then incremented by 1
+  // so after the first iteration hashmap = {3=1}
+
+  // since this is in a loop until the end(2) is reached
+  // the next iteration has the current values:
+  // distance[1] = (41.0, 3)
+  // classification = 3
+  
+  // now when hashmap.getOrDefault is ran,
+  // hashmap[3] is already equal to 1 due to the previous iteration
+  // so in this iteration, the value of hashmap[3] is incremented
+  // hashmap = {3=2}
+}
+```
+
+Due to the limitation set on the `k` value, the algorithm only had a single classification,
+but if we are to go through all of the labels in `distances`, the hashmap would have the following value
+
+```kt
+hashmap = {2=1, 3=2, 4=1}
+```
+
+These means that for the current point,
+it has one neighbor classified as 2,
+two neighbors classified as 3,
+and one neighbor classified as 4.
+
+After classifying the neighbors, the most number of neighbors of the same classification must be returned,
+which is retrieved by the following lines of code:
+
+```kt
+// set to -1 as the values of the hashmap
+// would always be greater than this
+var max = -1
+// created to contain the classification
+// of the greatest amount of neighbors
+val outputs = arrayListOf<Int>()
+for ((key, value) in hashmap) {
+  if (value > max) {
+    max = value
+    outputs.clear()
+    outputs.add(key)
+  } else if (value == max) {
+    outputs.add(key)
+  }
+}
+// The key is the one that gets added to the outputs
+// as it is the classification which in the context of the application
+// is the amount of cars taken
+
+if (outputs.size == 1) {
+  return outputs[0]
+  // Given the examples above,
+  // the output that gets returned is 3
+  // which means that for that set of RSSI values
+  // there are 3 parking spaces occupied
+}
+```
+ 
+However, it could be possible for the neighbors to have different classifications,
+yet the same amount of points.
+
+For example:
+hashmap = {2=1, 3=2, 4=1}
+
+Which is why a tie-breaker is implemented like so:
+
+```kt
+while (end > 0) {
+  end--
+  val classification = distances[end].second
+  // Decreases the value stored in that classification
+  hashmap[classification]?.dec()
+  // hashmap = {2=0, 3=1, 4=0}
+  // this means that 3 is still the classification that gets returned
+  // as it is only classification with the highest value
+
+  max = -1
+  outputs.clear()
+  for ((key, value) in hashmap) {
+    if (value > max) {
+      max = value
+      outputs.clear()
+      outputs.add(key)
+    } else if (value == max) {
+      outputs.add(key)
+    }
+  }
+
+  if (outputs.size == 1) {
+    return outputs[0]
+  }
+}
+```
+
+And if, for some reason all of the neighbors are all the same value like so:
+hashmap = {2=1, 3=2, 4=1}
+
+Then the algorithm would return the classification of the nearest neighbor:
+
+```kt
+return distances[0].second
+// distances[0] = (35.0, 3)
+// which means that the classification still returned is 3
+```
+
 ### loadMatrix
 
 The `loadMatrix` method loads the matrix from an existing database.
