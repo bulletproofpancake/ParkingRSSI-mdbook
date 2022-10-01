@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripts</li><li class="chapter-item expanded "><a href="chapters/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripts</li><li class="chapter-item expanded "><a href="chapters/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/router.html"><strong aria-hidden="true">2.</strong> Router</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -779,6 +779,101 @@ for (row in data){
 </code></pre>
 <p>Once the <code>labels</code> and <code>matrix</code> has been loaded from the <code>data</code>, the <code>k</code> value gets updated as well.</p>
 <pre><code class="language-kt">k = sqrt(matrix.size.toDouble()).toInt()
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="router"><a class="header" href="#router">Router</a></h1>
+<p>The <code>Router</code> class contains the information for each router the app connects to.
+It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router.kt</code>.</p>
+<h2 id="fields-1"><a class="header" href="#fields-1">Fields</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>bssid</td><td><code>private var bssid: Long = 0L</code></td><td></td></tr>
+<tr><td>bssidStr</td><td><code>private var bssidStr: String</code></td><td></td></tr>
+<tr><td>name</td><td><code>private var name: String</code></td><td></td></tr>
+<tr><td>row</td><td><code>var row: Int = 0</code></td><td></td></tr>
+<tr><td>col</td><td><code>var col: Int = 0</code></td><td></td></tr>
+</tbody></table>
+</div>
+<h2 id="constructors"><a class="header" href="#constructors">Constructors</a></h2>
+<h3 id="routerlong-string"><a class="header" href="#routerlong-string">Router(Long, String)</a></h3>
+<p>Creates a router using a <code>Long</code> and <code>String</code> parameters.</p>
+<h4 id="snippet-4"><a class="header" href="#snippet-4">Snippet</a></h4>
+<pre><code class="language-kt">constructor(bssid: Long, name: String) {
+    this.bssid = bssid
+    this.name = name
+
+    this.bssidStr = convertBSSIDToString(bssid)
+}
+</code></pre>
+<h3 id="routerstring-string"><a class="header" href="#routerstring-string">Router(String, String)</a></h3>
+<p>Creates a router using a <code>String</code> and <code>String</code> parameters.</p>
+<h4 id="snippet-5"><a class="header" href="#snippet-5">Snippet</a></h4>
+<pre><code class="language-kt">constructor(bssidStr: String, name: String) {
+    this.bssidStr = bssidStr
+    this.name = name
+
+    this.bssid = convertBSSIDToLong(bssidStr)
+}
+</code></pre>
+<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
+<h3 id="getbssid"><a class="header" href="#getbssid">getBSSID</a></h3>
+<p>Returns the <code>bssid</code> of the router.</p>
+<h4 id="snippet-6"><a class="header" href="#snippet-6">Snippet</a></h4>
+<pre><code class="language-kt">fun getBSSID(): Long{
+    return this.bssid
+}
+</code></pre>
+<h3 id="getbssidstr"><a class="header" href="#getbssidstr">getBSSIDStr</a></h3>
+<p>Returns the <code>bssidStr</code> of the router.</p>
+<h4 id="snippet-7"><a class="header" href="#snippet-7">Snippet</a></h4>
+<pre><code class="language-kt">fun getBSSIDStr(): String{
+    return this.bssidStr
+}
+</code></pre>
+<h3 id="getname"><a class="header" href="#getname">getName</a></h3>
+<p>Returns the <code>name</code> of the router.</p>
+<h4 id="snippet-8"><a class="header" href="#snippet-8">Snippet</a></h4>
+<pre><code class="language-kt">fun getName(): String{
+    return this.name
+}
+</code></pre>
+<h3 id="convertbssidtolong"><a class="header" href="#convertbssidtolong">convertBSSIDToLong</a></h3>
+<p>Formats the <code>bssidStr</code> to a <code>Long</code> type.</p>
+<h4 id="snippet-9"><a class="header" href="#snippet-9">Snippet</a></h4>
+<pre><code class="language-kt">private fun convertBSSIDToLong(bssidStr: String): Long {
+    val str = bssidStr.replace(&quot;:&quot;, &quot;&quot;)
+
+    return str.toLong(16)
+}
+</code></pre>
+<h3 id="convertbssidtostring"><a class="header" href="#convertbssidtostring">convertBSSIDToString</a></h3>
+<p>Formats the <code>bssid</code> to a <code>String</code> type.</p>
+<h4 id="snippet-10"><a class="header" href="#snippet-10">Snippet</a></h4>
+<pre><code class="language-kt">private fun convertBSSIDToString(bssid: Long): String {
+    var bssidStr = bssid.toString(16)
+
+    bssidStr = &quot;${
+      bssidStr.substring(0, 2)
+    }:${
+      bssidStr.substring(2, 4)
+    }:${
+      bssidStr.substring(4, 6)
+    }:${
+      bssidStr.substring(6, 8)
+    }:${
+      bssidStr.substring(8, 10)
+    }:${
+      bssidStr.substring(10)
+    }&quot;
+
+    return bssidStr
+}
+</code></pre>
+<h2 id="overrides"><a class="header" href="#overrides">Overrides</a></h2>
+<h3 id="tostring"><a class="header" href="#tostring">toString</a></h3>
+<p>Overrides the default toString method to the string set.</p>
+<h4 id="snippet-11"><a class="header" href="#snippet-11">Snippet</a></h4>
+<pre><code class="language-kt">override fun toString(): String{
+    return &quot;$bssid: $name&lt;$bssidStr&gt; ($row, $col)&quot;
+}
 </code></pre>
 
                     </main>
