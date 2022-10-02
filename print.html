@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripts</li><li class="chapter-item expanded "><a href="chapters/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/main-activity.html"><strong aria-hidden="true">2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/router.html"><strong aria-hidden="true">3.</strong> Router</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripts</li><li class="chapter-item expanded "><a href="chapters/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/main-activity.html"><strong aria-hidden="true">2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/router.html"><strong aria-hidden="true">3.</strong> Router</a></li><li class="chapter-item expanded affix "><li class="part-title">Models</li><li class="chapter-item expanded "><a href="chapters/models/dbhelper.html"><strong aria-hidden="true">4.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="chapters/models/prefs.html"><strong aria-hidden="true">5.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/models/rowdata.html"><strong aria-hidden="true">6.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/models/session.html"><strong aria-hidden="true">7.</strong> Session</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -907,6 +907,87 @@ It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router
 <h4 id="snippet-12"><a class="header" href="#snippet-12">Snippet</a></h4>
 <pre><code class="language-kt">override fun toString(): String{
     return &quot;$bssid: $name&lt;$bssidStr&gt; ($row, $col)&quot;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dbhelper"><a class="header" href="#dbhelper">DBHelper</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="prefs"><a class="header" href="#prefs">Prefs</a></h1>
+<p>The <code>Prefs</code> class is responsible for the default preferences between sessions.</p>
+<h2 id="snippet-13"><a class="header" href="#snippet-13">Snippet</a></h2>
+<pre><code class="language-kt">class Prefs(context: Context) {
+  private val PREFS = &quot;parkingrssi&quot;
+
+  private val CAPACITY_KEY = &quot;capacity&quot;
+  private val SESSION_KEY = &quot;session&quot;
+
+  private val CAPACITY_DEFAULT = 10
+  private val SESSION_NULL = 0L
+
+  private var sp: SharedPreferences
+
+  init {
+    sp = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+  }
+
+  fun setCapacity(value: Int) {
+    sp.edit().putInt(CAPACITY_KEY, value).apply()
+  }
+
+  fun setSession(value: Long) {
+    sp.edit().putLong(SESSION_KEY, value).apply()
+  }
+
+  fun getCapacity(): Int {
+    return sp.getInt(CAPACITY_KEY, CAPACITY_DEFAULT)
+  }
+
+  fun getSession(): Long {
+    return sp.getLong(SESSION_KEY, SESSION_NULL)
+  }
+
+  companion object {
+    // Singleton
+    private var sInstance: Prefs? = null
+    @Synchronized
+    fun getInstance(ctx: Context): Prefs? {
+      if (sInstance == null) {
+        sInstance = Prefs(ctx)
+      }
+      return sInstance
+    }
+  }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rowdata"><a class="header" href="#rowdata">RowData</a></h1>
+<p>The <code>RowData</code> class is used for saving and restoring the RSSI values recorded.</p>
+<h2 id="snippet-14"><a class="header" href="#snippet-14">Snippet</a></h2>
+<pre><code class="language-kt">class RowData (
+	val recordId: Long,
+	val label: Int
+) {
+	val values = arrayListOf&lt;Float&gt;()
+
+	fun addVal(value: Float) {
+		values.add(value)
+	}
+
+	override fun toString(): String {
+		return &quot;$recordId: $label; $values&quot;
+	}
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="session"><a class="header" href="#session">Session</a></h1>
+<p>The <code>Session</code> class contains information for saving and restoring sessions
+which are configurations for the routers.</p>
+<h2 id="snippet-15"><a class="header" href="#snippet-15">Snippet</a></h2>
+<pre><code class="language-kt">class Session(
+	val id: Long,
+	var name: String,
+	var rows: Int,
+	var cols: Int
+) {
+	override fun toString(): String {
+		return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
+	}
 }
 </code></pre>
 
