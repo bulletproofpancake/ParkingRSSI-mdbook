@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded affix "><li class="part-title">Scripts</li><li class="chapter-item expanded "><a href="chapters/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/main-activity.html"><strong aria-hidden="true">2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/router.html"><strong aria-hidden="true">3.</strong> Router</a></li><li class="chapter-item expanded affix "><li class="part-title">Models</li><li class="chapter-item expanded "><a href="chapters/dbhelper.html"><strong aria-hidden="true">4.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="chapters/prefs.html"><strong aria-hidden="true">5.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/rowdata.html"><strong aria-hidden="true">6.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/session.html"><strong aria-hidden="true">7.</strong> Session</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Scripts</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/knn-classifier.html"><strong aria-hidden="true">1.1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/main-activity.html"><strong aria-hidden="true">1.2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/router.html"><strong aria-hidden="true">1.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Models</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/dbhelper.html"><strong aria-hidden="true">2.1.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="chapters/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -819,11 +819,11 @@ in order to configure the navigation bar of the application.</p>
 It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router.kt</code>.</p>
 <h2 id="fields-1"><a class="header" href="#fields-1">Fields</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
-<tr><td>bssid</td><td><code>private var bssid: Long = 0L</code></td><td></td></tr>
-<tr><td>bssidStr</td><td><code>private var bssidStr: String</code></td><td></td></tr>
-<tr><td>name</td><td><code>private var name: String</code></td><td></td></tr>
-<tr><td>row</td><td><code>var row: Int = 0</code></td><td></td></tr>
-<tr><td>col</td><td><code>var col: Int = 0</code></td><td></td></tr>
+<tr><td>bssid</td><td><code>private var bssid: Long = 0L</code></td><td>The network address received from the <a href="https://developer.android.com/guide/topics/connectivity/wifi-scan">wifi manager</a></td></tr>
+<tr><td>bssidStr</td><td><code>private var bssidStr: String</code></td><td>The network address received from the <a href="https://developer.android.com/guide/topics/connectivity/wifi-scan">wifi manager</a></td></tr>
+<tr><td>name</td><td><code>private var name: String</code></td><td>The name of the network.</td></tr>
+<tr><td>row</td><td><code>var row: Int = 0</code></td><td>Which row in the router matrix the router is set</td></tr>
+<tr><td>col</td><td><code>var col: Int = 0</code></td><td>Which column in the router matrix the router is set</td></tr>
 </tbody></table>
 </div>
 <h2 id="constructors"><a class="header" href="#constructors">Constructors</a></h2>
