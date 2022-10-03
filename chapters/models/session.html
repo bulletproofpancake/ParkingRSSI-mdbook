@@ -151,6 +151,22 @@ which are configurations for the routers.</p>
 	}
 }
 </code></pre>
+<h2 id="fields"><a class="header" href="#fields">Fields</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td>id</td><td>Used to identify the record in the database</td></tr>
+<tr><td>name</td><td>The name set by the user to identify the session</td></tr>
+<tr><td>rows</td><td>The number of rows for the router matrix</td></tr>
+<tr><td>cols</td><td>The number of columns for the router matrix</td></tr>
+</tbody></table>
+</div>
+<h2 id="overrides"><a class="header" href="#overrides">Overrides</a></h2>
+<h3 id="tostring"><a class="header" href="#tostring">toString</a></h3>
+<p>Overrides the default toString method to the string format.</p>
+<h4 id="snippet-1"><a class="header" href="#snippet-1">Snippet</a></h4>
+<pre><code class="language-kt">override fun toString(): String{
+	return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
+}
+</code></pre>
 
                     </main>
 
