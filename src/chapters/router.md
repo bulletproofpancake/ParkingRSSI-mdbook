@@ -5,13 +5,13 @@ It is located at `app > java > com.silentrald.parkingrssi > Router.kt`.
 
 ## Fields
 
-| Field    | Declaration                    | Description |
-| -------- | ------------------------------ | ----------- |
-| bssid    | `private var bssid: Long = 0L` |             |
-| bssidStr | `private var bssidStr: String` |             |
-| name     | `private var name: String`     |             |
-| row      | `var row: Int = 0`             |             |
-| col      | `var col: Int = 0`             |             |
+| Field    | Declaration                    | Description                                                                                                             |
+| -------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| bssid    | `private var bssid: Long = 0L` | The network address received from the [wifi manager](https://developer.android.com/guide/topics/connectivity/wifi-scan) |
+| bssidStr | `private var bssidStr: String` | The network address received from the [wifi manager](https://developer.android.com/guide/topics/connectivity/wifi-scan) |
+| name     | `private var name: String`     | The name of the network.                                                                                                |
+| row      | `var row: Int = 0`             | Which row in the router matrix the router is set                                                                        |
+| col      | `var col: Int = 0`             | Which column in the router matrix the router is set                                                                     |
 
 ## Constructors
 
