@@ -903,7 +903,7 @@ It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router
 </code></pre>
 <h2 id="overrides"><a class="header" href="#overrides">Overrides</a></h2>
 <h3 id="tostring"><a class="header" href="#tostring">toString</a></h3>
-<p>Overrides the default toString method to the string set.</p>
+<p>Overrides the default toString method to the string format.</p>
 <h4 id="snippet-12"><a class="header" href="#snippet-12">Snippet</a></h4>
 <pre><code class="language-kt">override fun toString(): String{
     return &quot;$bssid: $name&lt;$bssidStr&gt; ($row, $col)&quot;
@@ -975,10 +975,38 @@ It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router
 	}
 }
 </code></pre>
+<h2 id="fields-2"><a class="header" href="#fields-2">Fields</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>recordID</td><td><code>val recordID: Long</code></td><td>Used to identify the record in the database.</td></tr>
+<tr><td>label</td><td><code>val label: Int</code></td><td>The number of cars occupied for the set of RSSI values recorded.</td></tr>
+<tr><td>values</td><td><code>val values = arrayListOf&lt;Float&gt;</code></td><td>The RSSI values for this row.</td></tr>
+</tbody></table>
+</div>
+<h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
+<h3 id="addval"><a class="header" href="#addval">addVal</a></h3>
+<p>The <code>addVal</code> method adds the RSSI value from a router to <code>values</code>.</p>
+<h4 id="snippet-15"><a class="header" href="#snippet-15">Snippet</a></h4>
+<pre><code class="language-kt">fun addVal(value: Float){
+	values.add(value)
+}
+</code></pre>
+<h4 id="parameters-4"><a class="header" href="#parameters-4">Parameters</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>value</td><td><code>value: Float</code></td><td>The RSSI value received from a router.</td></tr>
+</tbody></table>
+</div>
+<h2 id="overrides-1"><a class="header" href="#overrides-1">Overrides</a></h2>
+<h3 id="tostring-1"><a class="header" href="#tostring-1">toString</a></h3>
+<p>Overrides the default toString method to the string format.</p>
+<h4 id="snippet-16"><a class="header" href="#snippet-16">Snippet</a></h4>
+<pre><code class="language-kt">override fun toString(): String{
+	return &quot;$recordID: $label; $values&quot;
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="session"><a class="header" href="#session">Session</a></h1>
 <p>The <code>Session</code> class contains information for saving and restoring sessions
 which are configurations for the routers.</p>
-<h2 id="snippet-15"><a class="header" href="#snippet-15">Snippet</a></h2>
+<h2 id="snippet-17"><a class="header" href="#snippet-17">Snippet</a></h2>
 <pre><code class="language-kt">class Session(
 	val id: Long,
 	var name: String,

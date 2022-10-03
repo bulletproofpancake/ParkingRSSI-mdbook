@@ -154,6 +154,34 @@
 	}
 }
 </code></pre>
+<h2 id="fields"><a class="header" href="#fields">Fields</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>recordID</td><td><code>val recordID: Long</code></td><td>Used to identify the record in the database.</td></tr>
+<tr><td>label</td><td><code>val label: Int</code></td><td>The number of cars occupied for the set of RSSI values recorded.</td></tr>
+<tr><td>values</td><td><code>val values = arrayListOf&lt;Float&gt;</code></td><td>The RSSI values for this row.</td></tr>
+</tbody></table>
+</div>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<h3 id="addval"><a class="header" href="#addval">addVal</a></h3>
+<p>The <code>addVal</code> method adds the RSSI value from a router to <code>values</code>.</p>
+<h4 id="snippet-1"><a class="header" href="#snippet-1">Snippet</a></h4>
+<pre><code class="language-kt">fun addVal(value: Float){
+	values.add(value)
+}
+</code></pre>
+<h4 id="parameters"><a class="header" href="#parameters">Parameters</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>value</td><td><code>value: Float</code></td><td>The RSSI value received from a router.</td></tr>
+</tbody></table>
+</div>
+<h2 id="overrides"><a class="header" href="#overrides">Overrides</a></h2>
+<h3 id="tostring"><a class="header" href="#tostring">toString</a></h3>
+<p>Overrides the default toString method to the string format.</p>
+<h4 id="snippet-2"><a class="header" href="#snippet-2">Snippet</a></h4>
+<pre><code class="language-kt">override fun toString(): String{
+	return &quot;$recordID: $label; $values&quot;
+}
+</code></pre>
 
                     </main>
 
