@@ -129,7 +129,7 @@ private fun convertBSSIDToString(bssid: Long): String {
 
 ### toString
 
-Overrides the default toString method to the string set.
+Overrides the default toString method to the string format.
 
 #### Snippet
 ```kt
