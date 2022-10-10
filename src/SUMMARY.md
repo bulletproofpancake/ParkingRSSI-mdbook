@@ -1,5 +1,6 @@
 # Summary
 [Application Overview](./chapters/applicationOverview.md)
+[Algorithm Overview](./chapters/algorithmOverview.md)
 [Project Structure](./chapters/projectStructure.md)
 
 - [Scripts]()
@@ -18,12 +19,12 @@
   - [RowData](./chapters/rowdata.md)
   - [Session](./chapters/session.md)
 
-<!-- 
-# Views
-- [Data Form Dialog]()
-- [Data Fragment]()
-- [Home Fragment]()
-- [Recycler View Adapter]()
-- [Scan Router Fragment]()
-- [Session Fragment]()
+<!--
+- [Views]()
+  - [Data Form Dialog]()
+  - [Data Fragment]()
+  - [Home Fragment]()
+  - [Recycler View Adapter]()
+  - [Scan Router Fragment]()
+  - [Session Fragment]()
 -->

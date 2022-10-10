@@ -3,7 +3,7 @@
 The `KNN Classifier` class contains the logic implementing the [K-Nearest Neighbor Algorithm](https://bit.ly/2OcMqHv).
 It is located at `app > java > com.silentrald.parkingrssi > KNNClassifier.kt`.
 This page is for explaining the source code of how the algorithm is implemented.
-For a more high level overview, please refer to the [Application Overview](applicationOverview.md).
+For a more high level overview, please refer to the [Algorithm Overview](algorithmOverview.md).
 
 ## Fields 
 
@@ -159,8 +159,8 @@ calculate the distance between each point.
 
 > **NOTE:**
 > For a further in-depth breakdown of the usage of the Euclidean Distance formula,
-> please refer to the [Getting the nearest points](applicationOverview.md#getting-the-nearest-points)
-> section in the Application Overview.
+> please refer to the [Getting the nearest points](algorithmOverview.md#getting-the-nearest-points)
+> section in the Algorithm Overview.
 
 #### Snippet
 
