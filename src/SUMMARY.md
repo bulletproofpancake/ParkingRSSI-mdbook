@@ -22,7 +22,7 @@
   - [Session](./chapters/models/session.md)
 
 - [Views]()
-  - [Home Fragment](./chapters/views/homeFragment.md)
-  - [Scan Router Fragment](./chapters/views/scanRouterFragment.md)
   - [Session Fragment](./chapters/views/sessionFragment.md)
+  - [Scan Router Fragment](./chapters/views/scanRouterFragment.md)
+  - [Home Fragment](./chapters/views/homeFragment.md)
   - [Data Fragment](./chapters/views/dataFragment.md)
