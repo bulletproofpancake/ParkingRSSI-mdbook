@@ -22,9 +22,7 @@
   - [Session](./chapters/models/session.md)
 
 - [Views]()
-  - [Data Form Dialog]()
-  - [Data Fragment]()
-  - [Home Fragment]()
-  - [Recycler View Adapter]()
-  - [Scan Router Fragment]()
-  - [Session Fragment]()
+  - [Home Fragment](./chapters/views/homeFragment.md)
+  - [Scan Router Fragment](./chapters/views/scanRouterFragment.md)
+  - [Session Fragment](./chapters/views/sessionFragment.md)
+  - [Data Fragment](./chapters/views/dataFragment.md)
