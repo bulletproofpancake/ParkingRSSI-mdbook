@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Scripts</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/knn-classifier.html"><strong aria-hidden="true">1.1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/main-activity.html"><strong aria-hidden="true">1.2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/router.html"><strong aria-hidden="true">1.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Models</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/dbhelper.html"><strong aria-hidden="true">2.1.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="chapters/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Scripts</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/scripts/main-activity.html"><strong aria-hidden="true">1.2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/scripts/router.html"><strong aria-hidden="true">1.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Models</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/models/dbhelper.html"><strong aria-hidden="true">2.1.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="chapters/models/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/models/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/models/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Views</div></li><li><ol class="section"><li class="chapter-item expanded "><div><strong aria-hidden="true">3.1.</strong> Data Form Dialog</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.2.</strong> Data Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.3.</strong> Home Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.4.</strong> Recycler View Adapter</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.5.</strong> Scan Router Fragment</div></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.6.</strong> Session Fragment</div></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -376,7 +376,7 @@ The layouts are stored in <code>app &gt; res &gt; layout</code>.</p>
 <p>The <code>KNN Classifier</code> class contains the logic implementing the <a href="https://bit.ly/2OcMqHv">K-Nearest Neighbor Algorithm</a>.
 It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; KNNClassifier.kt</code>.
 This page is for explaining the source code of how the algorithm is implemented.
-For a more high level overview, please refer to the <a href="chapters/algorithmOverview.html">Algorithm Overview</a>.</p>
+For a more high level overview, please refer to the <a href="chapters/scripts/algorithmOverview.html">Algorithm Overview</a>.</p>
 <h2 id="fields"><a class="header" href="#fields">Fields</a></h2>
 <p>The <code>KNN Classifier</code> class has multiple fields which are needed in order to calculate the number of available parking spaces
 using the algorithm.</p>
@@ -499,14 +499,14 @@ For example, the data collected from five routers can be presented in a table li
 <p>The <code>calculateDistance</code> method aggregates the distance between two collections of RSSI values.
 In the app, one collection is from the current RSSI values received by the device
 and another is from the existing RSSI values added to the <code>matrix</code>.
-This is because the <code>calculateDistance</code> method is used when the app is <a href="chapters/knn-classifier.html#predict">predicting</a>.</p>
+This is because the <code>calculateDistance</code> method is used when the app is <a href="chapters/scripts/knn-classifier.html#predict">predicting</a>.</p>
 <p>It helps to think of each collection of RSSI values as a coordinate, however as the number of routers increase
 so too does the dimensions in which these coordinates exist, which is why the Euclidean Distance formula is used to
 calculate the distance between each point.</p>
 <blockquote>
 <p><strong>NOTE:</strong>
 For a further in-depth breakdown of the usage of the Euclidean Distance formula,
-please refer to the <a href="chapters/algorithmOverview.html#getting-the-nearest-points">Getting the nearest points</a>
+please refer to the <a href="chapters/scripts/algorithmOverview.html#getting-the-nearest-points">Getting the nearest points</a>
 section in the Algorithm Overview.</p>
 </blockquote>
 <h4 id="snippet-1"><a class="header" href="#snippet-1">Snippet</a></h4>
@@ -818,7 +818,7 @@ hashmap = {2=1, 3=2, 4=1}</p>
 </code></pre>
 <h4 id="parameters-3"><a class="header" href="#parameters-3">Parameters</a></h4>
 <div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
-<tr><td>data</td><td><code>data: ArrayList&lt;RowData&gt;</code></td><td>A list of <a href="chapters/row-data.html">RowData</a> which the matrix gets loaded from.</td></tr>
+<tr><td>data</td><td><code>data: ArrayList&lt;RowData&gt;</code></td><td>A list of <a href="chapters/scripts/row-data.html">RowData</a> which the matrix gets loaded from.</td></tr>
 </tbody></table>
 </div>
 <h4 id="implementation-3"><a class="header" href="#implementation-3">Implementation</a></h4>
