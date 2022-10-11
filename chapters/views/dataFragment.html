@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Scripts</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">1.2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">1.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Models</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">2.1.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Views</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">3.1.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">3.2.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">3.3.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html" class="active"><strong aria-hidden="true">3.4.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Scripts</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">1.2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">1.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Models</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">2.1.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Views</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">3.1.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">3.2.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">3.3.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html" class="active"><strong aria-hidden="true">3.4.</strong> Data Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -139,12 +139,133 @@
                         <h1 id="data-fragment"><a class="header" href="#data-fragment">Data Fragment</a></h1>
 <h2 id="layout"><a class="header" href="#layout">Layout</a></h2>
 <p><img src="https://i.imgur.com/XluMSz8.jpg" alt="" /></p>
+<h2 id="snippet"><a class="header" href="#snippet">Snippet</a></h2>
+<pre><code class="language-kt">class DataFragment : Fragment(), CellClickListener {
+  private val TAG = &quot;DATA&quot;
+
+  private var _binding: FragmentDataBinding? = null
+  private val binding get() = _binding!!
+
+  private lateinit var adapter: RecyclerViewAdapter
+
+  private lateinit var db: DBHelper
+  private lateinit var prefs: Prefs
+
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    _binding = FragmentDataBinding.inflate(inflater, container, false)
+    val root: View = binding.root
+
+    prefs = Prefs.getInstance(requireContext())!!
+    db = DBHelper.getInstance(requireContext())!!
+
+    val session = prefs.getSession()
+    db.printData(session) // DEBUG
+
+    val data = arrayListOf&lt;RowData&gt;()
+    if (session &gt; 0L) {
+      data.addAll(db.getData(session))
+    }
+
+    adapter = RecyclerViewAdapter(data, this)
+
+    binding.rvDatapoints.adapter = adapter
+    binding.rvDatapoints.layoutManager = LinearLayoutManager(requireContext())
+    ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.rvDatapoints)
+
+    binding.btnExport.setOnClickListener {
+      var csv = &quot;label&quot;
+      for (router in db.getSessionRouters(prefs.getSession())) {
+        csv += &quot;,&quot; + router.getBSSID() + &quot;-&quot; + router.getName()
+      }
+      csv += &quot;\n&quot;
+
+      for (row in adapter.data) {
+        csv += &quot;${row.label},${row.values.joinToString(&quot;,&quot;)}\n&quot;
+      }
+
+      write(csv, requireContext())
+    }
+
+    return root
+  }
+
+  private fun write(data: String, context: Context) {
+    try {
+      val name = &quot;${LocalDate.now()}T${LocalTime.now().toString().replace(&quot;:&quot;, &quot;-&quot;).replace(&quot;.&quot;, &quot;-&quot;)}&quot;
+      val file =
+        File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), &quot;$name.csv&quot;)
+
+      val stream = FileOutputStream(file, false)
+      stream.write(data.toByteArray())
+      stream.flush()
+      stream.close()
+
+      Toast.makeText(context,
+        &quot;Saved to ${file.path}&quot;,
+        Toast.LENGTH_LONG).show()
+
+
+
+    } catch (e: Exception) {
+      Log.e(TAG, e.toString())
+    } finally {
+
+    }
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+  }
+
+  private val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    override fun onMove(
+      recyclerView: RecyclerView,
+      viewHolder: RecyclerView.ViewHolder,
+      target: RecyclerView.ViewHolder
+    ): Boolean {
+      return false
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+      val pos = viewHolder.adapterPosition
+      db.deleteRow(adapter.getRecordId(pos))
+      adapter.removeItem(pos)
+    }
+  }
+
+  @SuppressLint(&quot;NotifyDataSetChanged&quot;)
+  override fun onCellClickListener(data: RowData) {
+    // Create a dialog box
+    val dialog = DataFormDialog(data)
+    dialog.acceptListener = {
+      val values = dialog.getValues()
+      val updated = db.updateRow(prefs.getSession(), data.recordId, values)
+      if (updated) {
+        data.values.clear()
+        data.values.addAll(values)
+
+        binding.rvDatapoints.adapter?.notifyDataSetChanged()
+      }
+    }
+
+    dialog.cancelListener = {}
+
+    dialog.show(parentFragmentManager, &quot;Edit Data&quot;)
+  }
+}
+
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../chapters/views/sessionFragment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../chapters/views/homeFragment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -153,7 +274,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../chapters/views/sessionFragment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../chapters/views/homeFragment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
             </nav>

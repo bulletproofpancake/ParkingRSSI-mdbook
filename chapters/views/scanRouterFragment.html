@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Scripts</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">1.2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">1.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Models</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">2.1.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Views</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">3.1.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html" class="active"><strong aria-hidden="true">3.2.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">3.3.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">3.4.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Scripts</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">1.2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">1.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Models</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">2.1.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Views</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">3.1.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html" class="active"><strong aria-hidden="true">3.2.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">3.3.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">3.4.</strong> Data Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -139,15 +139,262 @@
                         <h1 id="scan-router-fragment"><a class="header" href="#scan-router-fragment">Scan Router Fragment</a></h1>
 <h2 id="layout"><a class="header" href="#layout">Layout</a></h2>
 <p><img src="https://i.imgur.com/AgiU6tC.jpg" alt="" /></p>
+<h2 id="snippet"><a class="header" href="#snippet">Snippet</a></h2>
+<pre><code class="language-kt">class ScanRouterFragment : Fragment() {
+  private val TAG = &quot;SCAN&quot;
+
+  private var _binding: FragmentScanRouterBinding? = null
+  private val binding get() = _binding!!
+
+  private lateinit var db: DBHelper
+  private lateinit var prefs: Prefs
+
+  private var wifiScanReceiver: BroadcastReceiver? = null
+  private lateinit var wifiManager: WifiManager
+  private val routers = arrayListOf&lt;ArrayList&lt;Router?&gt;&gt;()
+  private lateinit var session: Session
+  private var pos: Pair&lt;Int, Int&gt; = Pair(-1, -1)
+  private var cellSelected: TextView? = null
+
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    _binding = FragmentScanRouterBinding.inflate(inflater, container, false)
+    val root: View = binding.root
+
+    // Setup up prefs and default values
+    db = DBHelper.getInstance(requireContext())!!
+    prefs = Prefs.getInstance(requireContext())!!
+    
+    val lSession = db.getSessionById(prefs.getSession())
+
+    if (lSession == null) {
+      findNavController().navigate(R.id.action_navigation_scan_routers_to_navigation_session)
+      return root
+    }
+
+    session = lSession
+    binding.etRow.setText(session.rows.toString())
+    binding.etCol.setText(session.cols.toString())
+    setup()
+
+    return root
+  }
+
+  private fun setup() {
+    binding.llRouters.removeAllViews()
+
+    reset()
+    setupWifiManager()
+    setupRouters()
+    setupGrid()
+    setupListeners()
+  }
+
+  private fun reset() {
+    routers.clear()
+    for (row in 0 until session.rows) {
+      routers.add(ArrayList())
+      for (col in 0 until session.cols) {
+        routers[row].add(null)
+      }
+    }
+
+    binding.glRouterMatrix.removeAllViews()
+
+    binding.glRouterMatrix.rowCount = session.rows
+    binding.glRouterMatrix.columnCount = session.cols
+  }
+
+  private fun setupWifiManager() {
+    wifiManager = requireContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
+    if (!wifiManager.isWifiEnabled) {
+      Toast.makeText(context, &quot;Enable your wifi&quot;, Toast.LENGTH_LONG).show()
+      // TODO: Change navigation
+    }
+
+    wifiScanReceiver = object : BroadcastReceiver() {
+      override fun onReceive(ctx: Context, intent: Intent) {
+        val success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
+        if (success) scanSuccess() else scanFailure()
+      }
+    }
+
+    val intentFilter = IntentFilter()
+    intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+    requireContext().registerReceiver(wifiScanReceiver, intentFilter)
+  }
+
+  private  fun setupRouters() {
+    Log.d(TAG, &quot;Setup Routers&quot;)
+
+    val session = prefs.getSession()
+    if (session == 0L) { return }
+    val dbRouters = db.getSessionRouters(session)
+    for (router in dbRouters) {
+      routers[router.row][router.col] = router
+    }
+  }
+
+  @SuppressLint(&quot;SetTextI18n&quot;)
+  private fun setupGrid() {
+    Log.d(TAG, &quot;Setup Grid&quot;)
+
+    // Setup the Grid Buttons
+    for (row in 0 until session.rows) {
+      for (col in 0 until session.cols) {
+        // Layout and Creation
+        val tvCell = TextView(context)
+        val params = GridLayout.LayoutParams(
+          GridLayout.spec(GridLayout.UNDEFINED, 1, 1f),
+          GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
+        )
+
+        tvCell.height = 128
+        tvCell.width = ViewGroup.LayoutParams.WRAP_CONTENT
+
+        tvCell.setBackgroundColor(if ((row + col) % 2 == 0) Color.RED else Color.BLUE)
+        tvCell.setOnClickListener {
+          if (cellSelected != null) {
+            val (r, c) = pos
+            cellSelected!!.setBackgroundColor(if ((r + c) % 2 == 0) Color.RED else Color.BLUE)
+          }
+
+          pos = Pair(row, col)
+          tvCell.setBackgroundColor(Color.WHITE)
+          tvCell.setTextColor(Color.BLACK)
+          cellSelected = tvCell
+        }
+
+        binding.glRouterMatrix.addView(tvCell, params)
+
+        // Text Formatting
+        tvCell.foregroundGravity = Gravity.CENTER
+        tvCell.gravity = Gravity.CENTER
+        tvCell.textSize = 16f
+        tvCell.typeface = Typeface.DEFAULT_BOLD
+        tvCell.setTextColor(Color.WHITE)
+
+        val router = routers[row][col]
+        val text = if (router != null) &quot;${router.getName()}\n${router.getBSSIDStr()}&quot; else &quot;NULL&quot;
+        tvCell.text = text
+      }
+    }
+
+    binding.glRouterMatrix.invalidate()
+  }
+
+  private fun setupListeners() {
+    binding.btnSetMatrix.setOnClickListener {
+      val row = binding.etRow.text.toString().toInt()
+      val col = binding.etCol.text.toString().toInt()
+      Log.d(TAG, &quot;Pressed ($col, $row)&quot;)
+
+      if (session.rows != row || session.cols != col) {
+        session.rows = row
+        session.cols = col
+
+        // TODO: Transactional
+        db.deleteSessionRows(session.id)
+        db.deleteSessionRouters(session.id)
+        db.updateSession(session)
+
+        reset()
+        setupGrid()
+      }
+    }
+
+    binding.btnScanRouters.setOnClickListener {
+      Log.d(TAG, &quot;Start Scanning&quot;)
+
+      val scanning = wifiManager.startScan()
+      if (scanning) {
+        binding.llRouters.removeAllViews()
+        binding.progressbar.visibility = View.VISIBLE
+      } else {
+        Toast.makeText(requireContext(),
+          &quot;Could not start scan, Location might be off&quot;,
+          Toast.LENGTH_LONG).show()
+      }
+    }
+  }
+
+  private fun scanSuccess() {
+    Log.d(TAG, &quot;Scan Successful&quot;)
+
+    binding.progressbar.visibility = View.INVISIBLE
+    val llRouters = binding.llRouters
+
+    val results = wifiManager.scanResults
+    for (result in results) {
+      val btn = Button(context)
+
+      val text = &quot;${result.SSID}&lt;${result.BSSID}&gt;&quot;
+      btn.text = text
+
+      btn.setOnClickListener {
+        if (cellSelected == null) {
+          return@setOnClickListener
+        }
+
+        val (SSID, BSSID) = btn.text.subSequence(0, btn.text.length - 1).split(&quot;&lt;&quot;)
+        val (r, c) = pos
+        val router = Router(BSSID, SSID)
+        router.row = r
+        router.col = c
+
+        val btnTxt = &quot;${router.getName()}\n${router.getBSSIDStr()}&quot;
+
+        pos = Pair(-1, -1)
+
+        routers[r][c] = router
+
+        cellSelected!!.setBackgroundColor(if ((r + c) % 2 == 0) Color.RED else Color.BLUE)
+        cellSelected!!.text = btnTxt
+
+        cellSelected = null
+
+        btn.isEnabled = false
+
+        try {
+          db.addRouter(router.getBSSID(), router.getName())
+          db.addSessionRouter(prefs.getSession(), router.getBSSID(), r, c)
+        } catch (e: Exception) {
+          Log.d(TAG,&quot;Could not add router&quot;)
+        }
+      }
+
+      llRouters.addView(btn)
+    }
+  }
+
+  private fun scanFailure() {
+    Log.e(TAG, &quot;Scan Failed&quot;)
+  }
+
+  override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+
+    if (wifiScanReceiver != null) {
+      requireContext().unregisterReceiver(wifiScanReceiver)
+      wifiScanReceiver = null
+    }
+  }
+}
+
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../chapters/views/homeFragment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../chapters/views/sessionFragment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../../chapters/views/sessionFragment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../chapters/views/homeFragment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -156,10 +403,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../chapters/views/homeFragment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../chapters/views/sessionFragment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../../chapters/views/sessionFragment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../chapters/views/homeFragment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
