@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Main Activity - ParkingRSSI Documentation</title>
+        <title>Views - ParkingRSSI Documentation</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">2.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">3.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">3.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">3.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">3.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html" class="active"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">2.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">3.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">3.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">3.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">3.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html" class="active"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,49 +136,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="main-activity"><a class="header" href="#main-activity">Main Activity</a></h1>
-<p>The <code>MainActivity</code> class is where the main layout of the app is configured.
-It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; MainActivity.kt</code>.</p>
-<p>The <code>MainActivity</code> class is automatically generated by Android Studio and it is used
-in order to configure the navigation bar of the application.</p>
-<p><img src="https://i.imgur.com/7bimawj.png" alt="" /></p>
-<h2 id="snippet"><a class="header" href="#snippet">Snippet</a></h2>
-<pre><code class="language-kt">class MainActivity : AppCompatActivity() {
-
-  private lateinit var binding: ActivityMainBinding
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-
-    binding = ActivityMainBinding.inflate(layoutInflater)
-    setContentView(binding.root)
-
-    val navView: BottomNavigationView = binding.navView
-
-    val navController = findNavController(R.id.nav_host_fragment_activity_main)
-    // This is where the buttons to navigate to the different screens are configured
-    val appBarConfiguration = AppBarConfiguration(
-      setOf(
-        R.id.navigation_home,
-        R.id.navigation_scan_routers,
-        R.id.navigation_session,
-        R.id.navigation_data
-      )
-    )
-    setupActionBarWithNavController(navController, appBarConfiguration)
-    navView.setupWithNavController(navController)
-  }
-}
-</code></pre>
+                        <h1 id="views"><a class="header" href="#views">Views</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../chapters/views/views.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../chapters/models/session.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../../chapters/views/sessionFragment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../chapters/scripts/main-activity.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -187,10 +154,10 @@ in order to configure the navigation bar of the application.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../chapters/views/views.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../chapters/models/session.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../../chapters/views/sessionFragment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../chapters/scripts/main-activity.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><div><strong aria-hidden="true">1.</strong> Scripts</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/scripts/main-activity.html"><strong aria-hidden="true">1.2.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/scripts/router.html"><strong aria-hidden="true">1.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">2.</strong> Models</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/models/dbhelper.html"><strong aria-hidden="true">2.1.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="chapters/models/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/models/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/models/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">3.</strong> Views</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/views/sessionFragment.html"><strong aria-hidden="true">3.1.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/scanRouterFragment.html"><strong aria-hidden="true">3.2.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/homeFragment.html"><strong aria-hidden="true">3.3.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/dataFragment.html"><strong aria-hidden="true">3.4.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/models/dbhelper.html"><strong aria-hidden="true">2.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="chapters/models/models.html"><strong aria-hidden="true">3.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/scripts/router.html"><strong aria-hidden="true">3.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="chapters/models/prefs.html"><strong aria-hidden="true">3.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/models/rowdata.html"><strong aria-hidden="true">3.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/models/session.html"><strong aria-hidden="true">3.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -843,139 +843,10 @@ for (row in data){
 <p>Once the <code>labels</code> and <code>matrix</code> has been loaded from the <code>data</code>, the <code>k</code> value gets updated as well.</p>
 <pre><code class="language-kt">k = sqrt(matrix.size.toDouble()).toInt()
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="main-activity"><a class="header" href="#main-activity">Main Activity</a></h1>
-<p>The <code>MainActivity</code> class is where the main layout of the app is configured.
-It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; MainActivity.kt</code>.</p>
-<p>The <code>MainActivity</code> class is automatically generated by Android Studio and it is used
-in order to configure the navigation bar of the application.</p>
-<p><img src="https://i.imgur.com/7bimawj.png" alt="" /></p>
-<h2 id="snippet-4"><a class="header" href="#snippet-4">Snippet</a></h2>
-<pre><code class="language-kt">class MainActivity : AppCompatActivity() {
-
-  private lateinit var binding: ActivityMainBinding
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-
-    binding = ActivityMainBinding.inflate(layoutInflater)
-    setContentView(binding.root)
-
-    val navView: BottomNavigationView = binding.navView
-
-    val navController = findNavController(R.id.nav_host_fragment_activity_main)
-    // This is where the buttons to navigate to the different screens are configured
-    val appBarConfiguration = AppBarConfiguration(
-      setOf(
-        R.id.navigation_home,
-        R.id.navigation_scan_routers,
-        R.id.navigation_session,
-        R.id.navigation_data
-      )
-    )
-    setupActionBarWithNavController(navController, appBarConfiguration)
-    navView.setupWithNavController(navController)
-  }
-}
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="router"><a class="header" href="#router">Router</a></h1>
-<p>The <code>Router</code> class contains the information for each router the app connects to.
-It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router.kt</code>.</p>
-<h2 id="fields-1"><a class="header" href="#fields-1">Fields</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
-<tr><td>bssid</td><td><code>private var bssid: Long = 0L</code></td><td>The network address received from the <a href="https://developer.android.com/guide/topics/connectivity/wifi-scan">wifi manager</a></td></tr>
-<tr><td>bssidStr</td><td><code>private var bssidStr: String</code></td><td>The network address received from the <a href="https://developer.android.com/guide/topics/connectivity/wifi-scan">wifi manager</a></td></tr>
-<tr><td>name</td><td><code>private var name: String</code></td><td>The name of the network.</td></tr>
-<tr><td>row</td><td><code>var row: Int = 0</code></td><td>Which row in the router matrix the router is set</td></tr>
-<tr><td>col</td><td><code>var col: Int = 0</code></td><td>Which column in the router matrix the router is set</td></tr>
-</tbody></table>
-</div>
-<h2 id="constructors"><a class="header" href="#constructors">Constructors</a></h2>
-<h3 id="routerlong-string"><a class="header" href="#routerlong-string">Router(Long, String)</a></h3>
-<p>Creates a router using a <code>Long</code> and <code>String</code> parameters.</p>
-<h4 id="snippet-5"><a class="header" href="#snippet-5">Snippet</a></h4>
-<pre><code class="language-kt">constructor(bssid: Long, name: String) {
-    this.bssid = bssid
-    this.name = name
-
-    this.bssidStr = convertBSSIDToString(bssid)
-}
-</code></pre>
-<h3 id="routerstring-string"><a class="header" href="#routerstring-string">Router(String, String)</a></h3>
-<p>Creates a router using a <code>String</code> and <code>String</code> parameters.</p>
-<h4 id="snippet-6"><a class="header" href="#snippet-6">Snippet</a></h4>
-<pre><code class="language-kt">constructor(bssidStr: String, name: String) {
-    this.bssidStr = bssidStr
-    this.name = name
-
-    this.bssid = convertBSSIDToLong(bssidStr)
-}
-</code></pre>
-<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
-<h3 id="getbssid"><a class="header" href="#getbssid">getBSSID</a></h3>
-<p>Returns the <code>bssid</code> of the router.</p>
-<h4 id="snippet-7"><a class="header" href="#snippet-7">Snippet</a></h4>
-<pre><code class="language-kt">fun getBSSID(): Long{
-    return this.bssid
-}
-</code></pre>
-<h3 id="getbssidstr"><a class="header" href="#getbssidstr">getBSSIDStr</a></h3>
-<p>Returns the <code>bssidStr</code> of the router.</p>
-<h4 id="snippet-8"><a class="header" href="#snippet-8">Snippet</a></h4>
-<pre><code class="language-kt">fun getBSSIDStr(): String{
-    return this.bssidStr
-}
-</code></pre>
-<h3 id="getname"><a class="header" href="#getname">getName</a></h3>
-<p>Returns the <code>name</code> of the router.</p>
-<h4 id="snippet-9"><a class="header" href="#snippet-9">Snippet</a></h4>
-<pre><code class="language-kt">fun getName(): String{
-    return this.name
-}
-</code></pre>
-<h3 id="convertbssidtolong"><a class="header" href="#convertbssidtolong">convertBSSIDToLong</a></h3>
-<p>Formats the <code>bssidStr</code> to a <code>Long</code> type.</p>
-<h4 id="snippet-10"><a class="header" href="#snippet-10">Snippet</a></h4>
-<pre><code class="language-kt">private fun convertBSSIDToLong(bssidStr: String): Long {
-    val str = bssidStr.replace(&quot;:&quot;, &quot;&quot;)
-
-    return str.toLong(16)
-}
-</code></pre>
-<h3 id="convertbssidtostring"><a class="header" href="#convertbssidtostring">convertBSSIDToString</a></h3>
-<p>Formats the <code>bssid</code> to a <code>String</code> type.</p>
-<h4 id="snippet-11"><a class="header" href="#snippet-11">Snippet</a></h4>
-<pre><code class="language-kt">private fun convertBSSIDToString(bssid: Long): String {
-    var bssidStr = bssid.toString(16)
-
-    bssidStr = &quot;${
-      bssidStr.substring(0, 2)
-    }:${
-      bssidStr.substring(2, 4)
-    }:${
-      bssidStr.substring(4, 6)
-    }:${
-      bssidStr.substring(6, 8)
-    }:${
-      bssidStr.substring(8, 10)
-    }:${
-      bssidStr.substring(10)
-    }&quot;
-
-    return bssidStr
-}
-</code></pre>
-<h2 id="overrides"><a class="header" href="#overrides">Overrides</a></h2>
-<h3 id="tostring"><a class="header" href="#tostring">toString</a></h3>
-<p>Overrides the default toString method to the string format.</p>
-<h4 id="snippet-12"><a class="header" href="#snippet-12">Snippet</a></h4>
-<pre><code class="language-kt">override fun toString(): String{
-    return &quot;$bssid: $name&lt;$bssidStr&gt; ($row, $col)&quot;
-}
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="dbhelper"><a class="header" href="#dbhelper">DBHelper</a></h1>
 <p>The <code>DBHelper</code> class is responsible for <a href="https://developer.android.com/training/data-storage/sqlite">saving data in an SQLite database</a>.
 The data is stored in an SQLite database so that it is easily accessible and scalable given the amount of data that is used by the application.</p>
-<h2 id="snippet-13"><a class="header" href="#snippet-13">Snippet</a></h2>
+<h2 id="snippet-4"><a class="header" href="#snippet-4">Snippet</a></h2>
 <pre><code class="language-kt">class DBHelper(context: Context) :
   SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
   private val TAG = &quot;DB&quot;
@@ -1454,9 +1325,239 @@ The data is stored in an SQLite database so that it is easily accessible and sca
 }
 
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="models"><a class="header" href="#models">Models</a></h1>
+<p>Models are classes which are used to store and manage data.
+Unlike the <a href="chapters/models/../scripts/knn-classifier.html"><code>KNN Classifier</code></a> class,
+models rarely hold any logic and algorithms within them.
+This is because these classes are used to containerize data
+so that it can be easily accessed somewhere else.</p>
+<p>Take for example the <a href="chapters/models/session.html"><code>Session</code></a> class:</p>
+<pre><code class="language-kt">class Session(
+	val id: Long,
+	var name: String,
+	var rows: Int,
+	var cols: Int
+) {
+	override fun toString(): String {
+		return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
+	}
+}
+</code></pre>
+<p>In the <a href="chapters/models/../views/sessionFragment.html"><code>Session Fragment</code></a> view,
+an instance of the session gets created when a name is given and the <code>Add Session</code> button is clicked:</p>
+<pre><code class="language-kt">// Tells the `Add Session` button on the screen
+// to execute this code when it is clicked
+binding.btnAddSession.setOnClickListener {
+    // Gets the name from the text field in the screen
+    val text = binding.etSession.text.toString()
+
+    // Does not do anything if there is no name associated
+    // with the session
+    if (text.isEmpty()) {
+        return@setOnClickListener
+    }
+
+    // Adds the session to the database
+    val id = db.addSession(text, 2, 3)
+
+    // Clears the text field
+    binding.etSession.text.clear()
+
+    // Creates an instance of the session model
+    val session = Session(id, text, 2, 3)
+
+    // Creates a button in the Sessions screen
+    // with the data from the instance
+    addButton(session)
+}
+</code></pre>
+<p>And the model is used when a button for the session is created:</p>
+<pre><code class="language-kt">private fun addButton(session: Session) {
+    // A button is created
+    val btn = Button(requireContext())
+    // The label of the button is retrieved from
+    // the name of the session
+    btn.text = session.name
+    // Tells the created button to
+    // execute the code inside when it is clicked
+    btn.setOnClickListener {
+        prefs.setSession(session.id)
+        binding.tvSession.text = session.name
+    }
+
+    // Tells the created button to
+    // execute the code inside when it is held
+    btn.setOnLongClickListener {
+        // The records of the session is deleted from the database
+        db.deleteSession(session.id)
+        // The button is removed from the UI
+        binding.llSessions.removeView(it)
+        // The session saved in the preferences is reset
+        if (session.id == prefs.getSession()) {
+            prefs.setSession(0L)
+        }
+        // The UI is changed in order to indicate
+        // the removal of the session
+        binding.tvSession.text = &quot;No Session Selected&quot;
+        return@setOnLongClickListener true
+    }
+
+    binding.llSessions.addView(btn)
+}
+</code></pre>
+<p>In order to understand models, we only need to focus on the following lines of code:</p>
+<pre><code class="language-kt">// binding.btnAddSession.setOnClickListener {
+    val text = binding.etSession.text.toString()
+    // if (text.isEmpty()) {
+    //     return@setOnClickListener
+    // }
+
+    val id = db.addSession(text, 2, 3)
+    // binding.etSession.text.clear()
+    val session = Session(id, text, 2, 3)
+    addButton(session)
+}
+</code></pre>
+<p>When an instance of a <code>Session</code> is created in <code>val session = Session(id, text, 2, 3)</code>,
+it calls upon the constructor of the <code>Session</code> class and sets the appropriate value:</p>
+<pre><code class="language-kt">class Session(
+	val id: Long,     // id
+	var name: String, // text
+	var rows: Int,    // 2
+	var cols: Int     // 3
+)
+</code></pre>
+<p>So the <code>name</code> comes from the text set in the input field in the application,
+the <code>id</code> is retrieved from adding a record of the session to the database with the <a href="chapters/models/dbhelper.html"><code>DBHelper</code></a> class,
+and the <code>rows</code> and <code>cols</code> are set to <code>2</code> and <code>3</code> respectively by default.
+After creating an instance of the session with this data,
+it is then used when a button is added to the screen.</p>
+<p>From the instance of the session passed through the <code>addButton</code> function,
+the <code>name</code> is used in order to label the button and the session indicator,
+the <code>id</code> is used to save the session to the preferences and
+delete its entry from the database,
+while the <code>rows</code> and <code>cols</code> are used elsewhere.</p>
+<pre><code class="language-kt">private fun addButton(session: Session) {
+    // val btn = Button(requireContext())
+    btn.text = session.name
+    btn.setOnClickListener {
+        prefs.setSession(session.id)
+        binding.tvSession.text = session.name
+    }
+    btn.setOnLongClickListener {
+        db.deleteSession(session.id)
+        // binding.llSessions.removeView(it)
+        if (session.id == prefs.getSession()) {
+            prefs.setSession(0L)
+        }
+        // binding.tvSession.text = &quot;No Session Selected&quot;
+        // return@setOnLongClickListener true
+    }
+
+    // binding.llSessions.addView(btn)
+}
+</code></pre>
+<p>In conclusion, by using models,
+the program is able to containerize the data it receives from different sources
+and use these data from a single source.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="router"><a class="header" href="#router">Router</a></h1>
+<p>The <code>Router</code> class contains the information for each router the app connects to.
+It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router.kt</code>.</p>
+<h2 id="fields-1"><a class="header" href="#fields-1">Fields</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>bssid</td><td><code>private var bssid: Long = 0L</code></td><td>The network address received from the <a href="https://developer.android.com/guide/topics/connectivity/wifi-scan">wifi manager</a></td></tr>
+<tr><td>bssidStr</td><td><code>private var bssidStr: String</code></td><td>The network address received from the <a href="https://developer.android.com/guide/topics/connectivity/wifi-scan">wifi manager</a></td></tr>
+<tr><td>name</td><td><code>private var name: String</code></td><td>The name of the network.</td></tr>
+<tr><td>row</td><td><code>var row: Int = 0</code></td><td>Which row in the router matrix the router is set</td></tr>
+<tr><td>col</td><td><code>var col: Int = 0</code></td><td>Which column in the router matrix the router is set</td></tr>
+</tbody></table>
+</div>
+<h2 id="constructors"><a class="header" href="#constructors">Constructors</a></h2>
+<h3 id="routerlong-string"><a class="header" href="#routerlong-string">Router(Long, String)</a></h3>
+<p>Creates a router using a <code>Long</code> and <code>String</code> parameters.</p>
+<h4 id="snippet-5"><a class="header" href="#snippet-5">Snippet</a></h4>
+<pre><code class="language-kt">constructor(bssid: Long, name: String) {
+    this.bssid = bssid
+    this.name = name
+
+    this.bssidStr = convertBSSIDToString(bssid)
+}
+</code></pre>
+<h3 id="routerstring-string"><a class="header" href="#routerstring-string">Router(String, String)</a></h3>
+<p>Creates a router using a <code>String</code> and <code>String</code> parameters.</p>
+<h4 id="snippet-6"><a class="header" href="#snippet-6">Snippet</a></h4>
+<pre><code class="language-kt">constructor(bssidStr: String, name: String) {
+    this.bssidStr = bssidStr
+    this.name = name
+
+    this.bssid = convertBSSIDToLong(bssidStr)
+}
+</code></pre>
+<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
+<h3 id="getbssid"><a class="header" href="#getbssid">getBSSID</a></h3>
+<p>Returns the <code>bssid</code> of the router.</p>
+<h4 id="snippet-7"><a class="header" href="#snippet-7">Snippet</a></h4>
+<pre><code class="language-kt">fun getBSSID(): Long{
+    return this.bssid
+}
+</code></pre>
+<h3 id="getbssidstr"><a class="header" href="#getbssidstr">getBSSIDStr</a></h3>
+<p>Returns the <code>bssidStr</code> of the router.</p>
+<h4 id="snippet-8"><a class="header" href="#snippet-8">Snippet</a></h4>
+<pre><code class="language-kt">fun getBSSIDStr(): String{
+    return this.bssidStr
+}
+</code></pre>
+<h3 id="getname"><a class="header" href="#getname">getName</a></h3>
+<p>Returns the <code>name</code> of the router.</p>
+<h4 id="snippet-9"><a class="header" href="#snippet-9">Snippet</a></h4>
+<pre><code class="language-kt">fun getName(): String{
+    return this.name
+}
+</code></pre>
+<h3 id="convertbssidtolong"><a class="header" href="#convertbssidtolong">convertBSSIDToLong</a></h3>
+<p>Formats the <code>bssidStr</code> to a <code>Long</code> type.</p>
+<h4 id="snippet-10"><a class="header" href="#snippet-10">Snippet</a></h4>
+<pre><code class="language-kt">private fun convertBSSIDToLong(bssidStr: String): Long {
+    val str = bssidStr.replace(&quot;:&quot;, &quot;&quot;)
+
+    return str.toLong(16)
+}
+</code></pre>
+<h3 id="convertbssidtostring"><a class="header" href="#convertbssidtostring">convertBSSIDToString</a></h3>
+<p>Formats the <code>bssid</code> to a <code>String</code> type.</p>
+<h4 id="snippet-11"><a class="header" href="#snippet-11">Snippet</a></h4>
+<pre><code class="language-kt">private fun convertBSSIDToString(bssid: Long): String {
+    var bssidStr = bssid.toString(16)
+
+    bssidStr = &quot;${
+      bssidStr.substring(0, 2)
+    }:${
+      bssidStr.substring(2, 4)
+    }:${
+      bssidStr.substring(4, 6)
+    }:${
+      bssidStr.substring(6, 8)
+    }:${
+      bssidStr.substring(8, 10)
+    }:${
+      bssidStr.substring(10)
+    }&quot;
+
+    return bssidStr
+}
+</code></pre>
+<h2 id="overrides"><a class="header" href="#overrides">Overrides</a></h2>
+<h3 id="tostring"><a class="header" href="#tostring">toString</a></h3>
+<p>Overrides the default toString method to the string format.</p>
+<h4 id="snippet-12"><a class="header" href="#snippet-12">Snippet</a></h4>
+<pre><code class="language-kt">override fun toString(): String{
+    return &quot;$bssid: $name&lt;$bssidStr&gt; ($row, $col)&quot;
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prefs"><a class="header" href="#prefs">Prefs</a></h1>
 <p>The <code>Prefs</code> class is responsible for the default preferences between sessions.</p>
-<h2 id="snippet-14"><a class="header" href="#snippet-14">Snippet</a></h2>
+<h2 id="snippet-13"><a class="header" href="#snippet-13">Snippet</a></h2>
 <pre><code class="language-kt">class Prefs(context: Context) {
   private val PREFS = &quot;parkingrssi&quot;
 
@@ -1503,7 +1604,7 @@ The data is stored in an SQLite database so that it is easily accessible and sca
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rowdata"><a class="header" href="#rowdata">RowData</a></h1>
 <p>The <code>RowData</code> class is used for saving and restoring the RSSI values recorded.</p>
-<h2 id="snippet-15"><a class="header" href="#snippet-15">Snippet</a></h2>
+<h2 id="snippet-14"><a class="header" href="#snippet-14">Snippet</a></h2>
 <pre><code class="language-kt">class RowData (
 	val recordId: Long,
 	val label: Int
@@ -1529,7 +1630,7 @@ The data is stored in an SQLite database so that it is easily accessible and sca
 <h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
 <h3 id="addval"><a class="header" href="#addval">addVal</a></h3>
 <p>The <code>addVal</code> method adds the RSSI value from a router to <code>values</code>.</p>
-<h4 id="snippet-16"><a class="header" href="#snippet-16">Snippet</a></h4>
+<h4 id="snippet-15"><a class="header" href="#snippet-15">Snippet</a></h4>
 <pre><code class="language-kt">fun addVal(value: Float){
 	values.add(value)
 }
@@ -1542,7 +1643,7 @@ The data is stored in an SQLite database so that it is easily accessible and sca
 <h2 id="overrides-1"><a class="header" href="#overrides-1">Overrides</a></h2>
 <h3 id="tostring-1"><a class="header" href="#tostring-1">toString</a></h3>
 <p>Overrides the default toString method to the string format.</p>
-<h4 id="snippet-17"><a class="header" href="#snippet-17">Snippet</a></h4>
+<h4 id="snippet-16"><a class="header" href="#snippet-16">Snippet</a></h4>
 <pre><code class="language-kt">override fun toString(): String{
 	return &quot;$recordID: $label; $values&quot;
 }
@@ -1550,7 +1651,7 @@ The data is stored in an SQLite database so that it is easily accessible and sca
 <div style="break-before: page; page-break-before: always;"></div><h1 id="session"><a class="header" href="#session">Session</a></h1>
 <p>The <code>Session</code> class contains information for saving and restoring sessions
 which are configurations for the routers.</p>
-<h2 id="snippet-18"><a class="header" href="#snippet-18">Snippet</a></h2>
+<h2 id="snippet-17"><a class="header" href="#snippet-17">Snippet</a></h2>
 <pre><code class="language-kt">class Session(
 	val id: Long,
 	var name: String,
@@ -1573,9 +1674,44 @@ which are configurations for the routers.</p>
 <h2 id="overrides-2"><a class="header" href="#overrides-2">Overrides</a></h2>
 <h3 id="tostring-2"><a class="header" href="#tostring-2">toString</a></h3>
 <p>Overrides the default toString method to the string format.</p>
-<h4 id="snippet-19"><a class="header" href="#snippet-19">Snippet</a></h4>
+<h4 id="snippet-18"><a class="header" href="#snippet-18">Snippet</a></h4>
 <pre><code class="language-kt">override fun toString(): String{
 	return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="views"><a class="header" href="#views">Views</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="main-activity"><a class="header" href="#main-activity">Main Activity</a></h1>
+<p>The <code>MainActivity</code> class is where the main layout of the app is configured.
+It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; MainActivity.kt</code>.</p>
+<p>The <code>MainActivity</code> class is automatically generated by Android Studio and it is used
+in order to configure the navigation bar of the application.</p>
+<p><img src="https://i.imgur.com/7bimawj.png" alt="" /></p>
+<h2 id="snippet-19"><a class="header" href="#snippet-19">Snippet</a></h2>
+<pre><code class="language-kt">class MainActivity : AppCompatActivity() {
+
+  private lateinit var binding: ActivityMainBinding
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    binding = ActivityMainBinding.inflate(layoutInflater)
+    setContentView(binding.root)
+
+    val navView: BottomNavigationView = binding.navView
+
+    val navController = findNavController(R.id.nav_host_fragment_activity_main)
+    // This is where the buttons to navigate to the different screens are configured
+    val appBarConfiguration = AppBarConfiguration(
+      setOf(
+        R.id.navigation_home,
+        R.id.navigation_scan_routers,
+        R.id.navigation_session,
+        R.id.navigation_data
+      )
+    )
+    setupActionBarWithNavController(navController, appBarConfiguration)
+    navView.setupWithNavController(navController)
+  }
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="session-fragment"><a class="header" href="#session-fragment">Session Fragment</a></h1>

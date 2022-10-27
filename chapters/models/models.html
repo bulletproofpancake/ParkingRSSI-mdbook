@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Main Activity - ParkingRSSI Documentation</title>
+        <title>Models - ParkingRSSI Documentation</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">2.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">3.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">3.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">3.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">3.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html" class="active"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">2.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html" class="active"><strong aria-hidden="true">3.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">3.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">3.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">3.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,49 +136,150 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="main-activity"><a class="header" href="#main-activity">Main Activity</a></h1>
-<p>The <code>MainActivity</code> class is where the main layout of the app is configured.
-It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; MainActivity.kt</code>.</p>
-<p>The <code>MainActivity</code> class is automatically generated by Android Studio and it is used
-in order to configure the navigation bar of the application.</p>
-<p><img src="https://i.imgur.com/7bimawj.png" alt="" /></p>
-<h2 id="snippet"><a class="header" href="#snippet">Snippet</a></h2>
-<pre><code class="language-kt">class MainActivity : AppCompatActivity() {
-
-  private lateinit var binding: ActivityMainBinding
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-
-    binding = ActivityMainBinding.inflate(layoutInflater)
-    setContentView(binding.root)
-
-    val navView: BottomNavigationView = binding.navView
-
-    val navController = findNavController(R.id.nav_host_fragment_activity_main)
-    // This is where the buttons to navigate to the different screens are configured
-    val appBarConfiguration = AppBarConfiguration(
-      setOf(
-        R.id.navigation_home,
-        R.id.navigation_scan_routers,
-        R.id.navigation_session,
-        R.id.navigation_data
-      )
-    )
-    setupActionBarWithNavController(navController, appBarConfiguration)
-    navView.setupWithNavController(navController)
-  }
+                        <h1 id="models"><a class="header" href="#models">Models</a></h1>
+<p>Models are classes which are used to store and manage data.
+Unlike the <a href="../scripts/knn-classifier.html"><code>KNN Classifier</code></a> class,
+models rarely hold any logic and algorithms within them.
+This is because these classes are used to containerize data
+so that it can be easily accessed somewhere else.</p>
+<p>Take for example the <a href="session.html"><code>Session</code></a> class:</p>
+<pre><code class="language-kt">class Session(
+	val id: Long,
+	var name: String,
+	var rows: Int,
+	var cols: Int
+) {
+	override fun toString(): String {
+		return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
+	}
 }
 </code></pre>
+<p>In the <a href="../views/sessionFragment.html"><code>Session Fragment</code></a> view,
+an instance of the session gets created when a name is given and the <code>Add Session</code> button is clicked:</p>
+<pre><code class="language-kt">// Tells the `Add Session` button on the screen
+// to execute this code when it is clicked
+binding.btnAddSession.setOnClickListener {
+    // Gets the name from the text field in the screen
+    val text = binding.etSession.text.toString()
+
+    // Does not do anything if there is no name associated
+    // with the session
+    if (text.isEmpty()) {
+        return@setOnClickListener
+    }
+
+    // Adds the session to the database
+    val id = db.addSession(text, 2, 3)
+
+    // Clears the text field
+    binding.etSession.text.clear()
+
+    // Creates an instance of the session model
+    val session = Session(id, text, 2, 3)
+
+    // Creates a button in the Sessions screen
+    // with the data from the instance
+    addButton(session)
+}
+</code></pre>
+<p>And the model is used when a button for the session is created:</p>
+<pre><code class="language-kt">private fun addButton(session: Session) {
+    // A button is created
+    val btn = Button(requireContext())
+    // The label of the button is retrieved from
+    // the name of the session
+    btn.text = session.name
+    // Tells the created button to
+    // execute the code inside when it is clicked
+    btn.setOnClickListener {
+        prefs.setSession(session.id)
+        binding.tvSession.text = session.name
+    }
+
+    // Tells the created button to
+    // execute the code inside when it is held
+    btn.setOnLongClickListener {
+        // The records of the session is deleted from the database
+        db.deleteSession(session.id)
+        // The button is removed from the UI
+        binding.llSessions.removeView(it)
+        // The session saved in the preferences is reset
+        if (session.id == prefs.getSession()) {
+            prefs.setSession(0L)
+        }
+        // The UI is changed in order to indicate
+        // the removal of the session
+        binding.tvSession.text = &quot;No Session Selected&quot;
+        return@setOnLongClickListener true
+    }
+
+    binding.llSessions.addView(btn)
+}
+</code></pre>
+<p>In order to understand models, we only need to focus on the following lines of code:</p>
+<pre><code class="language-kt">// binding.btnAddSession.setOnClickListener {
+    val text = binding.etSession.text.toString()
+    // if (text.isEmpty()) {
+    //     return@setOnClickListener
+    // }
+
+    val id = db.addSession(text, 2, 3)
+    // binding.etSession.text.clear()
+    val session = Session(id, text, 2, 3)
+    addButton(session)
+}
+</code></pre>
+<p>When an instance of a <code>Session</code> is created in <code>val session = Session(id, text, 2, 3)</code>,
+it calls upon the constructor of the <code>Session</code> class and sets the appropriate value:</p>
+<pre><code class="language-kt">class Session(
+	val id: Long,     // id
+	var name: String, // text
+	var rows: Int,    // 2
+	var cols: Int     // 3
+)
+</code></pre>
+<p>So the <code>name</code> comes from the text set in the input field in the application,
+the <code>id</code> is retrieved from adding a record of the session to the database with the <a href="dbhelper.html"><code>DBHelper</code></a> class,
+and the <code>rows</code> and <code>cols</code> are set to <code>2</code> and <code>3</code> respectively by default.
+After creating an instance of the session with this data,
+it is then used when a button is added to the screen.</p>
+<p>From the instance of the session passed through the <code>addButton</code> function,
+the <code>name</code> is used in order to label the button and the session indicator,
+the <code>id</code> is used to save the session to the preferences and
+delete its entry from the database,
+while the <code>rows</code> and <code>cols</code> are used elsewhere.</p>
+<pre><code class="language-kt">private fun addButton(session: Session) {
+    // val btn = Button(requireContext())
+    btn.text = session.name
+    btn.setOnClickListener {
+        prefs.setSession(session.id)
+        binding.tvSession.text = session.name
+    }
+    btn.setOnLongClickListener {
+        db.deleteSession(session.id)
+        // binding.llSessions.removeView(it)
+        if (session.id == prefs.getSession()) {
+            prefs.setSession(0L)
+        }
+        // binding.tvSession.text = &quot;No Session Selected&quot;
+        // return@setOnLongClickListener true
+    }
+
+    // binding.llSessions.addView(btn)
+}
+</code></pre>
+<p>In conclusion, by using models,
+the program is able to containerize the data it receives from different sources
+and use these data from a single source.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../chapters/views/views.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../chapters/models/dbhelper.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../../chapters/views/sessionFragment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../chapters/scripts/router.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -187,10 +288,10 @@ in order to configure the navigation bar of the application.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../chapters/views/views.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../chapters/models/dbhelper.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../../chapters/views/sessionFragment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../chapters/scripts/router.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
