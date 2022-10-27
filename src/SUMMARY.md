@@ -5,23 +5,22 @@
 
 ---
 
-- [Scripts]()
-  - [KNN Classifier](./chapters/scripts/knn-classifier.md)
-  - [Main Activity](./chapters/scripts/main-activity.md)
-  - [Router](./chapters/scripts/router.md)
+- [KNN Classifier](./chapters/scripts/knn-classifier.md)
+- [DBHelper](./chapters/models/dbhelper.md)
 
 <!--
 # Interfaces
 - [Cell Click Listener]()
 -->
 
-- [Models]()
-  - [DBHelper](./chapters/models/dbhelper.md)
+- [Models](./chapters/models/models.md)
+  - [Router](./chapters/scripts/router.md)
   - [Prefs](./chapters/models/prefs.md)
   - [RowData](./chapters/models/rowdata.md)
   - [Session](./chapters/models/session.md)
 
-- [Views]()
+- [Views](./chapters/views/views.md)
+  - [Main Activity](./chapters/scripts/main-activity.md)
   - [Session Fragment](./chapters/views/sessionFragment.md)
   - [Scan Router Fragment](./chapters/views/scanRouterFragment.md)
   - [Home Fragment](./chapters/views/homeFragment.md)
