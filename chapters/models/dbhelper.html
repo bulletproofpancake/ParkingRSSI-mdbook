@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html" class="active"><strong aria-hidden="true">2.</strong> DBHelper</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">3.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">3.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">3.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">3.4.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">2.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">2.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html" class="active"><strong aria-hidden="true">2.5.</strong> DBHelper</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html"><strong aria-hidden="true">3.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">3.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">3.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">3.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">3.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">3.5.</strong> Data Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -138,7 +138,8 @@
                     <main>
                         <h1 id="dbhelper"><a class="header" href="#dbhelper">DBHelper</a></h1>
 <p>The <code>DBHelper</code> class is responsible for <a href="https://developer.android.com/training/data-storage/sqlite">saving data in an SQLite database</a>.
-The data is stored in an SQLite database so that it is easily accessible and scalable given the amount of data that is used by the application.</p>
+The data is stored in an SQLite database so that it is easily accessible and scalable given the amount of data that is used by the application.
+The <code>DBHelper</code> class contains methods responsible for setting up the SQLite database, the different tables within it, and how to add and remove data to those tables.</p>
 <h2 id="snippet"><a class="header" href="#snippet">Snippet</a></h2>
 <pre><code class="language-kt">class DBHelper(context: Context) :
   SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -618,15 +619,48 @@ The data is stored in an SQLite database so that it is easily accessible and sca
 }
 
 </code></pre>
-
+<h2 id="tables"><a class="header" href="#tables">Tables</a></h2>
+<blockquote>
+<p><strong>NOTE:</strong> The values for each table provided is only for visualization.</p>
+</blockquote>
+<h3 id="session-table"><a class="header" href="#session-table">Session Table</a></h3>
+<p>The session table records the name, rows, and columns of a specific session.</p>
+<div class="table-wrapper"><table><thead><tr><th>id</th><th>name</th><th>rows</th><th>cols</th></tr></thead><tbody>
+<tr><td>0</td><td>Session 1</td><td>3</td><td>2</td></tr>
+</tbody></table>
+</div>
+<h3 id="router-table"><a class="header" href="#router-table">Router Table</a></h3>
+<p>The router table records the BSSID or the MAC address of a router as well as its name.</p>
+<div class="table-wrapper"><table><thead><tr><th>bssid</th><th>name</th></tr></thead><tbody>
+<tr><td>208914460048774</td><td>66852627208993-xiaomi-repeater-v3_miapdb21</td></tr>
+</tbody></table>
+</div>
+<h3 id="session-router-table"><a class="header" href="#session-router-table">Session Router Table</a></h3>
+<p>The session router table records a router in a given session, along with its positioning in the router matrix.</p>
+<div class="table-wrapper"><table><thead><tr><th>id</th><th>session_id</th><th>router_id</th><th>r</th><th>c</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>208914460048774</td><td>0</td><td>0</td></tr>
+</tbody></table>
+</div>
+<h3 id="record-table"><a class="header" href="#record-table">Record Table</a></h3>
+<p>The record table records the total amount of cars (label) for a specific session as well as a timestamp to when it has been recorded.</p>
+<div class="table-wrapper"><table><thead><tr><th>id</th><th>session_id</th><th>label</th><th>timestamp</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>5</td><td>1667021128</td></tr>
+</tbody></table>
+</div>
+<h3 id="data-table"><a class="header" href="#data-table">Data Table</a></h3>
+<p>The data table links the router, and the RSSI value associated with it to a record.</p>
+<div class="table-wrapper"><table><thead><tr><th>id</th><th>record_id</th><th>router_id</th><th>value</th></tr></thead><tbody>
+<tr><td>0</td><td>0</td><td>208914460048774</td><td>[(208914460048774,-27.0)]</td></tr>
+</tbody></table>
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../chapters/scripts/knn-classifier.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../chapters/models/session.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../../chapters/models/models.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../chapters/views/views.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -635,10 +669,10 @@ The data is stored in an SQLite database so that it is easily accessible and sca
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../chapters/scripts/knn-classifier.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../chapters/models/session.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../../chapters/models/models.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../chapters/views/views.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
