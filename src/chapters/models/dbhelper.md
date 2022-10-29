@@ -2,6 +2,7 @@
 
 The `DBHelper` class is responsible for [saving data in an SQLite database](https://developer.android.com/training/data-storage/sqlite).
 The data is stored in an SQLite database so that it is easily accessible and scalable given the amount of data that is used by the application.
+The `DBHelper` class contains methods responsible for setting up the SQLite database, the different tables within it, and how to add and remove data to those tables.
 
 ## Snippet
 
@@ -484,3 +485,47 @@ class DBHelper(context: Context) :
 }
 
 ```
+
+## Tables
+
+> **NOTE:** The values for each table provided is only for visualization.
+
+### Session Table
+
+The session table records the name, rows, and columns of a specific session.
+
+| id  | name      | rows | cols |
+| --- | --------- | ---- | ---- |
+| 0   | Session 1 | 3    | 2    |
+
+### Router Table
+
+The router table records the BSSID or the MAC address of a router as well as its name.
+
+| bssid           | name                                       |
+| --------------- | ------------------------------------------ |
+| 208914460048774 | 66852627208993-xiaomi-repeater-v3_miapdb21 |
+
+### Session Router Table
+
+The session router table records a router in a given session, along with its positioning in the router matrix.
+
+| id  | session_id | router_id       | r   | c   |
+| --- | ---------- | --------------- | --- | --- |
+| 0   | 0          | 208914460048774 | 0   | 0   |
+
+### Record Table
+
+The record table records the total amount of cars (label) for a specific session as well as a timestamp to when it has been recorded.
+
+| id  | session_id | label | timestamp  |
+| --- | ---------- | ----- | ---------- |
+| 0   | 0          | 5     | 1667021128 |
+
+### Data Table
+
+The data table links the router, and the RSSI value associated with it to a record.
+
+| id  | record_id | router_id       | value                     |
+| --- | --------- | --------------- | ------------------------- |
+| 0   | 0         | 208914460048774 | [(208914460048774,-27.0)] |

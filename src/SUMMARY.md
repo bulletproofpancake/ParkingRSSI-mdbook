@@ -6,7 +6,6 @@
 ---
 
 - [KNN Classifier](./chapters/scripts/knn-classifier.md)
-- [DBHelper](./chapters/models/dbhelper.md)
 
 <!--
 # Interfaces
@@ -18,6 +17,7 @@
   - [Prefs](./chapters/models/prefs.md)
   - [RowData](./chapters/models/rowdata.md)
   - [Session](./chapters/models/session.md)
+  - [DBHelper](./chapters/models/dbhelper.md)
 
 - [Views](./chapters/views/views.md)
   - [Main Activity](./chapters/scripts/main-activity.md)
