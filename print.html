@@ -1777,6 +1777,49 @@ The <code>DBHelper</code> class contains methods responsible for setting up the 
 <tr><td>0</td><td>0</td><td>208914460048774</td><td>[(208914460048774,-27.0)]</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h1 id="views"><a class="header" href="#views">Views</a></h1>
+<p>The views are the actual elements that we interact with in the app.
+This means that views are where the classes are instantiated, methods are called, etc.</p>
+<p>The project has two main &quot;views&quot;, <code>Activities</code> and <code>Fragments</code>.
+Activities are the user interface components of Android Studio and
+usually used to create a single screen.
+Fragments are used in order to be able to display multiple &quot;screens&quot;
+on a single activity.</p>
+<p>Looking at the <code>activity_main.xml</code>, there are two major components;
+the <code>nav_view</code> and the <code>nav_host_fragment_activity_main</code> which is where
+the fragments of the screens are located.</p>
+<p><img src="https://i.imgur.com/Mdu9dlC.png" alt="" /></p>
+<p>The <code>nav_view</code> is where the buttons to load the different fragments to display on the <code>nav_host_fragment_activity_main</code>.</p>
+<h2 id="oncreateview-and-ondestroyview"><a class="header" href="#oncreateview-and-ondestroyview">onCreateView and onDestroyView</a></h2>
+<p>The fragments override the <code>onCreateView</code> and <code>onDestroyView</code> methods.
+This only means that code is executed whenever that fragment has been loaded or unloaded.</p>
+<p>Let's take a look at <a href="chapters/views/sessionFragment.html"><code>SessionFragment</code></a> for example.</p>
+<pre><code class="language-kt">override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+): View {
+    // Connects the script to the elements in the xml file
+    _binding = FragmentSessionBinding.inflate(inflater, container, false)
+    val root: View = binding.root
+
+    // Gets a reference to the prefs singleton
+    prefs = Prefs.getInstance(requireContext())!!
+    // Gets a reference to the dbHelper singleton
+    db = DBHelper.getInstance(requireContext())!!
+
+    // Sets up the session view
+    setup()
+
+    // Returns the root which is needed by the function
+    return root
+}
+</code></pre>
+<pre><code class="language-kt">override fun onDestroyView() {
+    super.onDestroyView()
+    // Clears the connection of the script to the elements
+    _binding = null
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="main-activity"><a class="header" href="#main-activity">Main Activity</a></h1>
 <p>The <code>MainActivity</code> class is where the main layout of the app is configured.
 It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; MainActivity.kt</code>.</p>
