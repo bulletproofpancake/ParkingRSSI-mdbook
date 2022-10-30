@@ -14,9 +14,11 @@
 
 - [Models](./chapters/models/models.md)
   - [Router](./chapters/scripts/router.md)
-  - [Prefs](./chapters/models/prefs.md)
   - [RowData](./chapters/models/rowdata.md)
   - [Session](./chapters/models/session.md)
+
+- [Singletons](./chapters/models/singletons.md)
+  - [Prefs](./chapters/models/prefs.md)
   - [DBHelper](./chapters/models/dbhelper.md)
 
 - [Views](./chapters/views/views.md)

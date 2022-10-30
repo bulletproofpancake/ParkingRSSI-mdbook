@@ -49,3 +49,14 @@ class Prefs(context: Context) {
   }
 }
 ```
+
+## Fields
+
+| Fields           | Declaration                             | Description                                                                                                                                   |
+| ---------------- | --------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| PREFS            | `private val PREFS = "parkingrssi"`     | Used to identify the preferences saved on the device                                                                                          |
+| CAPACITY_KEY     | `private val CAPACITY_KEY = "capacity"` | Used to identify the saved capacity on the device                                                                                             |
+| SESSION_KEY      | `private val SESSION_KEY = "session"`   | Used to identify the saved session on the device                                                                                              |
+| CAPACITY_DEFAULT | `private val CAPACITY_DEFAULT = 10`     | The default capacity saved to the device if no capacity has been set                                                                          |
+| SESSION_NULL     | `private val SESSION_NULL = 0L`         | The default session saved to the device if no session has been set                                                                            |
+| sp               | `private var sp: SharedPreferences`     | [SharedPreferences](https://developer.android.com/reference/android/content/SharedPreferences) which are used to access data from the device. |
