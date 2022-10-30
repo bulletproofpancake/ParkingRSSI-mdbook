@@ -60,3 +60,12 @@ class Prefs(context: Context) {
 | CAPACITY_DEFAULT | `private val CAPACITY_DEFAULT = 10`     | The default capacity saved to the device if no capacity has been set                                                                          |
 | SESSION_NULL     | `private val SESSION_NULL = 0L`         | The default session saved to the device if no session has been set                                                                            |
 | sp               | `private var sp: SharedPreferences`     | [SharedPreferences](https://developer.android.com/reference/android/content/SharedPreferences) which are used to access data from the device. |
+
+## Methods
+
+| Method                   | Description                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------- |
+| setCapacity (value: Int) | Sets the capacity saved in the `SharedPreferences` to the value passed through. |
+| setSession (value: Long) | Sets the session saved in the `SharedPreferences` to the value passed through.  |
+| getCapacity              | Gets the capacity saved in the `SharedPreferences`.                             |
+| getSession               | Gets the session saved in the `SharedPreferences`.                              |
