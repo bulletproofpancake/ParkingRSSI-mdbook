@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Views - ParkingRSSI Documentation</title>
+        <title>Singletons - ParkingRSSI Documentation</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">2.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">2.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.2.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.3.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/models/singletons.html"><strong aria-hidden="true">3.</strong> Singletons</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.1.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">3.2.</strong> DBHelper</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html" class="active"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">2.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">2.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.2.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.3.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/models/singletons.html" class="active"><strong aria-hidden="true">3.</strong> Singletons</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.1.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">3.2.</strong> DBHelper</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -136,16 +136,61 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="views"><a class="header" href="#views">Views</a></h1>
+                        <h1 id="singletons"><a class="header" href="#singletons">Singletons</a></h1>
+<p>Singletons are classes which only has a single instance during the runtime of the application.
+When a class is used by the program, it is often instantiated with a constructor like so:</p>
+<pre><code class="language-kt">val session = Session(0, &quot;Session 1&quot;, 2, 3);
+</code></pre>
+<p>This creates an instance of a session with the following data:</p>
+<div class="table-wrapper"><table><thead><tr><th>variable</th><th>id</th><th>name</th><th>rows</th><th>cols</th></tr></thead><tbody>
+<tr><td>session</td><td>0</td><td>Session 1</td><td>2</td><td>3</td></tr>
+</tbody></table>
+</div>
+<p>This means that every time we use the variable <code>session</code>,
+we would always get the following data
+(unless it has been changed, but for this example let us assume that it doesn't).</p>
+<p>This means that if we wish to use create another session, we would create another instance like so:</p>
+<pre><code class="language-kt">val session2 = Session(1, &quot;Session 2&quot;, 4, 4)
+</code></pre>
+<p>Which would create an instance of a session with the following data:</p>
+<div class="table-wrapper"><table><thead><tr><th>variable</th><th>id</th><th>name</th><th>rows</th><th>cols</th></tr></thead><tbody>
+<tr><td>session2</td><td>1</td><td>Session 2</td><td>4</td><td>4</td></tr>
+</tbody></table>
+</div>
+<p>So if we are to print out <code>session.id</code> and <code>session2.id</code> we would have <code>0</code> and <code>1</code> as our results respectively.</p>
+<p>However, there are times where we only need a single instance of a class
+and having multiple instances of these classes would be disastrous as it can lead to inaccurate data.
+In this application, the <a href="dbhelper.html"><code>DBHelper</code></a> and <a href="prefs.html"><code>Prefs</code></a> classes are singletons because
+we do not want our records and settings be saved to different instances which can cause sync issues.</p>
+<p>It is important to know that instances are not limited to separate variables.
+Since variables are only containers,its contents can be easily replaced.
+For example, we created an instance of <code>DBHelper</code> and stored it in the <code>dbHelper</code> variable.
+Somewhere along the line, <code>DBHelper</code> has been instantiated and kept in the <code>dbHelper</code> variable.
+This would mean that <code>dbHelper</code> would no longer be able to access all of the data recorded in it before.</p>
+<p>Singletons help prevent this issue because they ensure that only a single instance of the class lives.</p>
+<p>An implementation of a Singleton can be seen like so:</p>
+<pre><code class="language-kt">// A container for the singleton instance
+private var sInstance: DBHelper? = null
+@Synchronized
+fun getInstance(ctx: Context): DBHelper? {
+    // Checks if there is an existing instance
+    if (sInstance == null) {
+        // if there is none, an instance is created
+        sInstance = DBHelper(ctx.applicationContext)
+    }
+    // Returns the instance to whatever needs it
+    return sInstance
+}
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../chapters/models/dbhelper.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../chapters/models/session.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../../chapters/scripts/main-activity.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../../chapters/models/prefs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -154,10 +199,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../chapters/models/dbhelper.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../chapters/models/session.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../../chapters/scripts/main-activity.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../../chapters/models/prefs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

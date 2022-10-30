@@ -78,7 +78,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/models/models.html"><strong aria-hidden="true">2.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/scripts/router.html"><strong aria-hidden="true">2.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="chapters/models/prefs.html"><strong aria-hidden="true">2.2.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/models/rowdata.html"><strong aria-hidden="true">2.3.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/models/session.html"><strong aria-hidden="true">2.4.</strong> Session</a></li><li class="chapter-item expanded "><a href="chapters/models/dbhelper.html"><strong aria-hidden="true">2.5.</strong> DBHelper</a></li></ol></li><li class="chapter-item expanded "><a href="chapters/views/views.html"><strong aria-hidden="true">3.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/scripts/main-activity.html"><strong aria-hidden="true">3.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/views/sessionFragment.html"><strong aria-hidden="true">3.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/scanRouterFragment.html"><strong aria-hidden="true">3.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/homeFragment.html"><strong aria-hidden="true">3.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/dataFragment.html"><strong aria-hidden="true">3.5.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="chapters/models/models.html"><strong aria-hidden="true">2.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/scripts/router.html"><strong aria-hidden="true">2.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="chapters/models/rowdata.html"><strong aria-hidden="true">2.2.</strong> RowData</a></li><li class="chapter-item expanded "><a href="chapters/models/session.html"><strong aria-hidden="true">2.3.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="chapters/models/singletons.html"><strong aria-hidden="true">3.</strong> Singletons</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/models/prefs.html"><strong aria-hidden="true">3.1.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="chapters/models/dbhelper.html"><strong aria-hidden="true">3.2.</strong> DBHelper</a></li></ol></li><li class="chapter-item expanded "><a href="chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/homeFragment.html"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -1073,9 +1073,132 @@ It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router
     return &quot;$bssid: $name&lt;$bssidStr&gt; ($row, $col)&quot;
 }
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rowdata"><a class="header" href="#rowdata">RowData</a></h1>
+<p>The <code>RowData</code> class is used for saving and restoring the RSSI values recorded.</p>
+<h2 id="snippet-12"><a class="header" href="#snippet-12">Snippet</a></h2>
+<pre><code class="language-kt">class RowData (
+	val recordId: Long,
+	val label: Int
+) {
+	val values = arrayListOf&lt;Float&gt;()
+
+	fun addVal(value: Float) {
+		values.add(value)
+	}
+
+	override fun toString(): String {
+		return &quot;$recordId: $label; $values&quot;
+	}
+}
+</code></pre>
+<h2 id="fields-2"><a class="header" href="#fields-2">Fields</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>recordID</td><td><code>val recordID: Long</code></td><td>Used to identify the record in the database.</td></tr>
+<tr><td>label</td><td><code>val label: Int</code></td><td>The number of cars occupied for the set of RSSI values recorded.</td></tr>
+<tr><td>values</td><td><code>val values = arrayListOf&lt;Float&gt;</code></td><td>The RSSI values for this row.</td></tr>
+</tbody></table>
+</div>
+<h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
+<h3 id="addval"><a class="header" href="#addval">addVal</a></h3>
+<p>The <code>addVal</code> method adds the RSSI value from a router to <code>values</code>.</p>
+<h4 id="snippet-13"><a class="header" href="#snippet-13">Snippet</a></h4>
+<pre><code class="language-kt">fun addVal(value: Float){
+	values.add(value)
+}
+</code></pre>
+<h4 id="parameters-4"><a class="header" href="#parameters-4">Parameters</a></h4>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>value</td><td><code>value: Float</code></td><td>The RSSI value received from a router.</td></tr>
+</tbody></table>
+</div>
+<h2 id="overrides-1"><a class="header" href="#overrides-1">Overrides</a></h2>
+<h3 id="tostring-1"><a class="header" href="#tostring-1">toString</a></h3>
+<p>Overrides the default toString method to the string format.</p>
+<h4 id="snippet-14"><a class="header" href="#snippet-14">Snippet</a></h4>
+<pre><code class="language-kt">override fun toString(): String{
+	return &quot;$recordID: $label; $values&quot;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="session"><a class="header" href="#session">Session</a></h1>
+<p>The <code>Session</code> class contains information for saving and restoring sessions
+which are configurations for the routers.</p>
+<h2 id="snippet-15"><a class="header" href="#snippet-15">Snippet</a></h2>
+<pre><code class="language-kt">class Session(
+	val id: Long,
+	var name: String,
+	var rows: Int,
+	var cols: Int
+) {
+	override fun toString(): String {
+		return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
+	}
+}
+</code></pre>
+<h2 id="fields-3"><a class="header" href="#fields-3">Fields</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td>id</td><td>Used to identify the record in the database</td></tr>
+<tr><td>name</td><td>The name set by the user to identify the session</td></tr>
+<tr><td>rows</td><td>The number of rows for the router matrix</td></tr>
+<tr><td>cols</td><td>The number of columns for the router matrix</td></tr>
+</tbody></table>
+</div>
+<h2 id="overrides-2"><a class="header" href="#overrides-2">Overrides</a></h2>
+<h3 id="tostring-2"><a class="header" href="#tostring-2">toString</a></h3>
+<p>Overrides the default toString method to the string format.</p>
+<h4 id="snippet-16"><a class="header" href="#snippet-16">Snippet</a></h4>
+<pre><code class="language-kt">override fun toString(): String{
+	return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="singletons"><a class="header" href="#singletons">Singletons</a></h1>
+<p>Singletons are classes which only has a single instance during the runtime of the application.
+When a class is used by the program, it is often instantiated with a constructor like so:</p>
+<pre><code class="language-kt">val session = Session(0, &quot;Session 1&quot;, 2, 3);
+</code></pre>
+<p>This creates an instance of a session with the following data:</p>
+<div class="table-wrapper"><table><thead><tr><th>variable</th><th>id</th><th>name</th><th>rows</th><th>cols</th></tr></thead><tbody>
+<tr><td>session</td><td>0</td><td>Session 1</td><td>2</td><td>3</td></tr>
+</tbody></table>
+</div>
+<p>This means that every time we use the variable <code>session</code>,
+we would always get the following data
+(unless it has been changed, but for this example let us assume that it doesn't).</p>
+<p>This means that if we wish to use create another session, we would create another instance like so:</p>
+<pre><code class="language-kt">val session2 = Session(1, &quot;Session 2&quot;, 4, 4)
+</code></pre>
+<p>Which would create an instance of a session with the following data:</p>
+<div class="table-wrapper"><table><thead><tr><th>variable</th><th>id</th><th>name</th><th>rows</th><th>cols</th></tr></thead><tbody>
+<tr><td>session2</td><td>1</td><td>Session 2</td><td>4</td><td>4</td></tr>
+</tbody></table>
+</div>
+<p>So if we are to print out <code>session.id</code> and <code>session2.id</code> we would have <code>0</code> and <code>1</code> as our results respectively.</p>
+<p>However, there are times where we only need a single instance of a class
+and having multiple instances of these classes would be disastrous as it can lead to inaccurate data.
+In this application, the <a href="chapters/models/dbhelper.html"><code>DBHelper</code></a> and <a href="chapters/models/prefs.html"><code>Prefs</code></a> classes are singletons because
+we do not want our records and settings be saved to different instances which can cause sync issues.</p>
+<p>It is important to know that instances are not limited to separate variables.
+Since variables are only containers,its contents can be easily replaced.
+For example, we created an instance of <code>DBHelper</code> and stored it in the <code>dbHelper</code> variable.
+Somewhere along the line, <code>DBHelper</code> has been instantiated and kept in the <code>dbHelper</code> variable.
+This would mean that <code>dbHelper</code> would no longer be able to access all of the data recorded in it before.</p>
+<p>Singletons help prevent this issue because they ensure that only a single instance of the class lives.</p>
+<p>An implementation of a Singleton can be seen like so:</p>
+<pre><code class="language-kt">// A container for the singleton instance
+private var sInstance: DBHelper? = null
+@Synchronized
+fun getInstance(ctx: Context): DBHelper? {
+    // Checks if there is an existing instance
+    if (sInstance == null) {
+        // if there is none, an instance is created
+        sInstance = DBHelper(ctx.applicationContext)
+    }
+    // Returns the instance to whatever needs it
+    return sInstance
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="prefs"><a class="header" href="#prefs">Prefs</a></h1>
 <p>The <code>Prefs</code> class is responsible for the default preferences between sessions.</p>
-<h2 id="snippet-12"><a class="header" href="#snippet-12">Snippet</a></h2>
+<h2 id="snippet-17"><a class="header" href="#snippet-17">Snippet</a></h2>
 <pre><code class="language-kt">class Prefs(context: Context) {
   private val PREFS = &quot;parkingrssi&quot;
 
@@ -1120,84 +1243,16 @@ It is located at <code>app &gt; java &gt; com.silentrald.parkingrssi &gt; Router
   }
 }
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="rowdata"><a class="header" href="#rowdata">RowData</a></h1>
-<p>The <code>RowData</code> class is used for saving and restoring the RSSI values recorded.</p>
-<h2 id="snippet-13"><a class="header" href="#snippet-13">Snippet</a></h2>
-<pre><code class="language-kt">class RowData (
-	val recordId: Long,
-	val label: Int
-) {
-	val values = arrayListOf&lt;Float&gt;()
-
-	fun addVal(value: Float) {
-		values.add(value)
-	}
-
-	override fun toString(): String {
-		return &quot;$recordId: $label; $values&quot;
-	}
-}
-</code></pre>
-<h2 id="fields-2"><a class="header" href="#fields-2">Fields</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
-<tr><td>recordID</td><td><code>val recordID: Long</code></td><td>Used to identify the record in the database.</td></tr>
-<tr><td>label</td><td><code>val label: Int</code></td><td>The number of cars occupied for the set of RSSI values recorded.</td></tr>
-<tr><td>values</td><td><code>val values = arrayListOf&lt;Float&gt;</code></td><td>The RSSI values for this row.</td></tr>
+<h2 id="fields-4"><a class="header" href="#fields-4">Fields</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Fields</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
+<tr><td>PREFS</td><td><code>private val PREFS = &quot;parkingrssi&quot;</code></td><td>Used to identify the preferences saved on the device</td></tr>
+<tr><td>CAPACITY_KEY</td><td><code>private val CAPACITY_KEY = &quot;capacity&quot;</code></td><td>Used to identify the saved capacity on the device</td></tr>
+<tr><td>SESSION_KEY</td><td><code>private val SESSION_KEY = &quot;session&quot;</code></td><td>Used to identify the saved session on the device</td></tr>
+<tr><td>CAPACITY_DEFAULT</td><td><code>private val CAPACITY_DEFAULT = 10</code></td><td>The default capacity saved to the device if no capacity has been set</td></tr>
+<tr><td>SESSION_NULL</td><td><code>private val SESSION_NULL = 0L</code></td><td>The default session saved to the device if no session has been set</td></tr>
+<tr><td>sp</td><td><code>private var sp: SharedPreferences</code></td><td><a href="https://developer.android.com/reference/android/content/SharedPreferences">SharedPreferences</a> which are used to access data from the device.</td></tr>
 </tbody></table>
-</div>
-<h2 id="methods-2"><a class="header" href="#methods-2">Methods</a></h2>
-<h3 id="addval"><a class="header" href="#addval">addVal</a></h3>
-<p>The <code>addVal</code> method adds the RSSI value from a router to <code>values</code>.</p>
-<h4 id="snippet-14"><a class="header" href="#snippet-14">Snippet</a></h4>
-<pre><code class="language-kt">fun addVal(value: Float){
-	values.add(value)
-}
-</code></pre>
-<h4 id="parameters-4"><a class="header" href="#parameters-4">Parameters</a></h4>
-<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Declaration</th><th>Description</th></tr></thead><tbody>
-<tr><td>value</td><td><code>value: Float</code></td><td>The RSSI value received from a router.</td></tr>
-</tbody></table>
-</div>
-<h2 id="overrides-1"><a class="header" href="#overrides-1">Overrides</a></h2>
-<h3 id="tostring-1"><a class="header" href="#tostring-1">toString</a></h3>
-<p>Overrides the default toString method to the string format.</p>
-<h4 id="snippet-15"><a class="header" href="#snippet-15">Snippet</a></h4>
-<pre><code class="language-kt">override fun toString(): String{
-	return &quot;$recordID: $label; $values&quot;
-}
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="session"><a class="header" href="#session">Session</a></h1>
-<p>The <code>Session</code> class contains information for saving and restoring sessions
-which are configurations for the routers.</p>
-<h2 id="snippet-16"><a class="header" href="#snippet-16">Snippet</a></h2>
-<pre><code class="language-kt">class Session(
-	val id: Long,
-	var name: String,
-	var rows: Int,
-	var cols: Int
-) {
-	override fun toString(): String {
-		return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
-	}
-}
-</code></pre>
-<h2 id="fields-3"><a class="header" href="#fields-3">Fields</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
-<tr><td>id</td><td>Used to identify the record in the database</td></tr>
-<tr><td>name</td><td>The name set by the user to identify the session</td></tr>
-<tr><td>rows</td><td>The number of rows for the router matrix</td></tr>
-<tr><td>cols</td><td>The number of columns for the router matrix</td></tr>
-</tbody></table>
-</div>
-<h2 id="overrides-2"><a class="header" href="#overrides-2">Overrides</a></h2>
-<h3 id="tostring-2"><a class="header" href="#tostring-2">toString</a></h3>
-<p>Overrides the default toString method to the string format.</p>
-<h4 id="snippet-17"><a class="header" href="#snippet-17">Snippet</a></h4>
-<pre><code class="language-kt">override fun toString(): String{
-	return &quot;Id: $id; Name: $name; Rows: $rows; Cols: $cols\n&quot;
-}
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="dbhelper"><a class="header" href="#dbhelper">DBHelper</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="dbhelper"><a class="header" href="#dbhelper">DBHelper</a></h1>
 <p>The <code>DBHelper</code> class is responsible for <a href="https://developer.android.com/training/data-storage/sqlite">saving data in an SQLite database</a>.
 The data is stored in an SQLite database so that it is easily accessible and scalable given the amount of data that is used by the application.
 The <code>DBHelper</code> class contains methods responsible for setting up the SQLite database, the different tables within it, and how to add and remove data to those tables.</p>
