@@ -96,7 +96,6 @@ class ScanRouterFragment : Fragment() {
     wifiManager = requireContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
     if (!wifiManager.isWifiEnabled) {
       Toast.makeText(context, "Enable your wifi", Toast.LENGTH_LONG).show()
-      // TODO: Change navigation
     }
 
     // The receiver which detects the changes in the wifi
