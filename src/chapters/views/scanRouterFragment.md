@@ -1,5 +1,7 @@
 # Scan Router Fragment
 
+The scan router fragment is the screen where routers are scanned, configured, and saved to the database.
+
 ## Layout
 
 ![](https://i.imgur.com/AgiU6tC.jpg)

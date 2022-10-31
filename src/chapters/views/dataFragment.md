@@ -1,5 +1,7 @@
 # Data Fragment
 
+The data fragment is where the data recorded in the [Home Fragment](homeFragment.md) can be viewed, removed, imported, and exported.
+
 ## Layout
 
 ![](https://i.imgur.com/XluMSz8.jpg)

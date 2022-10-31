@@ -1,6 +1,6 @@
 # Home Fragment
 
-
+The home fragment is where the data can be recorded and predicted based on the routers set up on the [Scan Router Fragment](scanRouterFragment.md).
 
 ## Layout
 

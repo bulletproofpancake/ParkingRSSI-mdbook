@@ -1,5 +1,8 @@
 # Session Fragment
 
+The session fragment is the screen where sessions can be added, selected, and deleted.
+Sessions are used by the application to keep track of recordings and configurations with the database.
+
 ## Layout
 
 ![](https://i.imgur.com/4ZBU6jD.jpg)
