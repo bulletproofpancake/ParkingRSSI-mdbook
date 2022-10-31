@@ -15,9 +15,13 @@ class MainActivity : AppCompatActivity() {
 
   private lateinit var binding: ActivityMainBinding
 
+  // Similar to the onCreateView of the fragments
+  // Meaning that it gets loaded when the application is loaded
   override fun onCreate(savedInstanceState: Bundle?) {
+    // Allows the default implementation of the function to run
     super.onCreate(savedInstanceState)
 
+    // Connects the script to the xml file
     binding = ActivityMainBinding.inflate(layoutInflater)
     setContentView(binding.root)
 
@@ -33,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         R.id.navigation_data
       )
     )
+    // Sets up the nav bar with the correct app configuration
     setupActionBarWithNavController(navController, appBarConfiguration)
     navView.setupWithNavController(navController)
   }
