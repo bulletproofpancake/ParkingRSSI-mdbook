@@ -2004,6 +2004,7 @@ in order to configure the navigation bar of the application.</p>
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
+		// Connects the script to the elements in the xml file
     _binding = FragmentScanRouterBinding.inflate(inflater, container, false)
     val root: View = binding.root
 
@@ -2011,22 +2012,30 @@ in order to configure the navigation bar of the application.</p>
     db = DBHelper.getInstance(requireContext())!!
     prefs = Prefs.getInstance(requireContext())!!
     
+    // Gets the current session from the preferences and stores it locally
     val lSession = db.getSessionById(prefs.getSession())
 
     if (lSession == null) {
+      // Goes to the session screen if there are no sessions found
       findNavController().navigate(R.id.action_navigation_scan_routers_to_navigation_session)
       return root
     }
-
+    
+    // Sets the global reference to the local session
     session = lSession
+    // Sets the row and column text fields of the matrix
     binding.etRow.setText(session.rows.toString())
     binding.etCol.setText(session.cols.toString())
+
+    // Sets up the rest of the view
     setup()
 
+    // Required by the method
     return root
   }
 
   private fun setup() {
+    // Removes the existing routers listed
     binding.llRouters.removeAllViews()
 
     reset()
@@ -2037,46 +2046,62 @@ in order to configure the navigation bar of the application.</p>
   }
 
   private fun reset() {
+    // Clears the list of routers currently stored
     routers.clear()
     for (row in 0 until session.rows) {
+      // Creates a list for the routers per row
       routers.add(ArrayList())
       for (col in 0 until session.cols) {
+        // Fills the current column with null
         routers[row].add(null)
       }
     }
 
+    // Removes the content of the grid layout
     binding.glRouterMatrix.removeAllViews()
 
+    // Sets the grid layout according to the session
     binding.glRouterMatrix.rowCount = session.rows
     binding.glRouterMatrix.columnCount = session.cols
   }
 
   private fun setupWifiManager() {
+    // Gets a reference to the Wifi Manager
     wifiManager = requireContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
     if (!wifiManager.isWifiEnabled) {
       Toast.makeText(context, &quot;Enable your wifi&quot;, Toast.LENGTH_LONG).show()
       // TODO: Change navigation
     }
 
+    // The receiver which detects the changes in the wifi
     wifiScanReceiver = object : BroadcastReceiver() {
       override fun onReceive(ctx: Context, intent: Intent) {
+        // Checks if wifi scan is successful
         val success = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false)
         if (success) scanSuccess() else scanFailure()
       }
     }
 
+    // Filters the amount of Intent that can be received
     val intentFilter = IntentFilter()
+    // Adds the WifiManager.SCAN_RESULTS_AVAILABLE_ACTION
+    // to the intents that will be received
     intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+    // Registers the wifiScanReceiver with the intentFilter
     requireContext().registerReceiver(wifiScanReceiver, intentFilter)
   }
 
   private  fun setupRouters() {
     Log.d(TAG, &quot;Setup Routers&quot;)
 
+    // Gets the session stored in the preferences
     val session = prefs.getSession()
     if (session == 0L) { return }
+    // Gets the routers from the database
     val dbRouters = db.getSessionRouters(session)
     for (router in dbRouters) {
+      // Populates the routers of the fragment
+      // With the routers from the database
       routers[router.row][router.col] = router
     }
   }
@@ -2099,18 +2124,22 @@ in order to configure the navigation bar of the application.</p>
         tvCell.width = ViewGroup.LayoutParams.WRAP_CONTENT
 
         tvCell.setBackgroundColor(if ((row + col) % 2 == 0) Color.RED else Color.BLUE)
+        // Sets up what happens when a cell is clicked
         tvCell.setOnClickListener {
           if (cellSelected != null) {
             val (r, c) = pos
             cellSelected!!.setBackgroundColor(if ((r + c) % 2 == 0) Color.RED else Color.BLUE)
           }
 
+          // Gets the current position of the cell
           pos = Pair(row, col)
           tvCell.setBackgroundColor(Color.WHITE)
           tvCell.setTextColor(Color.BLACK)
+          // Sets the current cell to the selected cell
           cellSelected = tvCell
         }
 
+        // Adds the cell to the matrix view
         binding.glRouterMatrix.addView(tvCell, params)
 
         // Text Formatting
@@ -2121,6 +2150,7 @@ in order to configure the navigation bar of the application.</p>
         tvCell.setTextColor(Color.WHITE)
 
         val router = routers[row][col]
+        // Sets the label displayed on the cell to the name of the router
         val text = if (router != null) &quot;${router.getName()}\n${router.getBSSIDStr()}&quot; else &quot;NULL&quot;
         tvCell.text = text
       }
