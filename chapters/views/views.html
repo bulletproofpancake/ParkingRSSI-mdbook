@@ -174,12 +174,14 @@ This only means that code is executed whenever that fragment has been loaded or 
     return root
 }
 </code></pre>
+<p>As we can see, on the <code>onCreateView</code>, everything the application will need gets loaded and setup.</p>
 <pre><code class="language-kt">override fun onDestroyView() {
     super.onDestroyView()
     // Clears the connection of the script to the elements
     _binding = null
 }
 </code></pre>
+<p>While on the <code>onDestroyView</code>, the connections of the script and elements gets unloaded.</p>
 
                     </main>
 
