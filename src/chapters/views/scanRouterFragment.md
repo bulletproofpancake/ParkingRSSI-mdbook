@@ -184,31 +184,46 @@ class ScanRouterFragment : Fragment() {
   }
 
   private fun setupListeners() {
+    // Sets up what happens when the
+    // Set Router Matrix button is clicked
     binding.btnSetMatrix.setOnClickListener {
+      // Sets the row and column of the matrix
+      // depending on the text selected
       val row = binding.etRow.text.toString().toInt()
       val col = binding.etCol.text.toString().toInt()
       Log.d(TAG, "Pressed ($col, $row)")
 
+      // Checks if the current rows and columns
+      // are the same as the one saved in the current session
+      // then changes it if it is different
       if (session.rows != row || session.cols != col) {
         session.rows = row
         session.cols = col
 
-        // TODO: Transactional
+        // Updates the session in the database
         db.deleteSessionRows(session.id)
         db.deleteSessionRouters(session.id)
         db.updateSession(session)
 
+        // Clears the routers
         reset()
+        // Sets up the new grid layout
         setupGrid()
       }
     }
 
+    // Sets up what happens when the Routers button is clicked
     binding.btnScanRouters.setOnClickListener {
       Log.d(TAG, "Start Scanning")
 
+      // The wifi manager starts scanning the network
+      // This sends out the intent WifiManager.SCAN_RESULTS_AVAILABLE_ACTION
+      // which creates the buttons for each router to be selected in scanSuccess
       val scanning = wifiManager.startScan()
       if (scanning) {
+        // Clears the existing routers in the view
         binding.llRouters.removeAllViews()
+        // Shows the progress bar
         binding.progressbar.visibility = View.VISIBLE
       } else {
         Toast.makeText(requireContext(),
@@ -221,24 +236,36 @@ class ScanRouterFragment : Fragment() {
   private fun scanSuccess() {
     Log.d(TAG, "Scan Successful")
 
+    // Hids the progress bar
     binding.progressbar.visibility = View.INVISIBLE
     val llRouters = binding.llRouters
 
+    // Gets the results of the scan from the  wifiManager
     val results = wifiManager.scanResults
     for (result in results) {
+      // Creates a button for each router
       val btn = Button(context)
 
+      // Sets the name of the button according to the
+      // name and address of the router
       val text = "${result.SSID}<${result.BSSID}>"
       btn.text = text
 
+      // Sets up what happens when the router button is clicked
       btn.setOnClickListener {
         if (cellSelected == null) {
           return@setOnClickListener
         }
 
+        // Retrieves the name and address of the router from the name of the button
         val (SSID, BSSID) = btn.text.subSequence(0, btn.text.length - 1).split("<")
+        // Sets the router row and column according to
+        // the position of the selected cell in the grid
         val (r, c) = pos
+        // Creates a new instance of the router using the name and address
+        // retrieved from the button earlier
         val router = Router(BSSID, SSID)
+        // Sets the row and column from the position
         router.row = r
         router.col = c
 
@@ -248,6 +275,7 @@ class ScanRouterFragment : Fragment() {
 
         routers[r][c] = router
 
+        // Adds the router to the cell in the router matrix
         cellSelected!!.setBackgroundColor(if ((r + c) % 2 == 0) Color.RED else Color.BLUE)
         cellSelected!!.text = btnTxt
 
@@ -256,6 +284,7 @@ class ScanRouterFragment : Fragment() {
         btn.isEnabled = false
 
         try {
+          // Adds the router to the database
           db.addRouter(router.getBSSID(), router.getName())
           db.addSessionRouter(prefs.getSession(), router.getBSSID(), r, c)
         } catch (e: Exception) {
@@ -263,6 +292,7 @@ class ScanRouterFragment : Fragment() {
         }
       }
 
+      // Adds the router to the list view
       llRouters.addView(btn)
     }
   }
@@ -275,6 +305,7 @@ class ScanRouterFragment : Fragment() {
     super.onDestroyView()
     _binding = null
 
+    // Deregister the wifiScanReceiver
     if (wifiScanReceiver != null) {
       requireContext().unregisterReceiver(wifiScanReceiver)
       wifiScanReceiver = null
