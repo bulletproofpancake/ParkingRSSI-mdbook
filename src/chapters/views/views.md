@@ -47,6 +47,8 @@ override fun onCreateView(
 }
 ```
 
+As we can see, on the `onCreateView`, everything the application will need gets loaded and setup.
+
 ```kt
 override fun onDestroyView() {
     super.onDestroyView()
@@ -54,3 +56,5 @@ override fun onDestroyView() {
     _binding = null
 }
 ```
+
+While on the `onDestroyView`, the connections of the script and elements gets unloaded.
