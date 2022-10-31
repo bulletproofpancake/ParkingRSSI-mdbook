@@ -77,7 +77,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">2.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">2.1.</strong> Router</a></li><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.2.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.3.</strong> Session</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/models/singletons.html"><strong aria-hidden="true">3.</strong> Singletons</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.1.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">3.2.</strong> DBHelper</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html" class="active"><strong aria-hidden="true">4.4.</strong> Home Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.5.</strong> Data Fragment</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../../chapters/applicationOverview.html">Application Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/algorithmOverview.html">Algorithm Overview</a></li><li class="chapter-item expanded affix "><a href="../../chapters/projectStructure.html">Project Structure</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../../chapters/scripts/knn-classifier.html"><strong aria-hidden="true">1.</strong> KNN Classifier</a></li><li class="chapter-item expanded "><a href="../../chapters/models/models.html"><strong aria-hidden="true">2.</strong> Models</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/rowdata.html"><strong aria-hidden="true">2.1.</strong> RowData</a></li><li class="chapter-item expanded "><a href="../../chapters/models/session.html"><strong aria-hidden="true">2.2.</strong> Session</a></li><li class="chapter-item expanded "><a href="../../chapters/scripts/router.html"><strong aria-hidden="true">2.3.</strong> Router</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/models/singletons.html"><strong aria-hidden="true">3.</strong> Singletons</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/models/prefs.html"><strong aria-hidden="true">3.1.</strong> Prefs</a></li><li class="chapter-item expanded "><a href="../../chapters/models/dbhelper.html"><strong aria-hidden="true">3.2.</strong> DBHelper</a></li></ol></li><li class="chapter-item expanded "><a href="../../chapters/views/views.html"><strong aria-hidden="true">4.</strong> Views</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../chapters/scripts/main-activity.html"><strong aria-hidden="true">4.1.</strong> Main Activity</a></li><li class="chapter-item expanded "><a href="../../chapters/views/sessionFragment.html"><strong aria-hidden="true">4.2.</strong> Session Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/scanRouterFragment.html"><strong aria-hidden="true">4.3.</strong> Scan Router Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/dataFragment.html"><strong aria-hidden="true">4.4.</strong> Data Fragment</a></li><li class="chapter-item expanded "><a href="../../chapters/views/homeFragment.html" class="active"><strong aria-hidden="true">4.5.</strong> Home Fragment</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -162,6 +162,7 @@
   var label: Int = 0
   private lateinit var session: Session
 
+  // Determines the state of the application
   private enum class State {
     RECORDING,
     PREDICTING,
@@ -181,21 +182,28 @@
     _binding = FragmentHomeBinding.inflate(inflater, container, false)
     val root: View = binding.root
 
+    // Gets the instance of the prefs and dbhelper
     prefs = Prefs.getInstance(requireContext())!!
     db = DBHelper.getInstance(requireContext())!!
+    // Gets the session from the database
     val lSession = db.getSessionById(prefs.getSession())
+    // Gets the capacity from the preferences
     capacity = prefs.getCapacity()
 
+    // Sets the text in the capacity field to the current capacity
     binding.etCapacity.setText(capacity.toString())
 
     _context = requireContext()
 
+    // Checks if there is a session saved and opens the session fragment if there is none
     if (lSession == null) {
       findNavController().navigate(R.id.action_navigation_home_to_navigation_session)
       return root
     }
 
+    // Sets the global session to the current session
     session = lSession
+    // Sets up the other components
     setup()
 
     return root
@@ -208,11 +216,11 @@
     setupKNN()
   }
 
+  // Similar to how the wifi manager is setup in Scan Router Fragment
   private fun setupWifiManager() {
     wifiManager = requireContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
     if (!wifiManager.isWifiEnabled) {
       Toast.makeText(context, &quot;Enable your wifi&quot;, Toast.LENGTH_LONG).show()
-      // TODO: Graceful exit
     }
 
     wifiReceiver = object : BroadcastReceiver() {
@@ -230,6 +238,8 @@
 
   private fun setupListeners() {
     // Text Changes
+    // Saves the new capacity to the preferences
+    // when it has been changed in the input field
     binding.etCapacity.doOnTextChanged { text, _, _, _ -&gt;
       val t = text.toString()
       if (t != &quot;&quot;) {
@@ -238,6 +248,8 @@
       }
     }
 
+    // Saves the new label to the preferences
+    // when it has been changed in the input field
     binding.etLabel.doOnTextChanged { text, _, _, _ -&gt;
       val t = text.toString()
       if (t != &quot;&quot;) {
@@ -247,12 +259,14 @@
     }
 
     // Button Clicks
+    // Sets what happens when the Record button is clicked
     binding.btnRecord.setOnClickListener {
       setupScan()
 
       state = State.RECORDING
     }
 
+    // Sets what happens when the Predict button is clicked
     binding.btnScanning.setOnClickListener {
       setupScan()
 
@@ -260,6 +274,7 @@
     }
   }
 
+  // Sets up the router matrix visual similar to the Scan Router Fragment
   private fun setupGrid() {
     // Clear values
     binding.glOutputMatrix.removeAllViews()
@@ -293,11 +308,14 @@
   }
 
   private fun setupKNN() {
+    // Gets the current session saved in the device
     val session = prefs.getSession()
     if (session == 0L) {
+      // Does not continue if there are no sessions found
       return
     }
 
+    // Loads the data of the session from the database to the KNN Classifier class
     knnClassifier.loadMatrix(db.getData(session))
   }
 
@@ -331,15 +349,21 @@
     disableButtons()
 
     val handler = Handler()
+    // Executes the code within after a certain amount of time
     handler.postDelayed({
+      // Clears the existing list of routers
       routers.clear()
 
+      // Gets the current session from the device
       val session = prefs.getSession()
       if (session &gt; 0L) {
+        // Gets routers from the database for the session
         val dbRouters = db.getSessionRouters(session)
         for (router in dbRouters) {
+          // Sets the routers in the view with the routers from the database
           routers[router.getBSSID()] = router
         }
+        // Sets the input size of the knn classifier to the number of routers
         knnClassifier.inputSize = routers.size
 
         if (!wifiManager.startScan()) {
@@ -354,32 +378,46 @@
     binding.tvMessage.text = &quot;Scan Successful&quot;
     binding.tvMessage.setBackgroundColor(Color.GREEN)
 
+    // Gets the results of the wifi scan
     val results = wifiManager.scanResults
 
     when (state) {
+      // Sets up what happens when the state is set to predicting
       State.PREDICTING -&gt; {
+        // Creates a float array to store the RSSI values
         val vector = FloatArray(routers.size)
         for (result in results) {
+          // Grabs a router from the results of the wifiManager
           var router = Router(result.BSSID, result.SSID)
           if (routers.contains(router.getBSSID()) &amp;&amp; routers[router.getBSSID()] != null) {
+            // Gets the RSSI value of the router and adds it to the vector
             router = routers[router.getBSSID()]!!
             val dbm = result.level
             vector[router.row * session.cols + router.col] = dbm.toFloat()
 
+            // Displays the RSSI value in the router matrix in the home fragment view
             outputMatrix[router.row][router.col].text = dbm.toString()
           }
         }
 
+        // Runs the predict method of the knnClassifier and collects the
+        // amount of occupied vehicles detected for the set of RSSI values stored in vector
         val prediction = knnClassifier.predict(vector.toCollection(ArrayList()))
         Log.i(TAG, &quot;Capacity: $capacity ; Prediction: $prediction&quot;)
+        // Displays the amount of occupied vehicles in the home view
         binding.tvOccupied.text = &quot;Occupied: $prediction&quot;
+        // Displays the amount of unoccupied vehicles in the home view
         binding.tvUnoccupied.text = &quot;Unoccupied: ${capacity - prediction}&quot;
 
         state = State.NONE
       }
+      // Sets up what happens when the state is set to recording
       State.RECORDING -&gt; {
+        // Creates a float array to store the RSSI values
         val vector = FloatArray(routers.size)
+        // Creates a hashmap to store the router id and its associated RSSI value
         val values = hashMapOf&lt;Long, Float&gt;()
+        // Initializes the hashmap
         for ((key, _) in routers) {
           values[key] = 0f
         }
@@ -387,11 +425,15 @@
         for (result in results) {
           var router = Router(result.BSSID, result.SSID)
           if (routers.contains(router.getBSSID()) &amp;&amp; routers[router.getBSSID()] != null) {
+            // Grabs a router from the results of the wifiManager
             router = routers[router.getBSSID()]!!
+            // Gets the RSSI value of the router and adds it to the vector
             val dbm = result.level.toFloat()
             vector[router.row * session.cols + router.col] = dbm
 
+            // Displays the RSSI value in the router matrix in the home fragment view
             outputMatrix[router.row][router.col].text = &quot;$dbm dbm&quot;
+            // Pairs the RSSI value with the router
             values[router.getBSSID()] = dbm
           }
         }
@@ -401,11 +443,13 @@
 
         Log.d(TAG, &quot;Vector: ${vector.joinToString(&quot;, &quot;, &quot;[ &quot;, &quot; ]&quot;)} ; Label: $label&quot;)
 
+        // Adds the point to the knn classifier with the paired label
         knnClassifier.addPoint(
           vector.toCollection(ArrayList()),
           label
         )
 
+        // Adds the points as a row in the database
         db.addRow(prefs.getSession(), label, values)
         state = State.NONE
       }
@@ -437,11 +481,8 @@
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../chapters/views/scanRouterFragment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../chapters/views/dataFragment.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a rel="next" href="../../chapters/views/dataFragment.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -449,11 +490,8 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../chapters/views/scanRouterFragment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../chapters/views/dataFragment.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a rel="next" href="../../chapters/views/dataFragment.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
