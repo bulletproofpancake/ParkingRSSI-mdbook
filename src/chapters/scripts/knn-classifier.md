@@ -237,7 +237,7 @@ Afterwards, the distance is computed by going through each item in the lists and
 | i   | ps1   | ps2   | distance | \\[\sum_{i=0}^{ps1.size} {distance}\\] |
 | --- | ----- | ----- | -------- | -------------------------------------- |
 | 0   | -27.0 | -26.0 | 1        | 1                                      |
-| 2   | -36.0 | -37.0 | 1        | 2                                      |
+| 1   | -36.0 | -37.0 | 1        | 2                                      |
 | 2   | -20.0 | -20.0 | 0        | 2                                      |
 | 3   | -27.0 | -28.0 | 1        | 3                                      |
 | 4   | -31.0 | -30.0 | 1        | 4                                      |
