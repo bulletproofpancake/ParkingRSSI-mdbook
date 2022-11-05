@@ -215,7 +215,7 @@ Let us say for example that we are working with the following data:
 | i   | ps1   | ps2   |
 | --- | ----- | ----- |
 | 0   | -27.0 | -26.0 |
-| 2   | -36.0 | -37.0 |
+| 1   | -36.0 | -37.0 |
 | 2   | -20.0 | -20.0 |
 | 3   | -27.0 | -28.0 |
 | 4   | -31.0 | -30.0 |
