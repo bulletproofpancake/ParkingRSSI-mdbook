@@ -210,6 +210,41 @@ for (i in 0 until ps1.size){
 return distance
 ```
 
+Let us say for example that we are working with the following data:
+
+| i   | ps1   | ps2   |
+| --- | ----- | ----- |
+| 0   | -27.0 | -26.0 |
+| 2   | -36.0 | -37.0 |
+| 2   | -20.0 | -20.0 |
+| 3   | -27.0 | -28.0 |
+| 4   | -31.0 | -30.0 |
+
+When we use the function, we first check if the size of both lists are the same.
+
+```kt
+if(ps1.size != ps2.size) return -1f
+```
+
+This means that if we use the data given above, we would not return `-1f` because both lists have 5 items in them,
+however if ps1 or ps2 does not have the same number of items, we would return `-1f` and we would not calculate the distances between those points
+because the given list of points are invalid.
+The reason we are returning `-1f` is because the function requires a number to be returned which is the `distance`, therefore, if we return a negative distance,
+this means that there has been an error in processing the given points.
+
+Afterwards, the distance is computed by going through each item in the lists and aggregating their distances.
+
+| i   | ps1   | ps2   | distance | \\[\sum_{i=0}^{ps1.size} {distance}\\] |
+| --- | ----- | ----- | -------- | -------------------------------------- |
+| 0   | -27.0 | -26.0 | 1        | 1                                      |
+| 2   | -36.0 | -37.0 | 1        | 2                                      |
+| 2   | -20.0 | -20.0 | 0        | 2                                      |
+| 3   | -27.0 | -28.0 | 1        | 3                                      |
+| 4   | -31.0 | -30.0 | 1        | 4                                      |
+
+After this loop has been finished, we have arrived at the distance of `4`,
+which means the calculated distance that will be returned form the function will be `4`.
+
 ### predict
 
 The `predict` method is where the actual implementation of the K-Nearest Neighbor algorithm as it predicts
