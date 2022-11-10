@@ -1,6 +1,6 @@
-# Scan Router Fragment
+# Router Fragment
 
-The scan router fragment is the screen where routers are scanned, configured, and saved to the database.
+The router fragment is the screen where routers are scanned, configured, and saved to the database.
 
 ## Layout
 
@@ -9,93 +9,67 @@ The scan router fragment is the screen where routers are scanned, configured, an
 ## Snippet
 
 ```kt
-class ScanRouterFragment : Fragment() {
-  private val TAG = "SCAN"
+class RouterFragment : Fragment() {
+	private val TAG = "RouterFragment"
 
-  private var _binding: FragmentScanRouterBinding? = null
+  private var _binding: FragmentRouterBinding? = null
   private val binding get() = _binding!!
 
   private lateinit var db: DBHelper
   private lateinit var prefs: Prefs
-
   private var wifiScanReceiver: BroadcastReceiver? = null
   private lateinit var wifiManager: WifiManager
-  private val routers = arrayListOf<ArrayList<Router?>>()
-  private lateinit var session: Session
-  private var pos: Pair<Int, Int> = Pair(-1, -1)
-  private var cellSelected: TextView? = null
+
+	private var unselColor: Int = 0
+	private var selColor: Int = 0
+	private val map = hashMapOf<String, Boolean>()
+	private lateinit var session: Session
 
   override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
   ): View {
-		// Connects the script to the elements in the xml file
-    _binding = FragmentScanRouterBinding.inflate(inflater, container, false)
-    val root: View = binding.root
+    // Connects the script to the elements in the xml file
+		_binding = FragmentRouterBinding.inflate(inflater, container, false)
+		val root: View = binding.root
 
-    // Setup up prefs and default values
+    // Gets the instance of the prefs and dbhelper
     db = DBHelper.getInstance(requireContext())!!
     prefs = Prefs.getInstance(requireContext())!!
-    
     // Gets the current session from the preferences and stores it locally
     val lSession = db.getSessionById(prefs.getSession())
 
+    // Sets the colors for when a router is selected or unselected in the UI
+	  unselColor = requireContext().resources.getColor(R.color.gray, null)
+		selColor = requireContext().resources.getColor(R.color.purple_200, null)
+
     if (lSession == null) {
       // Goes to the session screen if there are no sessions found
-      findNavController().navigate(R.id.action_navigation_scan_routers_to_navigation_session)
+      findNavController().navigate(R.id.action_navigation_router_to_navigation_session)
       return root
     }
-    
+
     // Sets the global reference to the local session
-    session = lSession
-    // Sets the row and column text fields of the matrix
-    binding.etRow.setText(session.rows.toString())
-    binding.etCol.setText(session.cols.toString())
-
+	  session = lSession
     // Sets up the rest of the view
-    setup()
+	  setup()
 
-    // Required by the method
     return root
   }
 
-  private fun setup() {
-    // Removes the existing routers listed
-    binding.llRouters.removeAllViews()
-
-    reset()
-    setupWifiManager()
-    setupRouters()
-    setupGrid()
-    setupListeners()
-  }
-
-  private fun reset() {
-    // Clears the list of routers currently stored
-    routers.clear()
-    for (row in 0 until session.rows) {
-      // Creates a list for the routers per row
-      routers.add(ArrayList())
-      for (col in 0 until session.cols) {
-        // Fills the current column with null
-        routers[row].add(null)
-      }
-    }
-
-    // Removes the content of the grid layout
-    binding.glRouterMatrix.removeAllViews()
-
-    // Sets the grid layout according to the session
-    binding.glRouterMatrix.rowCount = session.rows
-    binding.glRouterMatrix.columnCount = session.cols
-  }
+	private fun setup() {
+		setupWifiManager()
+		setupView()
+		setupListeners()
+	}
 
   private fun setupWifiManager() {
     // Gets a reference to the Wifi Manager
     wifiManager = requireContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
     if (!wifiManager.isWifiEnabled) {
       Toast.makeText(context, "Enable your wifi", Toast.LENGTH_LONG).show()
+      // TODO: Change navigation
     }
 
     // The receiver which detects the changes in the wifi
@@ -116,106 +90,30 @@ class ScanRouterFragment : Fragment() {
     requireContext().registerReceiver(wifiScanReceiver, intentFilter)
   }
 
-  private  fun setupRouters() {
-    Log.d(TAG, "Setup Routers")
+  // Sets up the UI for the router selection
+	private fun setupView() {
+		binding.btnSet.setBackgroundResource(R.drawable.rounded_edges)
+		binding.btnScan.setBackgroundResource(R.drawable.rounded_edges)
 
-    // Gets the session stored in the preferences
-    val session = prefs.getSession()
-    if (session == 0L) { return }
-    // Gets the routers from the database
-    val dbRouters = db.getSessionRouters(session)
-    for (router in dbRouters) {
-      // Populates the routers of the fragment
-      // With the routers from the database
-      routers[router.row][router.col] = router
-    }
-  }
+    // Removes existing items in the list view
+		binding.llRouters.removeAllViews()
 
-  @SuppressLint("SetTextI18n")
-  private fun setupGrid() {
-    Log.d(TAG, "Setup Grid")
+		// Add the routers that are added to the list view
+		val routers = db.getSessionRouters(session.id)
+		for (router in routers) {
+			val btn = Button(context)
+			btn.setBackgroundColor(selColor)
+			val text = "${router.getName()}<${router.getBSSIDStr()}>"
+			btn.text = text
 
-    // Setup the Grid Buttons
-    for (row in 0 until session.rows) {
-      for (col in 0 until session.cols) {
-        // Layout and Creation
-        val tvCell = TextView(context)
-        val params = GridLayout.LayoutParams(
-          GridLayout.spec(GridLayout.UNDEFINED, 1, 1f),
-          GridLayout.spec(GridLayout.UNDEFINED, 1, 1f)
-        )
+			binding.llRouters.addView(btn)
+		}
+	}
 
-        tvCell.height = 128
-        tvCell.width = ViewGroup.LayoutParams.WRAP_CONTENT
-
-        tvCell.setBackgroundColor(if ((row + col) % 2 == 0) Color.RED else Color.BLUE)
-        // Sets up what happens when a cell is clicked
-        tvCell.setOnClickListener {
-          if (cellSelected != null) {
-            val (r, c) = pos
-            cellSelected!!.setBackgroundColor(if ((r + c) % 2 == 0) Color.RED else Color.BLUE)
-          }
-
-          // Gets the current position of the cell
-          pos = Pair(row, col)
-          tvCell.setBackgroundColor(Color.WHITE)
-          tvCell.setTextColor(Color.BLACK)
-          // Sets the current cell to the selected cell
-          cellSelected = tvCell
-        }
-
-        // Adds the cell to the matrix view
-        binding.glRouterMatrix.addView(tvCell, params)
-
-        // Text Formatting
-        tvCell.foregroundGravity = Gravity.CENTER
-        tvCell.gravity = Gravity.CENTER
-        tvCell.textSize = 16f
-        tvCell.typeface = Typeface.DEFAULT_BOLD
-        tvCell.setTextColor(Color.WHITE)
-
-        val router = routers[row][col]
-        // Sets the label displayed on the cell to the name of the router
-        val text = if (router != null) "${router.getName()}\n${router.getBSSIDStr()}" else "NULL"
-        tvCell.text = text
-      }
-    }
-
-    binding.glRouterMatrix.invalidate()
-  }
-
-  private fun setupListeners() {
-    // Sets up what happens when the
-    // Set Router Matrix button is clicked
-    binding.btnSetMatrix.setOnClickListener {
-      // Sets the row and column of the matrix
-      // depending on the text selected
-      val row = binding.etRow.text.toString().toInt()
-      val col = binding.etCol.text.toString().toInt()
-      Log.d(TAG, "Pressed ($col, $row)")
-
-      // Checks if the current rows and columns
-      // are the same as the one saved in the current session
-      // then changes it if it is different
-      if (session.rows != row || session.cols != col) {
-        session.rows = row
-        session.cols = col
-
-        // Updates the session in the database
-        db.deleteSessionRows(session.id)
-        db.deleteSessionRouters(session.id)
-        db.updateSession(session)
-
-        // Clears the routers
-        reset()
-        // Sets up the new grid layout
-        setupGrid()
-      }
-    }
-
-    // Sets up what happens when the Routers button is clicked
-    binding.btnScanRouters.setOnClickListener {
-      Log.d(TAG, "Start Scanning")
+	private fun setupListeners() {
+    // Sets up what happens when the routers button is clicked
+		binding.btnScan.setOnClickListener {
+			Log.d(TAG, "Scanning Routers")
 
       // The wifi manager starts scanning the network
       // This sends out the intent WifiManager.SCAN_RESULTS_AVAILABLE_ACTION
@@ -224,94 +122,88 @@ class ScanRouterFragment : Fragment() {
       if (scanning) {
         // Clears the existing routers in the view
         binding.llRouters.removeAllViews()
-        // Shows the progress bar
-        binding.progressbar.visibility = View.VISIBLE
       } else {
         Toast.makeText(requireContext(),
           "Could not start scan, Location might be off",
           Toast.LENGTH_LONG).show()
       }
-    }
-  }
+		}
 
-  private fun scanSuccess() {
-    Log.d(TAG, "Scan Successful")
+		binding.btnSet.setOnClickListener {
+			Log.d(TAG, "Setting Routers")
 
-    // Hids the progress bar
-    binding.progressbar.visibility = View.INVISIBLE
-    val llRouters = binding.llRouters
+			db.deleteSessionRouters(session.id)
 
-    // Gets the results of the scan from the  wifiManager
-    val results = wifiManager.scanResults
-    for (result in results) {
+			var r = 0
+			for ((key, value) in map) {
+				if (!value) {
+					continue
+				}
+
+				val (ssid, bssid) = key.subSequence(0, key.length - 1).split("<")
+				val router = Router(bssid, ssid)
+				db.addRouter(router.getBSSID(), router.getName())
+				db.addSessionRouter(session.id, router.getBSSID(), r, 0)
+				r++
+			}
+
+			session.cols = 1
+			session.rows = r
+			db.updateSession(session)
+		}
+	}
+
+	@SuppressLint("SetTextI18n")
+	private fun scanSuccess() {
+		Log.d(TAG, "Scan Success")
+
+		// Add the routers
+		binding.llRouters.removeAllViews()
+		map.clear()
+
+    // Gets the results of the scan from the wifiManager
+		val results = wifiManager.scanResults
+
+		for (result in results) {
       // Creates a button for each router
-      val btn = Button(context)
+			val btn = Button(context)
+			btn.setBackgroundColor(unselColor)
+      // Sets the name of the button according to
+      // the name and address of the router
+			val text = "${result.SSID}<${result.BSSID}>"
+			btn.text = text
+			map[result.BSSID] = false
 
-      // Sets the name of the button according to the
-      // name and address of the router
-      val text = "${result.SSID}<${result.BSSID}>"
-      btn.text = text
+      // Sets up what happens when the entry for the router is clicked
+			btn.setOnClickListener {
+				val hi = map[result.BSSID]?: false
+				if (hi) {
+					map[text] = false
+					btn.setBackgroundColor(unselColor)
+				} else {
+					map[text] = true
+					btn.setBackgroundColor(selColor)
+				}
+			}
 
-      // Sets up what happens when the router button is clicked
-      btn.setOnClickListener {
-        if (cellSelected == null) {
-          return@setOnClickListener
-        }
+      // Adds the button to the lsit view
+			binding.llRouters.addView(btn)
+		}
+	}
 
-        // Retrieves the name and address of the router from the name of the button
-        val (SSID, BSSID) = btn.text.subSequence(0, btn.text.length - 1).split("<")
-        // Sets the router row and column according to
-        // the position of the selected cell in the grid
-        val (r, c) = pos
-        // Creates a new instance of the router using the name and address
-        // retrieved from the button earlier
-        val router = Router(BSSID, SSID)
-        // Sets the row and column from the position
-        router.row = r
-        router.col = c
+	private fun scanFailure() {
+		Log.e(TAG, "Scan Failed")
+	}
 
-        val btnTxt = "${router.getName()}\n${router.getBSSIDStr()}"
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
 
-        pos = Pair(-1, -1)
-
-        routers[r][c] = router
-
-        // Adds the router to the cell in the router matrix
-        cellSelected!!.setBackgroundColor(if ((r + c) % 2 == 0) Color.RED else Color.BLUE)
-        cellSelected!!.text = btnTxt
-
-        cellSelected = null
-
-        btn.isEnabled = false
-
-        try {
-          // Adds the router to the database
-          db.addRouter(router.getBSSID(), router.getName())
-          db.addSessionRouter(prefs.getSession(), router.getBSSID(), r, c)
-        } catch (e: Exception) {
-          Log.d(TAG,"Could not add router")
-        }
-      }
-
-      // Adds the router to the list view
-      llRouters.addView(btn)
-    }
-  }
-
-  private fun scanFailure() {
-    Log.e(TAG, "Scan Failed")
-  }
-
-  override fun onDestroyView() {
-    super.onDestroyView()
-    _binding = null
-
-    // Deregister the wifiScanReceiver
     if (wifiScanReceiver != null) {
       requireContext().unregisterReceiver(wifiScanReceiver)
       wifiScanReceiver = null
     }
-  }
+	}
 }
 
 ```

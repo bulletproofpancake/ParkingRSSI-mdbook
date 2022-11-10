@@ -24,6 +24,6 @@
 - [Views](./chapters/views/views.md)
   - [Main Activity](./chapters/scripts/main-activity.md)
   - [Session Fragment](./chapters/views/sessionFragment.md)
-  - [Scan Router Fragment](./chapters/views/scanRouterFragment.md)
+  - [Router Fragment](./chapters/views/scanRouterFragment.md)
   - [Data Fragment](./chapters/views/dataFragment.md)
   - [Home Fragment](./chapters/views/homeFragment.md)
