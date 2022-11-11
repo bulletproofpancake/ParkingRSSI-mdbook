@@ -26,4 +26,5 @@
   - [Session Fragment](./chapters/views/sessionFragment.md)
   - [Router Fragment](./chapters/views/scanRouterFragment.md)
   - [Data Fragment](./chapters/views/dataFragment.md)
+  - [Train Fragment](./chapters/views/trainFragment.md)
   - [Home Fragment](./chapters/views/homeFragment.md)
